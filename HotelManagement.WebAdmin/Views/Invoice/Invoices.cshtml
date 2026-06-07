@@ -1,0 +1,606 @@
+﻿@{
+    ViewData["Title"] = "Invoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid invoice-index-workspace">
+    <div class="invoice-index-hero">
+        <div>
+            <div class="invoice-index-kicker">Invoice command center</div>
+            <h1>Quản lý hóa đơn</h1>
+            <p>Theo dõi hóa đơn, doanh thu theo trang và thao tác in/xóa nhanh từ danh sách.</p>
+        </div>
+        <a class="btn invoice-create-btn" asp-controller="Invoice" asp-action="CreateInvoice">
+            <i class="fas fa-plus fa-sm"></i>
+            Tạo hóa đơn
+        </a>
+    </div>
+
+    <section class="invoice-stat-grid">
+        <div class="invoice-stat-card is-count">
+            <div class="invoice-stat-icon"><i class="fas fa-file-invoice"></i></div>
+            <div>
+                <span>Tổng hóa đơn</span>
+                <strong id="invoiceTotalCount">0</strong>
+            </div>
+        </div>
+        <div class="invoice-stat-card is-revenue">
+            <div class="invoice-stat-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+                <span>Tổng doanh thu hiện tại</span>
+                <strong id="invoicePageRevenue">0 VND</strong>
+            </div>
+        </div>
+        <div class="invoice-stat-card is-room">
+            <div class="invoice-stat-icon"><i class="fas fa-bed"></i></div>
+            <div>
+                <span>Tổng tiền phòng</span>
+                <strong id="invoicePageRoomCharge">0 VND</strong>
+            </div>
+        </div>
+        <div class="invoice-stat-card is-service">
+            <div class="invoice-stat-icon"><i class="fas fa-concierge-bell"></i></div>
+            <div>
+                <span>Tổng tiền dịch vụ</span>
+                <strong id="invoicePageServiceCharge">0 VND</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="invoice-list-panel">
+        <div class="invoice-panel-head">
+            <div>
+                <div class="invoice-index-kicker">Danh sách</div>
+                <h2>Danh sách hóa đơn</h2>
+                <p id="invoiceSummary">Đang tải dữ liệu...</p>
+            </div>
+            <span id="invoicePaginationInfo">Chưa có dữ liệu.</span>
+        </div>
+
+        <div class="invoice-filter-box">
+            <div class="invoice-filter-grid">
+                <div class="form-group is-wide">
+                    <label for="invoiceKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="invoiceKeyword" placeholder="Tìm kiếm theo khách hàng, phòng, nhân viên">
+                </div>
+                <div class="form-group">
+                    <label for="invoiceBookingId">Booking ID</label>
+                    <input type="number" min="1" class="form-control" id="invoiceBookingId" placeholder="Nhập ID">
+                </div>
+                <div class="form-group">
+                    <label for="invoiceSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="invoiceSortBy">
+                        <option value="id">ID</option>
+                        <option value="bookingId">Booking</option>
+                        <option value="customerName">Khách hàng</option>
+                        <option value="roomName">Phòng</option>
+                        <option value="employeeName">Nhân viên</option>
+                        <option value="issueDate">Ngày lập</option>
+                        <option value="roomCharge">Tiền phòng</option>
+                        <option value="serviceCharge">Tiền dịch vụ</option>
+                        <option value="totalAmount">Tổng tiền</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceSortDesc">Thứ tự</label>
+                    <select class="form-control" id="invoiceSortDesc">
+                        <option value="true">Giảm dần</option>
+                        <option value="false">Tăng dần</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="invoiceItemsPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary" id="invoiceSearchButton">
+                    <i class="fas fa-search fa-sm"></i>
+                    Tìm kiếm
+                </button>
+                <button type="button" class="btn btn-outline-secondary" id="invoiceResetButton">
+                    Làm mới
+                </button>
+            </div>
+        </div>
+
+        <div class="invoice-table-shell">
+            <table class="table table-hover" id="invoiceTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Booking</th>
+                        <th>Khách hàng</th>
+                        <th>Phòng</th>
+                        <th>Nhân viên</th>
+                        <th>Ngày lập</th>
+                        <th>Tiền phòng</th>
+                        <th>Tiền dịch vụ</th>
+                        <th>Tổng tiền</th>
+                        <th class="text-center" style="width: 132px;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                    <tr>
+                        <td colspan="10" class="text-center text-muted">Đang tải dữ liệu...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <nav class="invoice-pagination" aria-label="Invoice pagination">
+            <ul class="pagination pagination-sm mb-0 justify-content-end" id="invoicePagination"></ul>
+        </nav>
+    </section>
+</div>
+
+<div class="modal fade" id="invoiceDetailModal" tabindex="-1" role="dialog" aria-labelledby="invoiceDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content invoice-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="invoice-modal-kicker">Invoice Detail</div>
+                    <h5 class="modal-title" id="invoiceDetailModalLabel">Chi tiet hoa don</h5>
+                    <div class="text-muted small">Thông tin tổng quan và các dòng dịch vụ trong hóa đơn.</div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-primary btn-sm mr-2" id="invoicePrintButton">
+                        <i class="fas fa-print fa-sm mr-1"></i> In hoa don
+                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="invoice-detail-hero mb-4">
+                    <div>
+                        <div class="invoice-detail-kicker">Hoa don</div>
+                        <div class="invoice-detail-id" id="invoiceDetailId">-</div>
+                        <div class="invoice-detail-meta">Ngày lập: <strong id="invoiceDetailIssueDate">-</strong></div>
+                    </div>
+                    <div class="invoice-detail-total">
+                        <span>Tong tien</span>
+                        <strong id="invoiceDetailTotalAmount">0 VND</strong>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="invoice-detail-card">
+                            <div class="invoice-detail-card-title">Khách hàng</div>
+                            <div class="invoice-detail-field">
+                                <span>Ten khach hang</span>
+                                <strong id="invoiceDetailCustomerName">-</strong>
+                            </div>
+                            <div class="invoice-detail-field">
+                                <span>So dien thoai</span>
+                                <strong id="invoiceDetailCustomerPhone">-</strong>
+                            </div>
+                            <div class="invoice-detail-field">
+                                <span>Booking ID</span>
+                                <strong id="invoiceDetailBookingId">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="invoice-detail-card">
+                            <div class="invoice-detail-card-title">Phòng và nhân viên</div>
+                            <div class="invoice-detail-field">
+                                <span>Phong</span>
+                                <strong id="invoiceDetailRoomName">-</strong>
+                            </div>
+                            <div class="invoice-detail-field">
+                                <span>Nhân viên lập</span>
+                                <strong id="invoiceDetailEmployeeName">-</strong>
+                            </div>
+                            <div class="invoice-detail-field">
+                                <span>Thanh toan</span>
+                                <strong id="invoiceDetailPaymentDetails">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 mb-4">
+                        <div class="invoice-detail-card">
+                            <div class="invoice-detail-card-title">Tong hop chi phi</div>
+                            <div class="invoice-detail-field">
+                                <span>So dem</span>
+                                <strong id="invoiceDetailNights">0</strong>
+                            </div>
+                            <div class="invoice-detail-field">
+                                <span>Tiền phòng</span>
+                                <strong id="invoiceDetailRoomCharge">0 VND</strong>
+                            </div>
+                            <div class="invoice-detail-field">
+                                <span>Tiền dịch vụ</span>
+                                <strong id="invoiceDetailServiceCharge">0 VND</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-detail-table-wrapper">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="invoice-detail-card-title mb-0">Các dòng dịch vụ</div>
+                        <span class="badge badge-light" id="invoiceDetailServiceCount">0 dong</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Dịch vụ</th>
+                                    <th>So luong</th>
+                                    <th>Don gia</th>
+                                    <th>Giam gia</th>
+                                    <th>Ngày dùng</th>
+                                    <th class="text-right">Thanh tien</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoiceDetailServiceLines">
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Đang tải dữ liệu...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Dong</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="invoiceDeleteModal" tabindex="-1" role="dialog" aria-labelledby="invoiceDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content invoice-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="invoice-modal-kicker text-danger">Delete Invoice</div>
+                    <h5 class="modal-title" id="invoiceDeleteModalLabel">Xác nhận xóa hóa đơn</h5>
+                    <div class="text-muted small">Thao tác này sẽ xóa hóa đơn và dữ liệu liên quan.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="invoice-detail-card mb-0">
+                    <div class="invoice-detail-field">
+                        <span>Hóa đơn</span>
+                        <strong id="invoiceDeleteTargetId">-</strong>
+                    </div>
+                    <div class="invoice-detail-field mb-0">
+                        <span>Lưu ý</span>
+                        <strong>Dữ liệu đã xóa sẽ không thể khôi phục.</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="invoiceConfirmDeleteButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa hóa đơn
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/custom/invoice/invoices.js" asp-append-version="true"></script>
+    <script src="~/custom/invoice/invoice-detail.js" asp-append-version="true"></script>
+}
+
+<style>
+    .invoice-index-workspace {
+        color: #182230;
+    }
+
+    .invoice-index-hero,
+    .invoice-list-panel,
+    .invoice-stat-card {
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05);
+    }
+
+    .invoice-index-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1.25rem;
+    }
+
+    .invoice-index-kicker {
+        margin-bottom: 0.35rem;
+        color: #0f8f83;
+        font-size: 0.74rem;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .invoice-index-hero h1,
+    .invoice-panel-head h2 {
+        margin: 0;
+        color: #182230;
+        font-weight: 850;
+        letter-spacing: 0;
+    }
+
+    .invoice-index-hero h1 {
+        font-size: 1.55rem;
+    }
+
+    .invoice-panel-head h2 {
+        font-size: 1.1rem;
+    }
+
+    .invoice-index-hero p,
+    .invoice-panel-head p {
+        max-width: 720px;
+        margin: 0.45rem 0 0;
+        color: #667085;
+        line-height: 1.6;
+    }
+
+    .invoice-create-btn,
+    .invoice-index-workspace .btn {
+        border-radius: 6px;
+        font-weight: 800;
+    }
+
+    .invoice-create-btn,
+    .invoice-index-workspace .btn-primary {
+        min-height: 42px;
+        border-color: #0f8f83;
+        color: #fff;
+        background: #0f8f83;
+    }
+
+    .invoice-create-btn:hover,
+    .invoice-index-workspace .btn-primary:hover {
+        border-color: #0b7068;
+        color: #fff;
+        background: #0b7068;
+    }
+
+    .invoice-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .invoice-stat-card {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.9rem;
+        min-height: 124px;
+        padding: 1rem;
+        overflow: hidden;
+    }
+
+    .invoice-stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 5px;
+        background: var(--stat-color, #0f8f83);
+    }
+
+    .invoice-stat-card::after {
+        content: "";
+        position: absolute;
+        right: -36px;
+        bottom: -46px;
+        width: 116px;
+        height: 116px;
+        border-radius: 50%;
+        background: var(--stat-soft, rgba(15, 143, 131, 0.12));
+    }
+
+    .invoice-stat-card.is-count {
+        --stat-color: #315fcb;
+        --stat-soft: rgba(49, 95, 203, 0.12);
+    }
+
+    .invoice-stat-card.is-revenue {
+        --stat-color: #0f8f83;
+        --stat-soft: rgba(15, 143, 131, 0.13);
+    }
+
+    .invoice-stat-card.is-room {
+        --stat-color: #7c3aed;
+        --stat-soft: rgba(124, 58, 237, 0.12);
+    }
+
+    .invoice-stat-card.is-service {
+        --stat-color: #c58a14;
+        --stat-soft: rgba(197, 138, 20, 0.14);
+    }
+
+    .invoice-stat-icon {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        color: var(--stat-color, #0f8f83);
+        background: var(--stat-soft, rgba(15, 143, 131, 0.12));
+        font-size: 1rem;
+    }
+
+    .invoice-stat-card > div:last-child {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+    }
+
+    .invoice-stat-card span {
+        display: block;
+        color: #667085;
+        font-size: 0.76rem;
+        font-weight: 850;
+        line-height: 1.35;
+    }
+
+    .invoice-stat-card strong {
+        display: block;
+        margin-top: 0.55rem;
+        color: #182230;
+        font-size: 1.2rem;
+        font-weight: 900;
+        line-height: 1.25;
+        word-break: break-word;
+    }
+
+    .invoice-stat-card.is-count strong {
+        font-size: 1.65rem;
+    }
+
+    .invoice-list-panel {
+        padding: 1rem;
+    }
+
+    .invoice-panel-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #dfe7ec;
+    }
+
+    #invoicePaginationInfo {
+        flex: 0 0 auto;
+        color: #667085;
+        font-size: 0.85rem;
+        font-weight: 800;
+    }
+
+    .invoice-filter-box {
+        margin: 1rem 0;
+        padding: 0.9rem;
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #f7fbfa;
+    }
+
+    .invoice-filter-grid {
+        display: grid;
+        grid-template-columns: minmax(240px, 1.4fr) 120px minmax(150px, 0.8fr) 110px 90px 120px 100px;
+        gap: 0.8rem;
+        align-items: end;
+    }
+
+    .invoice-filter-grid .form-group {
+        margin-bottom: 0;
+        min-width: 0;
+    }
+
+    .invoice-index-workspace label {
+        margin-bottom: 0.4rem;
+        color: #344054;
+        font-size: 0.82rem;
+        font-weight: 850;
+    }
+
+    .invoice-index-workspace .form-control {
+        min-height: 42px;
+        border-color: #d7e0e7;
+        border-radius: 6px;
+        color: #1f2937;
+        box-shadow: none;
+    }
+
+    .invoice-index-workspace .form-control:focus {
+        border-color: #0f8f83;
+        box-shadow: 0 0 0 0.18rem rgba(15, 143, 131, 0.13);
+    }
+
+    .invoice-table-shell {
+        overflow-x: auto;
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .invoice-table-shell .table {
+        margin-bottom: 0;
+    }
+
+    .invoice-table-shell thead th {
+        border-top: 0;
+        border-bottom: 1px solid #dfe7ec;
+        background: #f8fbfb;
+        color: #475467;
+        font-size: 0.76rem;
+        font-weight: 850;
+        white-space: nowrap;
+    }
+
+    .invoice-table-shell tbody td {
+        vertical-align: middle;
+        border-color: #eef2f4;
+    }
+
+    .invoice-pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .invoice-pagination .page-link {
+        border-color: #dfe7ec;
+        color: #0b7068;
+    }
+
+    .invoice-pagination .active .page-link {
+        border-color: #0f8f83;
+        background: #0f8f83;
+    }
+
+    @@media (max-width: 1399.98px) {
+        .invoice-filter-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .invoice-filter-grid .is-wide {
+            grid-column: span 2;
+        }
+    }
+
+    @@media (max-width: 1199.98px) {
+        .invoice-stat-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .invoice-index-hero,
+        .invoice-panel-head {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .invoice-stat-grid,
+        .invoice-filter-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .invoice-filter-grid .is-wide {
+            grid-column: auto;
+        }
+    }
+</style>

@@ -1,0 +1,105 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid admin-redesign dashboard-page">
+    <section class="dashboard-hero">
+        <div class="dashboard-hero-copy">
+            <span class="dashboard-kicker">Hotel operations</span>
+            <h1>Dashboard điều hành</h1>
+            <p>Theo dõi nhanh doanh thu, công suất phòng và danh mục dịch vụ trong một bố cục gọn và dễ nhìn hơn.</p>
+        </div>
+        <a href="#" class="btn btn-primary dashboard-hero-action">
+            <i class="fas fa-download fa-sm"></i>
+            <span>Xuất báo cáo</span>
+        </a>
+    </section>
+
+    <section class="dashboard-stats">
+        <article class="dashboard-stat-card stat-primary">
+            <div class="dashboard-stat-top">
+                <span>Doanh thu tháng này</span>
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="dashboard-stat-value" id="revenueThisMonth">0 đ</div>
+            <p>Cập nhật theo giao dịch phát sinh trong tháng hiện tại.</p>
+        </article>
+
+        <article class="dashboard-stat-card stat-success">
+            <div class="dashboard-stat-top">
+                <span>Tổng doanh thu</span>
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="dashboard-stat-value" id="totalRevenue">0 đ</div>
+            <p>Tổng hợp doanh thu của toàn bộ kỳ vận hành hiện có.</p>
+        </article>
+
+        <article class="dashboard-stat-card stat-info">
+            <div class="dashboard-stat-top">
+                <span>Công suất phòng</span>
+                <i class="fas fa-bed"></i>
+            </div>
+            <div class="dashboard-stat-inline">
+                <div class="dashboard-stat-value" id="occupiedRoomsRatio">0%</div>
+                <div class="dashboard-progress">
+                    <div class="dashboard-progress-bar" id="occupiedRoomsProgress" role="progressbar" style="width: 0%"
+                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            <p>Tỷ lệ phòng đang được sử dụng trên tổng số phòng hiện có.</p>
+        </article>
+
+        <article class="dashboard-stat-card stat-warning">
+            <div class="dashboard-stat-top">
+                <span>Khách đang lưu trú</span>
+                <i class="fas fa-user-friends"></i>
+            </div>
+            <div class="dashboard-stat-value" id="stayingGuestCount">0</div>
+            <p>Số lượng khách đang có mặt tại khách sạn ở thời điểm hiện tại.</p>
+        </article>
+    </section>
+
+    <section class="dashboard-bottom-grid">
+        <div class="dashboard-services-panel card shadow-sm">
+            <div class="card-header py-3">
+                <div>
+                    <div class="dashboard-panel-kicker">Service catalog</div>
+                    <h2 class="m-0">Dịch vụ đang áp dụng</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="dashboard-service-list" id="serviceTypeList">
+                    <div class="dashboard-service-empty">Đang tải danh sách dịch vụ...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-donut-panel card shadow-sm">
+            <div class="card-header py-3">
+                <div>
+                    <div class="dashboard-panel-kicker">Room status</div>
+                    <h2 class="m-0">Donut chart</h2>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-pie pt-4 dashboard-donut-chart-wrap">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <hr />
+                <div class="dashboard-donut-legend" id="roomStatusLegend">
+                    <span class="dashboard-donut-legend-item">
+                        <i class="fas fa-circle text-primary"></i> Phòng đang thuê
+                    </span>
+                    <span class="dashboard-donut-legend-item">
+                        <i class="fas fa-circle text-success"></i> Phòng trống
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/custom/dashboard/home.js" asp-append-version="true"></script>
+}

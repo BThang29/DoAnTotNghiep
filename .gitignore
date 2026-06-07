@@ -1,0 +1,77 @@
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Aa]rtifacts/
+[Pp]ublish/
+TestResults/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+AnyCPU/
+
+# .NET and tooling caches
+*.cache
+*.dbmdl
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.binlog
+project.lock.json
+project.fragment.lock.json
+artifacts/
+.sonarqube/
+
+# EF / migration temp files and local diagnostics
+*.tmp
+*.bak
+*.log
+/logs/
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+.nuget/
+
+# Frontend / bundlers
+node_modules/
+wwwroot/dist/
+dist/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+appsettings.*.local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+#
+Bao_Cao_Khoa_Luan_QLKS.docx
+
+#
+diagram/

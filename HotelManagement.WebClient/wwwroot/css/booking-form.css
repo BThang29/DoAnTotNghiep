@@ -1,0 +1,116 @@
+#bookingSearchResult {
+    margin-top: 18px;
+}
+
+.booking-result-state {
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.booking-result-state.is-loading,
+.booking-result-state.is-empty {
+    background: #f8f9fb;
+    border: 1px solid #e4e7ec;
+    color: #667085;
+}
+
+.booking-result-state.is-error {
+    background: #fff1f0;
+    border: 1px solid #f3c6c2;
+    color: #c0392b;
+}
+
+.booking-result-summary {
+    margin-bottom: 12px;
+    color: #19191a;
+}
+
+.booking-result-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.booking-room-card {
+    padding: 14px 16px;
+    border: 1px solid #ebeef2;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.booking-room-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.booking-room-name {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.3;
+    color: #19191a;
+}
+
+.booking-room-type {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fef4eb;
+    color: #dfa974;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.booking-room-price {
+    white-space: nowrap;
+    text-align: right;
+    color: #19191a;
+}
+
+.booking-room-price strong {
+    display: block;
+    font-size: 18px;
+}
+
+.booking-room-price span {
+    font-size: 12px;
+    color: #98a2b3;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.booking-room-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f3f6;
+}
+
+.booking-room-id {
+    font-size: 13px;
+    color: #667085;
+}
+
+.booking-room-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: #dfa974;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}

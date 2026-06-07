@@ -1,0 +1,112 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký | Telly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@@300;400;500;600;700&family=Old+Standard+TT:wght@@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/telly/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/telly/style.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/notification.css" type="text/css">
+    <style>
+        body { font-family: "IBM Plex Sans", sans-serif; }
+        .auth-wrap { min-height: 100vh; }
+        .auth-visual {
+            background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.55)), url('/telly/images/single-image2.jpg');
+            background-size: cover; background-position: center; color: #fff;
+            display: flex; align-items: flex-end; padding: 60px 50px;
+        }
+        .auth-visual h2 { font-family: "Old Standard TT", serif; font-size: 2.2rem; line-height: 1.2; }
+        .auth-visual .kicker { text-transform: uppercase; letter-spacing: 3px; color: #ff8103; font-weight: 600; }
+        .auth-visual ul { list-style: none; padding: 0; margin-top: 18px; }
+        .auth-visual ul li { padding: 6px 0 6px 26px; position: relative; opacity: .92; }
+        .auth-visual ul li::before { content: "\f00c"; font-family: FontAwesome; position: absolute; left: 0; color: #ff8103; }
+        .auth-formwrap { display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+        .auth-card { width: 100%; max-width: 520px; }
+        .auth-brand { font-weight: 700; font-size: 1.6rem; text-decoration: none; color: #16181d; text-transform: uppercase; }
+        .auth-brand span { color: #ff8103; }
+        .auth-card h1 { font-family: "Old Standard TT", serif; font-size: 1.9rem; margin: 18px 0 4px; }
+        .auth-card .sub { color: #6c757d; margin-bottom: 22px; font-size: .95rem; }
+        .auth-card label { font-weight: 600; font-size: .8rem; text-transform: uppercase; color: #6c757d; margin-bottom: 5px; }
+        .auth-card .form-control { height: 46px; border-radius: 10px; }
+        .btn-auth { width: 100%; height: 52px; background: #ff8103; color: #fff; border: 0; border-radius: 40px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-top: 6px; }
+        .btn-auth:hover { filter: brightness(.93); color: #fff; }
+        .auth-links a { color: #ff8103; text-decoration: none; font-weight: 600; }
+        @@media (max-width: 991px) { .auth-visual { min-height: 220px; } }
+    </style>
+</head>
+<body class="auth-page">
+    <div class="container-fluid">
+        <div class="row auth-wrap">
+            @* ===== Anh Telly ben trai ===== *@
+            <div class="col-lg-5 d-none d-lg-flex auth-visual">
+                <div>
+                    <span class="kicker">Ưu đãi thành viên</span>
+                    <h2>Truy cập nhanh hơn vào các lựa chọn phòng và ưu đãi theo mùa.</h2>
+                    <ul>
+                        <li>Lưu thông tin cá nhân cho lần đặt sau.</li>
+                        <li>Theo dõi mọi lần đặt phòng trong một tài khoản.</li>
+                        <li>Nhận xác nhận và hỗ trợ nhanh khi cần.</li>
+                    </ul>
+                </div>
+            </div>
+
+            @* ===== Form ben phai ===== *@
+            <div class="col-lg-7 auth-formwrap">
+                <div class="auth-card">
+                    <a class="auth-brand" href="/Home/Index">Telly</a>
+                    <h1>Đăng ký thành viên</h1>
+                    <p class="sub">Hoàn tất thông tin để bắt đầu đặt phòng và nhận ưu đãi.</p>
+
+                    <form id="registerForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registerFullName">Họ và tên</label>
+                                <input id="registerFullName" name="fullName" type="text" class="form-control" placeholder="Nguyễn Văn A" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerUsername">Tên đăng nhập</label>
+                                <input id="registerUsername" name="username" type="text" class="form-control" placeholder="nguyenvana" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerEmail">Email</label>
+                                <input id="registerEmail" name="email" type="email" class="form-control" placeholder="email@@example.com" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerPhoneNumber">Số điện thoại</label>
+                                <input id="registerPhoneNumber" name="phoneNumber" type="text" class="form-control" placeholder="0901234567" required />
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="registerAddress">Địa chỉ</label>
+                                <input id="registerAddress" name="address" type="text" class="form-control" placeholder="Quận 1, TP.HCM" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerPassword">Mật khẩu</label>
+                                <input id="registerPassword" name="password" type="password" class="form-control" placeholder="Tối thiểu 6 ký tự" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerConfirmPassword">Xác nhận mật khẩu</label>
+                                <input id="registerConfirmPassword" name="confirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu" required />
+                            </div>
+                        </div>
+                        <button id="registerSubmitButton" type="submit" class="btn-auth">Đăng ký</button>
+                    </form>
+
+                    <p class="text-center mt-4 auth-links">
+                        Đã có tài khoản? <a href="/Auth/Login">Đăng nhập</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/custom/notification.js" asp-append-version="true"></script>
+    <script src="~/custom/auth/auth-session.js" asp-append-version="true"></script>
+    <script src="~/custom/auth/register.js" asp-append-version="true"></script>
+</body>
+</html>

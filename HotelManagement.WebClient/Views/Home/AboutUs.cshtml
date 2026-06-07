@@ -1,0 +1,150 @@
+@{
+    ViewData["Title"] = "Giới thiệu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="tl-page-banner">
+    <div class="tl-page-banner__bg" style="background-image:url('/telly/images/banner-item4.jpg')"></div>
+    <div class="tl-page-banner__overlay"></div>
+    <div class="container tl-page-banner__inner">
+        <h1>Giới thiệu</h1>
+        <div class="tl-breadcrumb"><a href="/Home/Index">Trang chủ</a> <span>/</span> Giới thiệu</div>
+    </div>
+</section>
+
+@* ===== Chúng tôi là ai ===== *@
+<section class="padding-large">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <img src="/telly/images/single-image.jpg" class="img-fluid rounded" alt="Khách sạn Telly">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="display-5 text-capitalize">Chúng tôi là ai?</h2>
+                <p>Telly là khách sạn &amp; khu nghỉ dưỡng mang đến không gian lưu trú hiện đại, dịch vụ tận tâm và vị trí thuận tiện. Hành trình của chúng tôi bắt đầu từ mong muốn tạo nên những kỳ nghỉ đáng nhớ cho mỗi vị khách.</p>
+                <p>Với hệ thống phòng đa dạng, tiện nghi đầy đủ cùng đội ngũ phục vụ chuyên nghiệp, chúng tôi cam kết mang lại trải nghiệm thoải mái nhất cho cả khách công tác lẫn nghỉ dưỡng.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ===== Chọn chúng tôi ===== *@
+<section class="padding-large pt-0">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+                <img src="/telly/images/single-image2.jpg" class="img-fluid rounded" alt="Dịch vụ Telly">
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <h2 class="display-5 text-capitalize">Chọn chúng tôi cho dịch vụ tốt nhất</h2>
+                <p>Chúng tôi không ngừng nâng cao chất lượng dịch vụ: lễ tân 24/7, đưa đón sân bay, ẩm thực tại phòng và nhiều tiện ích cao cấp khác.</p>
+                <p>Mỗi chi tiết đều được chăm chút để kỳ nghỉ của bạn trọn vẹn — từ lúc nhận phòng đến khi rời đi.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ===== Hoạt động (icon-box Telly) ===== *@
+<section id="activities" class="overflow-hidden">
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <div class="col-lg-6 col-md-12">
+                <div class="image-holder">
+                    <img src="/telly/images/single-image.jpg" alt="hotel" class="img-fluid w-100 h-100" style="object-fit:cover">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 bg-gray-100 d-flex align-items-center justify-content-center">
+                <div class="detail py-5 px-4">
+                    <div class="display-header">
+                        <h2 class="display-5">Hoạt động &amp; dịch vụ</h2>
+                        <p>Tận hưởng loạt tiện ích nghỉ dưỡng được chuẩn bị chu đáo dành cho bạn và gia đình.</p>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="icon-box d-flex align-items-center pb-5">
+                                <div class="icon-box-icon"><svg class="spa" width="40" height="40"><use xlink:href="#spa"></use></svg></div>
+                                <div class="icon-box-content ps-3"><h3 class="card-title text-dark fs-5">Spa</h3></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="icon-box d-flex align-items-center pb-5">
+                                <div class="icon-box-icon"><svg class="fishing" width="40" height="40"><use xlink:href="#fishing"></use></svg></div>
+                                <div class="icon-box-content ps-3"><h3 class="card-title text-dark fs-5">Câu cá</h3></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="icon-box d-flex align-items-center pb-5">
+                                <div class="icon-box-icon"><svg class="bar" width="40" height="40"><use xlink:href="#bar"></use></svg></div>
+                                <div class="icon-box-content ps-3"><h3 class="card-title text-dark fs-5">Quầy bar</h3></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="icon-box d-flex align-items-center pb-5">
+                                <div class="icon-box-icon"><svg class="pool" width="40" height="40"><use xlink:href="#pool"></use></svg></div>
+                                <div class="icon-box-content ps-3"><h3 class="card-title text-dark fs-5">Hồ bơi</h3></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="icon-box d-flex align-items-center pb-5">
+                                <div class="icon-box-icon"><svg class="dining" width="40" height="40"><use xlink:href="#dining"></use></svg></div>
+                                <div class="icon-box-content ps-3"><h3 class="card-title text-dark fs-5">Nhà hàng</h3></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="icon-box d-flex align-items-center pb-5">
+                                <div class="icon-box-icon"><svg class="barbeque" width="40" height="40"><use xlink:href="#barbeque"></use></svg></div>
+                                <div class="icon-box-content ps-3"><h3 class="card-title text-dark fs-5">BBQ</h3></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ===== Thành tựu (counter Telly) ===== *@
+<section id="achievements" class="padding-xlarge">
+    <div class="container">
+        <div class="display-header text-center">
+            <h2>Thành tựu của chúng tôi</h2>
+            <p>Khách sạn hàng đầu với hơn 22 năm kinh nghiệm phục vụ.</p>
+        </div>
+        <div class="row mt-5 text-center">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-info">
+                    <div class="counter-number"><h5 class="fw-bold m-0"><span class="number-item">25</span> <span class="digital-item">k</span></h5></div>
+                    <p class="counter-description text-uppercase">Khách hài lòng</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-info">
+                    <div class="counter-number"><h5 class="fw-bold m-0"><span class="number-item">160</span></h5></div>
+                    <p class="counter-description text-uppercase">Tổng số phòng</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-info">
+                    <div class="counter-number"><h5 class="fw-bold m-0"><span class="number-item">28</span></h5></div>
+                    <p class="counter-description text-uppercase">Giải thưởng</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-info">
+                    <div class="counter-number"><h5 class="fw-bold m-0"><span class="number-item">100</span></h5></div>
+                    <p class="counter-description text-uppercase">Thành viên</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ===== Video ===== *@
+<section id="video-player" class="position-relative overflow-hidden">
+    <div class="image-holder">
+        <img src="/telly/images/video-item.jpg" alt="video" class="img-fluid w-100">
+    </div>
+    <a type="button" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/W_tIumKa8VY" data-bs-target="#myModal" class="play-btn position-absolute d-flex justify-content-center align-items-center">
+        <svg class="player light" width="290" height="180"><use xlink:href="#player"></use></svg>
+    </a>
+</section>

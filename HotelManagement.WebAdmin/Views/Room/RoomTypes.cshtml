@@ -1,0 +1,110 @@
+@{
+    ViewData["Title"] = "Room Types";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/room.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid room-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Loại phòng</h1>
+            <p class="mb-0 text-muted">Quản lý mã loại phòng và tên hiển thị dùng chung cho toàn hệ thống.</p>
+        </div>
+        <button type="button" class="btn btn-primary shadow-sm" id="roomTypeOpenCreateButton">
+            <i class="fas fa-plus fa-sm mr-1"></i> Thêm loại phòng
+        </button>
+    </div>
+
+    <div class="card shadow mb-4 room-filter-card">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách loại phòng</h6>
+            <div class="text-muted small" id="roomTypeSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Mã loại</th>
+                            <th>Tên loại phòng</th>
+                            <th class="text-center" style="width: 150px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomTypeTableBody">
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roomTypeFormModal" tabindex="-1" role="dialog" aria-labelledby="roomTypeFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content room-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="room-modal-kicker" id="roomTypeFormKicker">Room Type</div>
+                    <h5 class="modal-title" id="roomTypeFormModalLabel">Thông tin loại phòng</h5>
+                    <div class="text-muted small">Tạo mới hoặc cập nhật tên hiển thị cho loại phòng.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="roomTypeOriginalId" />
+                <div class="form-group">
+                    <label for="roomTypeId">Mã loại phòng</label>
+                    <input type="text" class="form-control" id="roomTypeId" placeholder="Ví dụ: STANDARD">
+                </div>
+                <div class="form-group mb-0">
+                    <label for="roomTypeName">Tên loại phòng</label>
+                    <input type="text" class="form-control" id="roomTypeName" placeholder="Ví dụ: Phòng tiêu chuẩn">
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="roomTypeSubmitButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Lưu loại phòng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roomTypeDeleteModal" tabindex="-1" role="dialog" aria-labelledby="roomTypeDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content room-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="room-modal-kicker text-danger">Delete Type</div>
+                    <h5 class="modal-title" id="roomTypeDeleteModalLabel">Xác nhận xóa loại phòng</h5>
+                    <div class="text-muted small">Không thể xóa nếu loại phòng đang được phòng sử dụng.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="room-detail-panel mb-0">
+                    <div class="room-detail-panel-title">Đối tượng xóa</div>
+                    <div class="room-detail-panel-value" id="roomTypeDeleteTarget">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="roomTypeDeleteButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa loại phòng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/room/room-types.js" asp-append-version="true"></script>
+}

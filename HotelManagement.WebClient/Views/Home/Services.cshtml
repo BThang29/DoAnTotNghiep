@@ -1,0 +1,79 @@
+@{
+    ViewData["Title"] = "Dịch vụ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="tl-page-banner">
+    <div class="tl-page-banner__bg" style="background-image:url('/telly/images/banner-item5.jpg')"></div>
+    <div class="tl-page-banner__overlay"></div>
+    <div class="container tl-page-banner__inner">
+        <h1>Dịch vụ</h1>
+        <div class="tl-breadcrumb"><a href="/Home/Index">Trang chủ</a> <span>/</span> Dịch vụ</div>
+    </div>
+</section>
+
+@* ===== Lưới dịch vụ ===== *@
+<section class="padding-large">
+    <div class="container">
+        <div class="row g-5 tl-services">
+            <div class="col-lg-4 col-md-6 text-center tl-service">
+                <span class="tl-service__icon"><svg width="56" height="56"><use xlink:href="#spa"></use></svg></span>
+                <h3>Spa</h3>
+                <p>Thư giãn với các liệu trình spa &amp; massage chuyên nghiệp, giúp phục hồi năng lượng sau hành trình.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 text-center tl-service">
+                <span class="tl-service__icon"><svg width="56" height="56"><use xlink:href="#fishing"></use></svg></span>
+                <h3>Câu cá</h3>
+                <p>Trải nghiệm câu cá thư thái tại khu vực hồ trong khuôn viên, phù hợp cho cả gia đình.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 text-center tl-service">
+                <span class="tl-service__icon"><svg width="56" height="56"><use xlink:href="#bar"></use></svg></span>
+                <h3>Quầy bar</h3>
+                <p>Sky Bar với cocktail signature, mocktail trái cây và tầm nhìn thành phố cho buổi tối thư giãn.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 text-center tl-service">
+                <span class="tl-service__icon"><svg width="56" height="56"><use xlink:href="#pool"></use></svg></span>
+                <h3>Hồ bơi</h3>
+                <p>Hồ bơi vô cực thoáng mát, mở cửa cả ngày để bạn tận hưởng những giây phút sảng khoái.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 text-center tl-service">
+                <span class="tl-service__icon"><svg width="56" height="56"><use xlink:href="#dining"></use></svg></span>
+                <h3>Nhà hàng</h3>
+                <p>Ẩm thực Việt và Âu phong phú, phục vụ tận phòng hoặc tại nhà hàng từ sáng đến khuya.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 text-center tl-service">
+                <span class="tl-service__icon"><svg width="56" height="56"><use xlink:href="#barbeque"></use></svg></span>
+                <h3>BBQ</h3>
+                <p>Tiệc nướng ngoài trời với thực đơn đa dạng, không gian ấm cúng cho nhóm bạn và gia đình.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* ===== Get In Touch ===== *@
+<section id="contact" class="overflow-hidden">
+    <div class="row g-0">
+        <div class="col-lg-6 col-md-12 bg-gray-100 d-flex align-items-center">
+            <div class="tl-contact-detail">
+                <h2 class="display-5">Liên hệ với chúng tôi</h2>
+                <p>Để lại lời nhắn, đội ngũ lễ tân sẽ phản hồi bạn trong thời gian sớm nhất.</p>
+                <ul class="list-unstyled tl-contact-info">
+                    <li><strong>Địa chỉ:</strong> 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</li>
+                    <li><strong>Điện thoại:</strong> 079 559 6255</li>
+                    <li><strong>Email:</strong> <a href="mailto:info@@telly.com">info@@telly.com</a></li>
+                </ul>
+                <form action="#" class="tl-contact-form" onsubmit="return false;">
+                    <textarea placeholder="Nội dung lời nhắn"></textarea>
+                    <input type="text" placeholder="Họ và tên của bạn">
+                    <input type="email" placeholder="Email của bạn">
+                    <button type="submit" class="rd-book-btn mt-3">Gửi liên hệ</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="image-holder h-100">
+                <img src="/telly/images/single-image2.jpg" alt="Liên hệ" class="img-fluid w-100 h-100" style="object-fit:cover">
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,491 @@
+﻿
+@{
+    ViewData["Title"] = "Lịch sử đặt phòng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .history-page {
+        min-height: 100vh;
+        padding: 150px 0 56px;
+        background:
+            radial-gradient(circle at 12% 0%, rgba(255, 122, 0, .09), transparent 32%),
+            linear-gradient(180deg, #fbfaf8 0%, #f3f0ec 100%);
+    }
+
+    .history-dashboard {
+        display: grid;
+        gap: 18px;
+    }
+
+    .history-top,
+    .history-filter,
+    .history-list-panel {
+        background: #fff;
+        border: 1px solid #ece3da;
+        border-radius: 18px;
+        box-shadow: 0 18px 48px rgba(15, 23, 42, .08);
+    }
+
+    .history-top {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 18px;
+        align-items: center;
+        padding: 22px 24px;
+    }
+
+    .history-brand {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 62px;
+        height: 62px;
+        border-radius: 16px;
+        background: #111318;
+        color: #fff;
+        font-family: Georgia, serif;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .history-eyebrow,
+    .history-kicker {
+        display: block;
+        color: #ff7a00;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    .history-title {
+        margin: 4px 0 0;
+        color: #171923;
+        font-size: clamp(30px, 3.2vw, 44px);
+        line-height: 1.08;
+    }
+
+    .history-copy {
+        margin: 8px 0 0;
+        max-width: 640px;
+        color: #667085;
+        line-height: 1.55;
+    }
+
+    .history-count-card {
+        min-width: 210px;
+        padding: 16px 18px;
+        border-radius: 16px;
+        background: #111827;
+        color: #fff;
+        text-align: right;
+    }
+
+    .history-count-card span {
+        display: block;
+        color: rgba(255,255,255,.66);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+    }
+
+    .history-count-card strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 22px;
+    }
+
+    .history-filter {
+        padding: 18px;
+    }
+
+    .history-filter__head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-end;
+        margin-bottom: 14px;
+    }
+
+    .history-filter__title {
+        margin: 4px 0 0;
+        color: #171923;
+        font-size: 22px;
+    }
+
+    .history-filter__meta {
+        margin: 0;
+        color: #667085;
+        line-height: 1.5;
+    }
+
+    .history-filter__grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(220px, .8fr) 150px;
+        gap: 12px;
+        align-items: end;
+    }
+
+    .history-field label {
+        display: block;
+        margin-bottom: 7px;
+        color: #475467;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    .history-field--search {
+        position: relative;
+    }
+
+    .history-field--search::before {
+        content: "\f002";
+        position: absolute;
+        left: 16px;
+        bottom: 15px;
+        color: #98a2b3;
+        font-family: FontAwesome;
+    }
+
+    .history-field input,
+    .history-field select {
+        width: 100%;
+        height: 50px;
+        border: 1px solid #e4d8cb;
+        border-radius: 14px;
+        background: #fff;
+        color: #171923;
+        font-size: 15px;
+        outline: none;
+        padding: 0 14px;
+    }
+
+    .history-field--search input {
+        padding-left: 44px;
+    }
+
+    .history-field input:focus,
+    .history-field select:focus {
+        border-color: #ff7a00;
+        box-shadow: 0 0 0 4px rgba(255, 122, 0, .14);
+    }
+
+    .history-button {
+        height: 50px;
+        border: 0;
+        border-radius: 14px;
+        background: #ff7a00;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        box-shadow: 0 14px 24px rgba(255, 122, 0, .18);
+    }
+
+    .history-button:disabled {
+        opacity: .65;
+        cursor: wait;
+    }
+
+    .history-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        color: #667085;
+        padding: 0 4px;
+    }
+
+    .history-meta strong {
+        color: #171923;
+    }
+
+    .history-list-panel {
+        overflow: hidden;
+    }
+
+    .history-list {
+        display: grid;
+        gap: 12px;
+        padding: 18px;
+    }
+
+    .history-item {
+        display: grid;
+        grid-template-columns: minmax(180px, .9fr) minmax(0, 1.25fr) minmax(180px, .8fr) minmax(150px, auto);
+        gap: 14px;
+        align-items: center;
+        padding: 16px;
+        border: 1px solid #eee2d6;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #fff 0%, #fffaf5 100%);
+    }
+
+    .history-booking-code {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #111827;
+        color: #fff;
+        font-weight: 900;
+    }
+
+    .history-room {
+        display: block;
+        margin-top: 9px;
+        color: #171923;
+        font-size: 18px;
+        font-weight: 900;
+    }
+
+    .history-subtext {
+        display: block;
+        margin-top: 5px;
+        color: #667085;
+        font-size: 13px;
+        line-height: 1.45;
+    }
+
+    .history-stay {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .history-stay__box,
+    .history-money__box {
+        padding: 12px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid #f0e8df;
+    }
+
+    .history-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #8a6a4a;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    .history-value {
+        color: #171923;
+        font-weight: 900;
+    }
+
+    .history-money {
+        display: grid;
+        gap: 8px;
+    }
+
+    .history-status {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    .history-status--confirmed,
+    .history-status--paid {
+        background: #e8f7ee;
+        color: #177245;
+    }
+
+    .history-status--pending {
+        background: #fff5dd;
+        color: #a16207;
+    }
+
+    .history-status--cancelled {
+        background: #fde8e8;
+        color: #b42318;
+    }
+
+    .history-status--default {
+        background: #eef2f7;
+        color: #475467;
+    }
+
+    .history-actions {
+        display: grid;
+        justify-items: end;
+        gap: 10px;
+    }
+
+    .history-action-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 14px;
+        background: #ff7a00;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        box-shadow: 0 12px 22px rgba(255, 122, 0, .18);
+    }
+
+    .history-action-link--paynow {
+        background: #155eef;
+        box-shadow: 0 12px 22px rgba(21, 94, 239, .18);
+    }
+
+    .history-action-link:hover {
+        color: #fff;
+        filter: brightness(.95);
+    }
+
+    .history-action-text {
+        color: #667085;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .history-empty,
+    .history-loading {
+        padding: 44px 20px;
+        text-align: center;
+        color: #667085;
+        font-size: 16px;
+    }
+
+    .history-pagination {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 14px 18px 18px;
+        border-top: 1px solid #f0e8df;
+    }
+
+    .history-pagination button {
+        min-width: 124px;
+        height: 42px;
+        border: 1px solid #e4d8cb;
+        border-radius: 999px;
+        background: #fff;
+        color: #7c5a35;
+        font-weight: 900;
+    }
+
+    .history-pagination button:disabled {
+        opacity: .45;
+        cursor: not-allowed;
+    }
+
+    @@media (max-width: 1199.98px) {
+        .history-item {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .history-actions {
+            justify-items: start;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .history-page {
+            padding: 128px 0 38px;
+        }
+
+        .history-top,
+        .history-filter__grid,
+        .history-item,
+        .history-stay {
+            grid-template-columns: 1fr;
+        }
+
+        .history-filter__head,
+        .history-meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .history-count-card {
+            text-align: left;
+        }
+    }
+</style>
+
+<section class="history-page">
+    <div class="container">
+        <div class="history-dashboard">
+            <div class="history-top">
+                <span class="history-brand">T</span>
+                <div>
+                    <span class="history-eyebrow">Telly booking center</span>
+                    <h1 class="history-title">Lịch sử đặt phòng</h1>
+                    <p class="history-copy">Theo dõi các booking đã tạo, trạng thái lưu trú, hóa đơn và thao tác thanh toán trong một màn hình.</p>
+                </div>
+                <div class="history-count-card">
+                    <span>Tổng booking</span>
+                    <strong id="bookingHistorySummary">Đang tải...</strong>
+                </div>
+            </div>
+
+            <div class="history-filter">
+                <div class="history-filter__head">
+                    <div>
+                        <span class="history-kicker">Bộ lọc</span>
+                        <h2 class="history-filter__title">Tìm booking nhanh</h2>
+                    </div>
+                    <p class="history-filter__meta" id="bookingHistoryCustomerMeta">Đang tải thông tin khách hàng...</p>
+                </div>
+                <form id="bookingHistoryFilterForm" class="history-filter__grid">
+                    <div class="history-field history-field--search">
+                        <label for="historyKeyword">Tìm kiếm</label>
+                        <input id="historyKeyword" name="keyword" type="text" placeholder="Mã booking, tên phòng, trạng thái..." />
+                    </div>
+                    <div class="history-field">
+                        <label for="historySort">Sắp xếp</label>
+                        <select id="historySort" name="sort">
+                            <option value="DateBooking_desc">Mới nhất</option>
+                            <option value="DateBooking_asc">Cũ nhất</option>
+                            <option value="DateStart_desc">Nhận phòng gần nhất</option>
+                            <option value="DateStart_asc">Nhận phòng xa nhất</option>
+                        </select>
+                    </div>
+                    <button id="bookingHistorySearchButton" class="history-button" type="submit">Làm mới</button>
+                </form>
+            </div>
+
+            <div class="history-meta">
+                <strong>Danh sách booking</strong>
+                <div id="bookingHistoryPagingMeta">Trang 1</div>
+            </div>
+
+            <div class="history-list-panel">
+                <div class="history-list" id="bookingHistoryTableBody">
+                    <div class="history-loading">Đang tải dữ liệu...</div>
+                </div>
+                <div class="history-pagination">
+                    <button id="bookingHistoryPrevButton" type="button" disabled>Trang trước</button>
+                    <button id="bookingHistoryNextButton" type="button" disabled>Trang sau</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/custom/history/booking-history.js" asp-append-version="true"></script>
+}

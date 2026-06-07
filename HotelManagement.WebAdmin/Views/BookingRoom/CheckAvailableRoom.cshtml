@@ -1,0 +1,463 @@
+﻿@{
+    ViewData["Title"] = "CheckAvailableRoom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid check-room-workspace">
+    <div class="check-room-hero">
+        <div>
+            <div class="check-room-kicker">Availability console</div>
+            <h1>Kiểm tra phòng trống</h1>
+            <p>Chọn khoảng lưu trú và loại phòng để xem ngay các phòng có thể nhận booking.</p>
+        </div>
+        <a href="/BookingRoom/CreateBookingRoom" class="btn check-room-create-btn">
+            <i class="fas fa-plus fa-sm"></i>
+            Tạo đặt phòng
+        </a>
+    </div>
+
+    <section class="check-room-search-panel">
+        <div class="check-room-filter-grid">
+            <div class="form-group">
+                <label for="checkAvailableRoomDateStart">Ngày nhận phòng</label>
+                <input type="date" class="form-control" id="checkAvailableRoomDateStart">
+            </div>
+
+            <div class="form-group">
+                <label for="checkAvailableRoomDateEnd">Ngày trả phòng</label>
+                <input type="date" class="form-control" id="checkAvailableRoomDateEnd">
+            </div>
+
+            <div class="form-group">
+                <label for="checkAvailableRoomTypeId">Loại phòng</label>
+                <select class="form-control" id="checkAvailableRoomTypeId">
+                    <option value="">Tất cả loại phòng</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="checkAvailableRoomSearchButton">
+                <i class="fas fa-search fa-sm"></i>
+                Kiểm tra
+            </button>
+        </div>
+
+        <div class="check-room-status-line" id="checkAvailableRoomStatusText">Chọn thời gian để bắt đầu tìm phòng trống.</div>
+    </section>
+
+    <section class="check-room-summary">
+        <div class="check-room-summary-item">
+            <span>Khoảng thời gian</span>
+            <strong id="checkAvailableRoomSummaryDate">-</strong>
+        </div>
+        <div class="check-room-summary-item">
+            <span>Loại phòng</span>
+            <strong id="checkAvailableRoomSummaryType">Tất cả</strong>
+        </div>
+        <div class="check-room-summary-item is-count">
+            <span>Số phòng trống</span>
+            <strong id="checkAvailableRoomSummaryCount">0</strong>
+        </div>
+    </section>
+
+    <section class="check-room-results-panel">
+        <div class="check-room-results-head">
+            <div>
+                <div class="check-room-kicker">Kết quả</div>
+                <h2>Danh sách phòng trống</h2>
+                <p id="checkAvailableRoomHelpText">Chưa có dữ liệu. Hãy chọn thời gian và bấm kiểm tra.</p>
+            </div>
+            <span id="checkAvailableRoomResultBadge">0 phòng</span>
+        </div>
+
+        <div class="row check-room-result-grid" id="checkAvailableRoomList">
+            <div class="col-12">
+                <div class="check-room-empty-state">
+                    <div class="check-room-empty-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <div class="font-weight-bold text-gray-800 mb-2">Chưa có dữ liệu tra cứu</div>
+                    <div class="text-muted small">Kết quả phòng trống sẽ hiển thị ở đây sau khi bạn chọn bộ lọc.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="check-room-pagination" id="checkAvailableRoomPaginationWrapper" hidden>
+            <nav aria-label="Phân trang phòng trống">
+                <ul class="pagination pagination-sm mb-0" id="checkAvailableRoomPagination"></ul>
+            </nav>
+        </div>
+    </section>
+</div>
+
+
+@section Scripts {
+    <script src="~/custom/booking-room/check-available-room.js" asp-append-version="true"></script>
+}
+
+<style>
+    .check-room-workspace {
+        color: #182230;
+    }
+
+    .check-room-hero,
+    .check-room-search-panel,
+    .check-room-results-panel,
+    .check-room-summary-item {
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05);
+    }
+
+    .check-room-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1.25rem;
+    }
+
+    .check-room-kicker {
+        margin-bottom: 0.35rem;
+        color: #0f8f83;
+        font-size: 0.74rem;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .check-room-hero h1,
+    .check-room-results-head h2 {
+        margin: 0;
+        color: #182230;
+        font-weight: 850;
+        letter-spacing: 0;
+    }
+
+    .check-room-hero h1 {
+        font-size: 1.55rem;
+    }
+
+    .check-room-results-head h2 {
+        font-size: 1.1rem;
+    }
+
+    .check-room-hero p,
+    .check-room-results-head p {
+        max-width: 720px;
+        margin: 0.45rem 0 0;
+        color: #667085;
+        line-height: 1.6;
+    }
+
+    .check-room-create-btn,
+    .check-room-workspace .btn {
+        border-radius: 6px;
+        font-weight: 800;
+    }
+
+    .check-room-create-btn {
+        flex: 0 0 auto;
+        border: 1px solid #0f8f83;
+        color: #fff;
+        background: #0f8f83;
+    }
+
+    .check-room-create-btn:hover,
+    .check-room-workspace .btn-primary:hover {
+        border-color: #0b7068;
+        color: #fff;
+        background: #0b7068;
+    }
+
+    .check-room-search-panel {
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .check-room-filter-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) 150px;
+        gap: 0.9rem;
+        align-items: end;
+    }
+
+    .check-room-filter-grid .form-group {
+        margin-bottom: 0;
+    }
+
+    .check-room-workspace label {
+        margin-bottom: 0.4rem;
+        color: #344054;
+        font-size: 0.82rem;
+        font-weight: 850;
+    }
+
+    .check-room-workspace .form-control {
+        min-height: 42px;
+        border-color: #d7e0e7;
+        border-radius: 6px;
+        color: #1f2937;
+        box-shadow: none;
+    }
+
+    .check-room-workspace .form-control:focus {
+        border-color: #0f8f83;
+        box-shadow: 0 0 0 0.18rem rgba(15, 143, 131, 0.13);
+    }
+
+    .check-room-workspace .btn-primary {
+        min-height: 42px;
+        border-color: #0f8f83;
+        background: #0f8f83;
+    }
+
+    .check-room-status-line {
+        margin-top: 0.8rem;
+        padding: 0.75rem 0.85rem;
+        border: 1px solid #cfe2df;
+        border-radius: 8px;
+        color: #475467;
+        background: #f7fbfa;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .check-room-summary {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 180px;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .check-room-summary-item {
+        padding: 1rem;
+        box-shadow: 0 8px 18px rgba(16, 24, 40, 0.04);
+    }
+
+    .check-room-summary-item span {
+        display: block;
+        color: #667085;
+        font-size: 0.78rem;
+        font-weight: 850;
+    }
+
+    .check-room-summary-item strong {
+        display: block;
+        margin-top: 0.35rem;
+        color: #182230;
+        font-size: 0.98rem;
+        font-weight: 850;
+        word-break: break-word;
+    }
+
+    .check-room-summary-item.is-count strong {
+        color: #0b7068;
+        font-size: 1.55rem;
+        line-height: 1;
+    }
+
+    .check-room-results-panel {
+        padding: 1rem;
+    }
+
+    .check-room-results-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #dfe7ec;
+    }
+
+    #checkAvailableRoomResultBadge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 90px;
+        min-height: 38px;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        color: #0b7068;
+        background: #eef8f6;
+        font-weight: 850;
+    }
+
+    .check-room-result-grid {
+        margin-right: -0.5rem;
+        margin-left: -0.5rem;
+    }
+
+    .check-room-result-grid > [class*="col-"] {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
+
+    .check-room-empty-state,
+    .check-room-item {
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #f7fbfa;
+        box-shadow: none;
+    }
+
+    .check-room-empty-state {
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+
+    .check-room-empty-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 1rem;
+        border-radius: 8px;
+        color: #0b7068;
+        background: #eef8f6;
+        font-size: 1.25rem;
+    }
+
+    .check-room-item {
+        height: 100%;
+        padding: 1rem;
+        background: #fff;
+    }
+
+    .check-room-item-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.85rem;
+    }
+
+    .check-room-item-name {
+        color: #182230;
+        font-size: 1rem;
+        font-weight: 850;
+    }
+
+    .check-room-item-code,
+    .check-room-price-label,
+    .check-room-description,
+    .check-room-meta-label {
+        color: #667085;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+
+    .check-room-price-wrap {
+        text-align: right;
+    }
+
+    .check-room-price {
+        color: #0b7068;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .check-room-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0.9rem 0;
+    }
+
+    .check-room-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.6rem;
+        border-radius: 999px;
+        color: #0b7068;
+        background: #eef8f6;
+        font-size: 0.78rem;
+        font-weight: 850;
+    }
+
+    .check-room-tag-soft {
+        color: #475467;
+        background: #f2f4f7;
+    }
+
+    .check-room-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+        margin-bottom: 0.9rem;
+    }
+
+    .check-room-meta-card {
+        padding: 0.7rem;
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #f7fbfa;
+    }
+
+    .check-room-meta-value {
+        margin-top: 0.2rem;
+        color: #182230;
+        font-weight: 850;
+    }
+
+    .check-room-item-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 0.75rem;
+        border-top: 1px solid #eef2f4;
+    }
+
+    .check-room-item-footer .btn-outline-primary {
+        border-color: #0f8f83;
+        color: #0b7068;
+    }
+
+    .check-room-item-footer .btn-outline-primary:hover {
+        color: #fff;
+        background: #0f8f83;
+    }
+
+    .check-room-pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .check-room-pagination .page-link {
+        border-color: #dfe7ec;
+        color: #0b7068;
+    }
+
+    .check-room-pagination .active .page-link {
+        border-color: #0f8f83;
+        background: #0f8f83;
+    }
+
+    @@media (max-width: 1199.98px) {
+        .check-room-filter-grid,
+        .check-room-summary {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .check-room-hero,
+        .check-room-results-head,
+        .check-room-item-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .check-room-filter-grid,
+        .check-room-summary,
+        .check-room-meta-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .check-room-price-wrap {
+            text-align: left;
+        }
+    }
+</style>

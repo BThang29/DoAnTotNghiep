@@ -1,0 +1,797 @@
+.admin-redesign {
+    --surface: #ffffff;
+    --surface-soft: #f7faf9;
+    --line: #dfe7ec;
+    --ink: #17212b;
+    --muted: #667085;
+    --accent: #0f8f83;
+    --accent-strong: #0b7068;
+    --accent-soft: rgba(15, 143, 131, 0.11);
+    --blue: #315fcb;
+    --amber: #c58a14;
+    color: var(--ink);
+}
+
+.admin-redesign > .d-sm-flex:first-of-type {
+    align-items: stretch !important;
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 1.25rem !important;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #f4f9f8 100%);
+    box-shadow: 0 10px 28px rgba(16, 24, 40, 0.06);
+}
+
+.admin-redesign > .d-sm-flex:first-of-type > div:first-child {
+    max-width: 760px;
+}
+
+.admin-redesign > .d-sm-flex:first-of-type h1 {
+    margin-bottom: 0.4rem !important;
+    color: var(--ink) !important;
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.admin-redesign > .d-sm-flex:first-of-type p {
+    max-width: 720px;
+    color: var(--muted) !important;
+    line-height: 1.6;
+}
+
+.admin-redesign > .d-sm-flex:first-of-type .btn {
+    align-self: center;
+    min-height: 40px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.admin-redesign > .row {
+    gap: 1rem;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.admin-redesign > .row > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.admin-redesign .card,
+.admin-redesign .invoice-panel,
+.admin-redesign .employee-form-panel {
+    border: 1px solid var(--line) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05) !important;
+}
+
+.admin-redesign .create-booking-card,
+.admin-redesign .create-booking-summary-card,
+.admin-redesign .invoice-panel,
+.admin-redesign .deposit-card,
+.admin-redesign .deposit-detail-card,
+.admin-redesign .customer-split-card,
+.admin-redesign .employee-form-panel {
+    overflow: hidden;
+}
+
+.admin-redesign .card-header {
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+}
+
+.admin-redesign .card-body,
+.admin-redesign .invoice-panel,
+.admin-redesign .employee-form-panel {
+    padding: 1.25rem !important;
+}
+
+.admin-redesign label {
+    color: #344054;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.admin-redesign .form-control {
+    min-height: 42px;
+    border-color: #d7e0e7;
+    border-radius: 6px;
+    color: #1f2937;
+    box-shadow: none;
+}
+
+.admin-redesign .create-booking-card .form-control,
+.admin-redesign .deposit-filter-box .form-control,
+.admin-redesign .deposit-update-box .form-control,
+.admin-redesign .invoice-panel .form-control,
+.admin-redesign .employee-form-panel .form-control {
+    min-height: 42px;
+    border-color: #d7e0e7;
+    border-radius: 6px;
+}
+
+.admin-redesign textarea.form-control {
+    min-height: auto;
+}
+
+.admin-redesign .form-control:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0.18rem rgba(15, 143, 131, 0.13);
+}
+
+.admin-redesign .btn {
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.admin-redesign .btn-primary,
+.admin-redesign .btn-success {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.admin-redesign .btn-primary:hover,
+.admin-redesign .btn-success:hover {
+    border-color: var(--accent-strong);
+    background: var(--accent-strong);
+}
+
+.admin-redesign .btn-info {
+    border-color: var(--blue);
+    background: var(--blue);
+}
+
+.admin-redesign .btn-outline-primary {
+    border-color: var(--accent);
+    color: var(--accent-strong);
+}
+
+.admin-redesign .btn-outline-primary:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.admin-redesign .table-responsive {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.admin-redesign .table {
+    margin-bottom: 0;
+}
+
+.admin-redesign .table thead th {
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+    background: #f8fbfb;
+    color: #475467;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+.admin-redesign .table tbody td {
+    vertical-align: middle;
+    border-color: #eef2f4;
+}
+
+.admin-redesign .pagination .page-link {
+    border-color: var(--line);
+    color: var(--accent-strong);
+}
+
+.admin-redesign .pagination .active .page-link {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.admin-redesign .create-booking-section,
+.admin-redesign .invoice-inline-card,
+.admin-redesign .deposit-filter-box,
+.admin-redesign .deposit-selected-box,
+.admin-redesign .deposit-update-box,
+.admin-redesign .customer-selection-box,
+.admin-redesign .employee-helper-box {
+    border: 1px solid var(--line) !important;
+    border-radius: 8px !important;
+    background: var(--surface-soft) !important;
+}
+
+.admin-redesign .create-booking-section {
+    padding: 1rem;
+}
+
+.admin-redesign .create-booking-section-title,
+.admin-redesign .invoice-panel-title,
+.admin-redesign .invoice-inline-card-title,
+.admin-redesign .employee-form-panel-title {
+    color: #182230;
+    font-size: 0.98rem;
+    font-weight: 800;
+}
+
+.admin-redesign .create-booking-customer-box {
+    border: 1px solid #cfe2df;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.booking-create-page > .row,
+.invoice-create-page > .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+}
+
+.booking-create-page > .row > [class*="col-"],
+.invoice-create-page > .row > [class*="col-"] {
+    width: auto;
+    max-width: none;
+    flex: none;
+    order: 0;
+    min-width: 0;
+}
+
+.booking-create-page > .row > [class*="col-"]:first-child,
+.invoice-create-page > .row > [class*="col-"]:last-child {
+    grid-column: 1;
+}
+
+.booking-create-page > .row > [class*="col-"]:last-child,
+.invoice-create-page > .row > [class*="col-"]:first-child {
+    grid-column: 2;
+}
+
+.booking-create-page .create-booking-summary-card,
+.invoice-create-page > .row > [class*="col-"]:first-child .invoice-panel,
+.deposit-page .deposit-detail-card,
+.check-room-page .check-room-filter-card,
+.reviews-page > .row > [class*="col-"]:first-child .card {
+    position: sticky;
+    top: 1rem;
+}
+
+.check-room-page > .row,
+.deposit-page > .row,
+.reviews-page > .row {
+    display: grid;
+    align-items: start;
+}
+
+.check-room-page > .row {
+    grid-template-columns: 340px minmax(0, 1fr);
+}
+
+.deposit-page > .row {
+    grid-template-columns: minmax(0, 1fr) 390px;
+}
+
+.reviews-page > .row {
+    grid-template-columns: 360px minmax(0, 1fr);
+}
+
+.check-room-page > .row > [class*="col-"],
+.deposit-page > .row > [class*="col-"],
+.reviews-page > .row > [class*="col-"] {
+    width: auto;
+    max-width: none;
+    flex: none;
+    min-width: 0;
+}
+
+.admin-redesign .check-room-kicker,
+.admin-redesign .deposit-kicker,
+.admin-redesign .customer-section-kicker,
+.admin-redesign .invoice-calc-kicker {
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.admin-redesign .check-room-summary,
+.admin-redesign .deposit-detail-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.admin-redesign .check-room-summary-item,
+.admin-redesign .deposit-detail-item,
+.admin-redesign .customer-mini-stat,
+.admin-redesign .invoice-summary-box {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: none;
+}
+
+.admin-redesign .check-room-summary-item,
+.admin-redesign .deposit-detail-item,
+.admin-redesign .customer-mini-stat {
+    padding: 0.85rem;
+}
+
+.admin-redesign .customer-mini-stat-value,
+.admin-redesign .deposit-detail-item strong,
+.admin-redesign .check-room-summary-item strong,
+.admin-redesign .invoice-summary-box strong {
+    color: var(--ink);
+}
+
+.admin-redesign .customer-list-stack,
+.admin-redesign .review-history-stack {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.employee-create-page > .row {
+    display: block;
+    margin: 0;
+}
+
+.employee-create-page > .row > [class*="col-"] {
+    max-width: none;
+    padding: 0;
+}
+
+.employee-create-page .employee-form-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 1rem;
+}
+
+.employee-create-page .employee-form-panel-title {
+    grid-column: 1 / -1;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.employee-create-page .employee-form-panel > .row,
+.employee-create-page .employee-form-panel > .form-group:not(.mb-0) {
+    grid-column: 1;
+}
+
+.employee-create-page .employee-form-panel > .form-group.mb-0,
+.employee-create-page .employee-helper-box {
+    grid-column: 2;
+}
+
+.employee-create-page .employee-form-panel > .text-right {
+    grid-column: 1 / -1;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+}
+
+.employee-create-page #employeeCreateRoleIds {
+    min-height: 230px;
+}
+
+.admin-redesign.check-room-page .check-room-filter-card,
+.admin-redesign.check-room-page .check-room-result-card,
+.admin-redesign.deposit-page .deposit-card,
+.admin-redesign.deposit-page .deposit-detail-card,
+.admin-redesign.reviews-page .customer-split-card {
+    border-radius: 8px !important;
+    background: #fff !important;
+}
+
+.admin-redesign.check-room-page .check-room-filter-card .form-control,
+.admin-redesign.deposit-page .deposit-filter-box .form-control,
+.admin-redesign.deposit-page .deposit-update-box .form-control {
+    height: auto !important;
+    min-height: 42px !important;
+    border-color: #d7e0e7 !important;
+    border-radius: 6px !important;
+}
+
+.admin-redesign.check-room-page .check-room-summary,
+.admin-redesign.check-room-page .check-room-empty-state,
+.admin-redesign.check-room-page .check-room-item {
+    border-color: var(--line) !important;
+    border-radius: 8px !important;
+    background: var(--surface-soft) !important;
+    box-shadow: none !important;
+}
+
+.admin-redesign.check-room-page .check-room-empty-icon {
+    border-radius: 8px !important;
+    color: var(--accent-strong) !important;
+    background: var(--accent-soft) !important;
+}
+
+.admin-redesign.deposit-page .deposit-filter-box,
+.admin-redesign.deposit-page .deposit-selected-box,
+.admin-redesign.deposit-page .deposit-update-box,
+.admin-redesign.deposit-page .deposit-detail-item {
+    border-color: var(--line) !important;
+    border-radius: 8px !important;
+    background: var(--surface-soft) !important;
+}
+
+@media (max-width: 1199.98px) {
+    .booking-create-page > .row,
+    .invoice-create-page > .row,
+    .check-room-page > .row,
+    .deposit-page > .row,
+    .reviews-page > .row,
+    .employee-create-page .employee-form-panel {
+        display: block;
+    }
+
+    .booking-create-page .create-booking-summary-card,
+    .invoice-create-page > .row > [class*="col-"]:first-child .invoice-panel,
+    .deposit-page .deposit-detail-card,
+    .check-room-page .check-room-filter-card,
+    .reviews-page > .row > [class*="col-"]:first-child .card {
+        position: static;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-redesign {
+        padding-right: 0.75rem;
+        padding-left: 0.75rem;
+    }
+
+    .admin-redesign > .d-sm-flex:first-of-type {
+        padding: 1rem;
+    }
+
+    .admin-redesign > .d-sm-flex:first-of-type h1 {
+        font-size: 1.3rem;
+    }
+
+    .admin-redesign .card-body,
+    .admin-redesign .invoice-panel,
+    .admin-redesign .employee-form-panel {
+        padding: 1rem !important;
+    }
+}
+
+.dashboard-page {
+    padding-bottom: 1.5rem;
+}
+
+.dashboard-page.dashboard-page {
+    --dashboard-bg: linear-gradient(180deg, #f5f8fc 0%, #eef4f9 100%);
+    background: var(--dashboard-bg);
+    border-radius: 18px;
+    padding: 1.25rem;
+}
+
+.dashboard-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(207, 219, 232, 0.9);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at top right, rgba(49, 95, 203, 0.16), transparent 34%),
+        linear-gradient(135deg, #ffffff 0%, #f3f8ff 100%);
+    box-shadow: 0 20px 45px rgba(17, 24, 39, 0.08);
+}
+
+.dashboard-kicker,
+.dashboard-panel-kicker {
+    display: inline-block;
+    color: #315fcb;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.dashboard-hero h1 {
+    margin: 0.45rem 0 0.5rem;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #132238;
+}
+
+.dashboard-hero p {
+    margin: 0;
+    max-width: 760px;
+    color: #5b6472;
+    line-height: 1.7;
+}
+
+.dashboard-hero-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.15rem;
+    white-space: nowrap;
+    box-shadow: 0 12px 25px rgba(15, 143, 131, 0.22);
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard-stat-card {
+    padding: 1.15rem 1.2rem;
+    border: 1px solid #dbe4ef;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
+}
+
+.dashboard-stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+}
+
+.dashboard-stat-top span {
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.dashboard-stat-top i {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.dashboard-stat-value {
+    color: #132238;
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.dashboard-stat-card p {
+    margin: 0.75rem 0 0;
+    color: #6b7280;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.dashboard-stat-inline {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+}
+
+.dashboard-progress {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e6edf5;
+}
+
+.dashboard-progress-bar {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #0f8f83 0%, #35c4b7 100%);
+}
+
+.dashboard-bottom-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.75fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.dashboard-services-panel,
+.dashboard-donut-panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dbe4ef !important;
+    border-radius: 18px !important;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
+}
+
+.dashboard-services-panel .card-header,
+.dashboard-donut-panel .card-header {
+    flex: 0 0 auto;
+    padding: 1.1rem 1.25rem;
+    background: transparent;
+}
+
+.dashboard-services-panel .card-body,
+.dashboard-donut-panel .card-body {
+    flex: 1 1 auto;
+}
+
+.dashboard-services-panel .card-header h2,
+.dashboard-donut-panel .card-header h2 {
+    margin: 0.35rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #132238;
+}
+
+.dashboard-service-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.dashboard-service-card {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.95rem;
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dashboard-service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 24px rgba(49, 95, 203, 0.1);
+}
+
+.dashboard-service-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(49, 95, 203, 0.1);
+    color: #315fcb;
+}
+
+.dashboard-service-card h3 {
+    margin: 0 0 0.3rem;
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #132238;
+}
+
+.dashboard-service-card p,
+.dashboard-service-empty {
+    margin: 0;
+    color: #6b7280;
+    line-height: 1.55;
+    font-size: 0.88rem;
+}
+
+.dashboard-donut-chart-wrap {
+    position: relative;
+    min-height: 250px;
+    height: calc(100% - 52px);
+}
+
+.dashboard-donut-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1rem;
+    align-items: center;
+    color: #5b6472;
+    font-size: 0.9rem;
+}
+
+.dashboard-donut-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.dashboard-donut-panel .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-donut-panel .card-body hr {
+    width: 100%;
+    margin-top: auto;
+}
+
+.stat-primary .dashboard-stat-top span {
+    color: #315fcb;
+}
+
+.stat-primary .dashboard-stat-top i {
+    background: linear-gradient(135deg, #315fcb 0%, #5a84ea 100%);
+}
+
+.stat-success .dashboard-stat-top span {
+    color: #0f8f83;
+}
+
+.stat-success .dashboard-stat-top i {
+    background: linear-gradient(135deg, #0f8f83 0%, #35c4b7 100%);
+}
+
+.stat-info .dashboard-stat-top span {
+    color: #0f7e9a;
+}
+
+.stat-info .dashboard-stat-top i {
+    background: linear-gradient(135deg, #0f7e9a 0%, #3cb9d6 100%);
+}
+
+.stat-warning .dashboard-stat-top span {
+    color: #c58a14;
+}
+
+.stat-warning .dashboard-stat-top i {
+    background: linear-gradient(135deg, #c58a14 0%, #ebb54b 100%);
+}
+
+@media (max-width: 1199.98px) {
+    .dashboard-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-service-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-page.dashboard-page {
+        border-radius: 14px;
+        padding: 0.85rem;
+    }
+
+    .dashboard-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.1rem;
+    }
+
+    .dashboard-hero h1 {
+        font-size: 1.55rem;
+    }
+
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-stat-inline {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .dashboard-service-card {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-service-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-donut-chart-wrap {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-service-list {
+        grid-template-columns: 1fr;
+    }
+}

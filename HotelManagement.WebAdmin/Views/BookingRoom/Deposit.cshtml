@@ -1,0 +1,491 @@
+﻿@{
+    ViewData["Title"] = "Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid deposit-workspace">
+    <div class="deposit-hero">
+        <div>
+            <div class="deposit-kicker">Deposit desk</div>
+            <h1>Quản lý tiền cọc</h1>
+            <p>Tra cứu booking, kiểm tra số tiền cọc hiện tại và cập nhật nhanh trong một màn hình.</p>
+        </div>
+        <a href="/BookingRoom/BookingRoom" class="btn deposit-back-btn">
+            <i class="fas fa-arrow-left fa-sm"></i>
+            Quay lại booking
+        </a>
+    </div>
+
+    <div class="deposit-layout">
+        <main class="deposit-list-panel">
+            <div class="deposit-panel-head">
+                <div>
+                    <div class="deposit-kicker">Danh sách</div>
+                    <h2>Booking cần kiểm tra tiền cọc</h2>
+                    <p id="depositSummary">Đang chuẩn bị dữ liệu...</p>
+                </div>
+                <span id="depositPaginationInfo"></span>
+            </div>
+
+            <div class="deposit-filter-box">
+                <div class="deposit-filter-grid">
+                    <div class="form-group">
+                        <label for="depositKeyword">Từ khóa</label>
+                        <input type="text" class="form-control" id="depositKeyword" placeholder="Tên khách, tên phòng...">
+                    </div>
+                    <div class="form-group">
+                        <label for="depositCustomerId">Mã khách</label>
+                        <input type="number" min="1" class="form-control" id="depositCustomerId" placeholder="VD: 12">
+                    </div>
+                    <div class="form-group">
+                        <label for="depositItemsPerPage">Hiển thị</label>
+                        <select class="form-control" id="depositItemsPerPage">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="depositSearchButton">
+                        <i class="fas fa-search fa-sm"></i>
+                        Tìm
+                    </button>
+                </div>
+            </div>
+
+            <div class="deposit-table-shell">
+                <table class="table deposit-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Booking</th>
+                            <th>Khách hàng</th>
+                            <th>Phòng</th>
+                            <th>Thời gian ở</th>
+                            <th class="text-right">Tiền cọc</th>
+                            <th class="text-center">Chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="depositTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav class="deposit-pagination">
+                <ul class="pagination justify-content-end mb-0" id="depositPagination"></ul>
+            </nav>
+        </main>
+
+        <aside class="deposit-detail-panel">
+            <div class="deposit-detail-head">
+                <div>
+                    <div class="deposit-kicker">Chi tiết</div>
+                    <h2>Cập nhật tiền cọc</h2>
+                </div>
+                <i class="fas fa-money-check-alt"></i>
+            </div>
+
+            <div class="deposit-selected-box">
+                <span>Booking đang chọn</span>
+                <strong id="depositSelectedBookingTitle">Chưa chọn booking</strong>
+                <small id="depositSelectedBookingMeta">Chọn một booking từ danh sách bên trái để xem và sửa tiền cọc.</small>
+            </div>
+
+            <div class="deposit-detail-grid">
+                <div class="deposit-detail-item">
+                    <span>Mã booking</span>
+                    <strong id="depositDetailId">-</strong>
+                </div>
+                <div class="deposit-detail-item">
+                    <span>Khách hàng</span>
+                    <strong id="depositDetailCustomerName">-</strong>
+                </div>
+                <div class="deposit-detail-item">
+                    <span>Số điện thoại</span>
+                    <strong id="depositDetailCustomerPhone">-</strong>
+                </div>
+                <div class="deposit-detail-item">
+                    <span>Phòng</span>
+                    <strong id="depositDetailRoomName">-</strong>
+                </div>
+                <div class="deposit-detail-item">
+                    <span>Ngày nhận phòng</span>
+                    <strong id="depositDetailDateStart">-</strong>
+                </div>
+                <div class="deposit-detail-item">
+                    <span>Ngày trả phòng</span>
+                    <strong id="depositDetailDateEnd">-</strong>
+                </div>
+                <div class="deposit-detail-item">
+                    <span>Giá phòng</span>
+                    <strong id="depositDetailRoomPrice">-</strong>
+                </div>
+                <div class="deposit-detail-item is-current-deposit">
+                    <span>Tiền cọc hiện tại</span>
+                    <strong id="depositDetailCurrentDeposit">-</strong>
+                </div>
+            </div>
+
+            <div class="deposit-update-box">
+                <input type="hidden" id="depositBookingId">
+                <div class="form-group">
+                    <label for="depositAmount">Tiền cọc mới</label>
+                    <input type="number" min="0" step="1000" class="form-control" id="depositAmount" placeholder="Ví dụ: 500000">
+                    <small id="depositAmountPreview">Giá trị nhập: -</small>
+                </div>
+
+                <div class="deposit-status-box" id="depositStatusText">Chọn booking để bắt đầu cập nhật tiền cọc.</div>
+                <button type="button" class="btn btn-success" id="depositSubmitButton">
+                    <i class="fas fa-save fa-sm"></i>
+                    Cập nhật tiền cọc
+                </button>
+            </div>
+        </aside>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/custom/booking-room/deposit.js" asp-append-version="true"></script>
+}
+
+<style>
+    .deposit-workspace {
+        color: #182230;
+    }
+
+    .deposit-hero,
+    .deposit-list-panel,
+    .deposit-detail-panel {
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05);
+    }
+
+    .deposit-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1.25rem;
+    }
+
+    .deposit-kicker {
+        margin-bottom: 0.35rem;
+        color: #0f8f83;
+        font-size: 0.74rem;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .deposit-hero h1,
+    .deposit-panel-head h2,
+    .deposit-detail-head h2 {
+        margin: 0;
+        color: #182230;
+        font-weight: 850;
+        letter-spacing: 0;
+    }
+
+    .deposit-hero h1 {
+        font-size: 1.55rem;
+    }
+
+    .deposit-panel-head h2,
+    .deposit-detail-head h2 {
+        font-size: 1.1rem;
+    }
+
+    .deposit-hero p,
+    .deposit-panel-head p {
+        max-width: 720px;
+        margin: 0.45rem 0 0;
+        color: #667085;
+        line-height: 1.6;
+    }
+
+    .deposit-back-btn,
+    .deposit-workspace .btn {
+        border-radius: 6px;
+        font-weight: 800;
+    }
+
+    .deposit-back-btn {
+        flex: 0 0 auto;
+        border: 1px solid #cfd8df;
+        color: #344054;
+        background: #fff;
+    }
+
+    .deposit-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 390px;
+        gap: 1rem;
+        align-items: start;
+    }
+
+    .deposit-list-panel,
+    .deposit-detail-panel {
+        padding: 1rem;
+    }
+
+    .deposit-panel-head,
+    .deposit-detail-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #dfe7ec;
+    }
+
+    #depositPaginationInfo {
+        flex: 0 0 auto;
+        color: #667085;
+        font-size: 0.85rem;
+        font-weight: 800;
+    }
+
+    .deposit-detail-head i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        color: #0b7068;
+        background: #eef8f6;
+    }
+
+    .deposit-filter-box,
+    .deposit-selected-box,
+    .deposit-update-box,
+    .deposit-detail-item {
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #f7fbfa;
+    }
+
+    .deposit-filter-box {
+        margin: 1rem 0;
+        padding: 0.9rem;
+    }
+
+    .deposit-filter-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 140px 110px 110px;
+        gap: 0.8rem;
+        align-items: end;
+    }
+
+    .deposit-filter-grid .form-group {
+        margin-bottom: 0;
+    }
+
+    .deposit-workspace label {
+        margin-bottom: 0.4rem;
+        color: #344054;
+        font-size: 0.82rem;
+        font-weight: 850;
+    }
+
+    .deposit-workspace .form-control {
+        min-height: 42px;
+        border-color: #d7e0e7;
+        border-radius: 6px;
+        color: #1f2937;
+        box-shadow: none;
+    }
+
+    .deposit-workspace .form-control:focus {
+        border-color: #0f8f83;
+        box-shadow: 0 0 0 0.18rem rgba(15, 143, 131, 0.13);
+    }
+
+    .deposit-workspace .btn-primary,
+    .deposit-workspace .btn-success {
+        min-height: 42px;
+        border-color: #0f8f83;
+        background: #0f8f83;
+    }
+
+    .deposit-workspace .btn-primary:hover,
+    .deposit-workspace .btn-success:hover {
+        border-color: #0b7068;
+        background: #0b7068;
+    }
+
+    .deposit-table-shell {
+        overflow-x: auto;
+        border: 1px solid #dfe7ec;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .deposit-table thead th {
+        border-top: 0;
+        border-bottom: 1px solid #dfe7ec;
+        background: #f8fbfb;
+        color: #475467;
+        font-size: 0.76rem;
+        font-weight: 850;
+        white-space: nowrap;
+    }
+
+    .deposit-table tbody td {
+        vertical-align: middle;
+        border-color: #eef2f4;
+    }
+
+    .deposit-booking-title {
+        color: #182230;
+        font-weight: 850;
+    }
+
+    .deposit-booking-meta {
+        color: #667085;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .deposit-value-strong {
+        color: #0b7068;
+        font-weight: 900;
+    }
+
+    .deposit-pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+
+    .deposit-pagination .page-link {
+        border-color: #dfe7ec;
+        color: #0b7068;
+    }
+
+    .deposit-pagination .active .page-link {
+        border-color: #0f8f83;
+        background: #0f8f83;
+    }
+
+    .deposit-detail-panel {
+        position: sticky;
+        top: 1rem;
+    }
+
+    .deposit-selected-box {
+        margin: 1rem 0;
+        padding: 0.9rem;
+    }
+
+    .deposit-selected-box span,
+    .deposit-detail-item span {
+        display: block;
+        color: #667085;
+        font-size: 0.78rem;
+        font-weight: 850;
+    }
+
+    .deposit-selected-box strong {
+        display: block;
+        margin-top: 0.2rem;
+        color: #182230;
+        font-weight: 850;
+    }
+
+    .deposit-selected-box small {
+        display: block;
+        margin-top: 0.25rem;
+        color: #667085;
+        line-height: 1.5;
+    }
+
+    .deposit-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+    }
+
+    .deposit-detail-item {
+        padding: 0.78rem;
+    }
+
+    .deposit-detail-item strong {
+        display: block;
+        margin-top: 0.25rem;
+        color: #182230;
+        font-size: 0.93rem;
+        font-weight: 850;
+        word-break: break-word;
+    }
+
+    .deposit-detail-item.is-current-deposit {
+        grid-column: 1 / -1;
+        background: #eef8f6;
+    }
+
+    .deposit-detail-item.is-current-deposit strong {
+        color: #0b7068;
+        font-size: 1.2rem;
+    }
+
+    .deposit-update-box {
+        padding: 0.9rem;
+    }
+
+    .deposit-update-box .form-group {
+        margin-bottom: 0.85rem;
+    }
+
+    #depositAmountPreview {
+        display: block;
+        margin-top: 0.45rem;
+        color: #667085;
+        font-weight: 700;
+    }
+
+    .deposit-status-box {
+        margin-bottom: 0.85rem;
+        padding: 0.75rem 0.85rem;
+        border: 1px solid #cfe2df;
+        border-radius: 8px;
+        color: #475467;
+        background: #fff;
+        font-size: 0.9rem;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+    #depositSubmitButton {
+        width: 100%;
+    }
+
+    @@media (max-width: 1199.98px) {
+        .deposit-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .deposit-detail-panel {
+            position: static;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .deposit-hero,
+        .deposit-panel-head,
+        .deposit-detail-head {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .deposit-filter-grid,
+        .deposit-detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

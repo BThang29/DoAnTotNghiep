@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Phòng";
+}
+
+<section class="tl-page-banner">
+    <div class="tl-page-banner__bg" style="background-image:url('/telly/images/banner-item2.jpg')"></div>
+    <div class="tl-page-banner__overlay"></div>
+    <div class="container tl-page-banner__inner">
+        <h1>Phòng</h1>
+        <div class="tl-breadcrumb"><a href="/Home/Index">Trang chủ</a> <span>/</span> Phòng</div>
+    </div>
+</section>
+
+<section class="tl-rooms padding-large">
+    <div class="container">
+        <div class="tl-rooms__head">
+            <div>
+                <span class="tl-rooms__eyebrow">Không gian lưu trú</span>
+                <h2>Chọn phòng phù hợp cho kỳ nghỉ của bạn</h2>
+                <p>Danh sách phòng được cập nhật theo tình trạng hiện tại để bạn dễ kiểm tra và đặt phòng nhanh hơn.</p>
+            </div>
+            <button type="button" class="tl-rooms__booking" data-booking-drawer-open>
+                Đặt phòng nhanh <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div id="roomsSummary" class="tl-rooms__summary" hidden></div>
+        <div id="roomsState" class="text-center py-5 text-muted">Đang tải danh sách phòng...</div>
+        <div id="roomsGrid" class="row g-5" hidden></div>
+        <div id="roomsPaginationWrapper" hidden>
+            <div id="roomsPagination" class="room-pagination"></div>
+        </div>
+    </div>
+</section>

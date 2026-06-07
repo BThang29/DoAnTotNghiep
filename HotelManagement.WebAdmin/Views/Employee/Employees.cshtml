@@ -1,0 +1,229 @@
+@{
+    ViewData["Title"] = "Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/employee.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid employee-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Danh sách nhân viên</h1>
+            <p class="mb-0 text-muted">Theo dõi tài khoản nhân sự, vai trò được gán và cập nhật nhanh bằng modal ngay trên danh sách.</p>
+        </div>
+        <a class="btn btn-primary shadow-sm" asp-controller="Employee" asp-action="CreateEmployee">
+            <i class="fas fa-plus fa-sm mr-1"></i> Tạo nhân viên
+        </a>
+    </div>
+
+
+    <div class="card shadow mb-4 employee-filter-card">
+        <div class="card-header py-3 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Quản lý nhân viên</h6>
+            <div class="mt-2 mt-lg-0 text-muted small" id="employeeSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-lg-4 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="employeeKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="employeeKeyword" placeholder="Tên đăng nhập, họ tên, email hoặc số điện thoại">
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="employeeRoleFilter">Vai trò</label>
+                    <select class="form-control" id="employeeRoleFilter">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="employeeAdminFilter">Loại tài khoản</label>
+                    <select class="form-control" id="employeeAdminFilter">
+                        <option value="">Tất cả</option>
+                        <option value="true">Quản trị viên</option>
+                        <option value="false">Nhân viên thường</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="employeeSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="employeeSortBy">
+                        <option value="id">ID</option>
+                        <option value="userName">Tên đăng nhập</option>
+                        <option value="fullName">Họ tên</option>
+                        <option value="email">Email</option>
+                        <option value="phoneNumber">Số điện thoại</option>
+                        <option value="createDate">Ngày tạo</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="employeeSortDesc">Thứ tự</label>
+                    <select class="form-control" id="employeeSortDesc">
+                        <option value="false">Tăng</option>
+                        <option value="true">Giảm</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1">
+                    <label class="small text-muted mb-1" for="employeeItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="employeeItemsPerPage">
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <div class="mb-2 mb-md-0">
+                    <button type="button" class="btn btn-primary btn-sm" id="employeeSearchButton">
+                        <i class="fas fa-search fa-sm mr-1"></i> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="employeeResetButton">
+                        Làm mới
+                    </button>
+                </div>
+                <div class="text-muted small" id="employeePaginationInfo">Chưa có dữ liệu.</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nhân viên</th>
+                            <th>Liên hệ</th>
+                            <th>Vai trò</th>
+                            <th>Trạng thái tài khoản</th>
+                            <th>Ngày tạo</th>
+                            <th class="text-center" style="width: 160px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Employee pagination">
+                <ul class="pagination pagination-sm mb-0 justify-content-end" id="employeePagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="employeeDetailModal" tabindex="-1" role="dialog" aria-labelledby="employeeDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content employee-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="employee-modal-kicker">Employee Detail</div>
+                    <h5 class="modal-title" id="employeeDetailModalLabel">Chi tiết nhân viên</h5>
+                    <div class="text-muted small">Cập nhật tài khoản, vai trò, thông tin liên hệ và avatar trong cùng một modal.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="employeeDetailId" />
+                <div class="row">
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <div class="employee-avatar-panel h-100">
+                            <div class="employee-avatar-preview-wrap">
+                                <img id="employeeDetailAvatarPreview" class="employee-avatar-preview" src="/images/user.png" alt="Avatar">
+                            </div>
+                            <div class="form-group mb-0">
+                                <label for="employeeDetailBackgroundImage">Ảnh đại diện</label>
+                                <input type="text" class="form-control" id="employeeDetailBackgroundImage" placeholder="user.png, images/user.png hoặc URL ảnh">
+                                <input type="file" class="form-control-file mt-2" id="employeeDetailBackgroundImageFile" accept="image/*">
+                                <small class="form-text text-muted">Chọn ảnh để tải lên, hệ thống sẽ tự lưu đường dẫn vào ô bên trên.</small>
+                                <small class="form-text text-muted">Có thể nhập đường dẫn tương đối như API đang dùng.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="employeeDetailUserName">Tên đăng nhập</label>
+                                    <input type="text" class="form-control" id="employeeDetailUserName">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="employeeDetailFullName">Họ tên</label>
+                                    <input type="text" class="form-control" id="employeeDetailFullName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="employeeDetailEmail">Email</label>
+                                    <input type="email" class="form-control" id="employeeDetailEmail">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="employeeDetailPhoneNumber">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="employeeDetailPhoneNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeDetailAddress">Địa chỉ</label>
+                            <textarea class="form-control" id="employeeDetailAddress" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeDetailNewPassword">Mật khẩu mới</label>
+                            <input type="password" class="form-control" id="employeeDetailNewPassword" placeholder="Để trống nếu không đổi mật khẩu">
+                        </div>
+                        <div class="form-group mb-0">
+                            <label for="employeeDetailRoleIds">Vai trò</label>
+                            <select class="form-control" id="employeeDetailRoleIds" multiple size="6"></select>
+                            <small class="form-text text-muted">Giữ Ctrl hoặc Command để chọn nhiều vai trò.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="employeeDetailSaveButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="employeeDeleteModal" tabindex="-1" role="dialog" aria-labelledby="employeeDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content employee-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="employee-modal-kicker text-danger">Delete Employee</div>
+                    <h5 class="modal-title" id="employeeDeleteModalLabel">Xác nhận xóa nhân viên</h5>
+                    <div class="text-muted small">Không thể tự xóa chính tài khoản đang đăng nhập.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="employee-helper-box mb-0">
+                    <div class="employee-detail-panel-title">Đối tượng xóa</div>
+                    <div class="employee-detail-panel-value" id="employeeDeleteTargetName">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="employeeDeleteConfirmButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa nhân viên
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/employee/employees.js" asp-append-version="true"></script>
+    <script src="~/custom/employee/employee-detail.js" asp-append-version="true"></script>
+    <script src="~/custom/employee/employee-delete.js" asp-append-version="true"></script>
+}

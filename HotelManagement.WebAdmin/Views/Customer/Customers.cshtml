@@ -1,0 +1,242 @@
+@{
+    ViewData["Title"] = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/customer.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid customer-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Danh sách khách hàng</h1>
+            <p class="mb-0 text-muted">Theo dõi hồ sơ khách lưu trú, cập nhật thông tin nhanh và phân loại khách hàng ngay trên một màn hình.</p>
+        </div>
+        <a class="btn btn-primary shadow-sm customer-create-button" asp-controller="Customer" asp-action="CreateCustomer">
+            <i class="fas fa-plus fa-sm mr-1"></i> Tạo khách hàng
+        </a>
+    </div>
+
+
+    <div class="card shadow mb-4 customer-filter-card">
+        <div class="card-header py-3 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Quản lý hồ sơ khách hàng</h6>
+            <div class="mt-2 mt-lg-0 text-muted small" id="customerSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="customerKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="customerKeyword" placeholder="Tìm theo tên, CCCD, số điện thoại hoặc email">
+                </div>
+                <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="customerTypeFilter">Loại khách hàng</label>
+                    <select class="form-control" id="customerTypeFilter">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="customerSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="customerSortBy">
+                        <option value="id">ID</option>
+                        <option value="fullName">Họ tên</option>
+                        <option value="identify">CCCD</option>
+                        <option value="phone">Điện thoại</option>
+                        <option value="mail">Email</option>
+                        <option value="dob">Ngày sinh</option>
+                        <option value="customerTypeName">Loại khách hàng</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="customerSortDesc">Thứ tự</label>
+                    <select class="form-control" id="customerSortDesc">
+                        <option value="false">Tăng</option>
+                        <option value="true">Giảm</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1">
+                    <label class="small text-muted mb-1" for="customerItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="customerItemsPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <div class="mb-2 mb-md-0">
+                    <button type="button" class="btn btn-primary btn-sm" id="customerSearchButton">
+                        <i class="fas fa-search fa-sm mr-1"></i> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="customerResetButton">
+                        Làm mới
+                    </button>
+                </div>
+                <div class="text-muted small" id="customerPaginationInfo">Chưa có dữ liệu.</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Họ tên</th>
+                            <th>CCCD</th>
+                            <th>Điện thoại</th>
+                            <th>Email</th>
+                            <th>Ngày sinh</th>
+                            <th class="text-center" style="width: 176px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTableBody">
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Customer pagination">
+                <ul class="pagination pagination-sm mb-0 justify-content-end" id="customerPagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="customerDetailModal" tabindex="-1" role="dialog" aria-labelledby="customerDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content customer-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="customer-modal-kicker">Customer Detail</div>
+                    <h5 class="modal-title" id="customerDetailModalLabel">Chi tiết khách hàng</h5>
+                    <div class="text-muted small">Chỉnh sửa trực tiếp hồ sơ khách hàng và bấm lưu để cập nhật.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="customerDetailId" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerDetailFullName">Họ tên</label>
+                            <input type="text" class="form-control" id="customerDetailFullName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerDetailIdentify">CCCD</label>
+                            <input type="text" class="form-control" id="customerDetailIdentify">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerDetailPhone">Điện thoại</label>
+                            <input type="text" class="form-control" id="customerDetailPhone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerDetailMail">Email</label>
+                            <input type="email" class="form-control" id="customerDetailMail">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-0">
+                            <label for="customerDetailDob">Ngày sinh</label>
+                            <input type="date" class="form-control" id="customerDetailDob">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="customer-detail-panel h-100">
+                            <div class="customer-detail-panel-title">Loại hiện tại</div>
+                            <div class="customer-detail-panel-value" id="customerDetailTypeName">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="customerDetailSaveButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="customerTypeModal" tabindex="-1" role="dialog" aria-labelledby="customerTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content customer-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="customer-modal-kicker text-warning">Update Type</div>
+                    <h5 class="modal-title" id="customerTypeModalLabel">Cập nhật loại khách hàng</h5>
+                    <div class="text-muted small">Thay đổi nhanh phân loại VIP hoặc khách thường bằng modal.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="customerTypeCustomerId" />
+                <div class="customer-detail-panel mb-3">
+                    <div class="customer-detail-panel-title">Khách hàng đang chọn</div>
+                    <div class="customer-detail-panel-value" id="customerTypeTargetName">-</div>
+                </div>
+                <div class="form-group mb-0">
+                    <label for="customerTypeSelect">Loại khách hàng mới</label>
+                    <select class="form-control" id="customerTypeSelect"></select>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-warning" id="customerTypeUpdateButton">
+                    <i class="fas fa-user-tag fa-sm mr-1"></i> Cập nhật loại
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="customerDeleteModal" tabindex="-1" role="dialog" aria-labelledby="customerDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content customer-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="customer-modal-kicker text-danger">Delete Customer</div>
+                    <h5 class="modal-title" id="customerDeleteModalLabel">Xác nhận xóa khách hàng</h5>
+                    <div class="text-muted small">Xóa hồ sơ khách hàng khỏi hệ thống quản trị.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="customer-detail-panel mb-0">
+                    <div class="customer-detail-panel-title">Đối tượng xóa</div>
+                    <div class="customer-detail-panel-value" id="customerDeleteTargetName">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="customerDeleteConfirmButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa khách hàng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/customer/customers.js" asp-append-version="true"></script>
+    <script src="~/custom/customer/customer-detail.js" asp-append-version="true"></script>
+    <script src="~/custom/customer/customer-type-update.js" asp-append-version="true"></script>
+    <script src="~/custom/customer/customer-delete.js" asp-append-version="true"></script>
+}

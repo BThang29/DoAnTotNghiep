@@ -1,0 +1,111 @@
+﻿.deposit-card,
+.deposit-detail-card {
+    border-radius: 22px;
+}
+
+.deposit-kicker {
+    margin-bottom: 0.45rem;
+    color: #4e73df;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.deposit-filter-box,
+.deposit-selected-box,
+.deposit-update-box {
+    padding: 1rem 1.1rem;
+    border: 1px solid #dbe5f4;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+}
+
+    .deposit-filter-box label,
+    .deposit-update-box label {
+        color: #5f6c85;
+        font-size: 0.88rem;
+        font-weight: 700;
+    }
+
+    .deposit-filter-box .form-control,
+    .deposit-update-box .form-control {
+        height: calc(1.5em + 0.95rem + 2px);
+        border-radius: 12px;
+        border-color: #d9e2f2;
+    }
+
+        .deposit-filter-box .form-control:focus,
+        .deposit-update-box .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.12);
+        }
+
+.deposit-table thead th {
+    border-top: 0;
+    border-bottom: 1px solid #e8edf5;
+    color: #6b7280;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.deposit-table tbody td {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    vertical-align: middle;
+    border-color: #eef2f7;
+}
+
+.deposit-booking-title {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.deposit-booking-meta {
+    color: #98a2b3;
+    font-size: 0.8rem;
+}
+
+.deposit-value-strong {
+    color: #0f766e;
+    font-weight: 800;
+}
+
+.deposit-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+.deposit-detail-item {
+    padding: 0.9rem 1rem;
+    border: 1px solid #e5ebf5;
+    border-radius: 16px;
+    background: #fff;
+}
+
+    .deposit-detail-item span {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #98a2b3;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .deposit-detail-item strong {
+        color: #1f2937;
+        font-size: 0.95rem;
+        line-height: 1.45;
+        word-break: break-word;
+    }
+
+@media (max-width: 767.98px) {
+    .deposit-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,802 @@
+@{
+    ViewData["Title"] = "Thanh toan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .checkout-page {
+        min-height: 100vh;
+        padding: 150px 0 44px;
+        background:
+            linear-gradient(135deg, rgba(255, 122, 0, 0.08), transparent 34%),
+            linear-gradient(180deg, #fbfaf8 0%, #f4f1ed 100%);
+    }
+
+    .checkout-frame {
+        display: grid;
+        gap: 18px;
+    }
+
+    .checkout-top {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 18px;
+        align-items: stretch;
+    }
+
+    .checkout-hero,
+    .checkout-timer-card,
+    .checkout-panel {
+        background: #fff;
+        border: 1px solid #ece3da;
+        border-radius: 18px;
+        box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    }
+
+    .checkout-hero {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 18px;
+        align-items: center;
+        padding: 22px 24px;
+    }
+
+    .checkout-brand {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 62px;
+        height: 62px;
+        border-radius: 16px;
+        background: #111318;
+        color: #fff;
+        font-family: Georgia, serif;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: .04em;
+    }
+
+    .checkout-eyebrow {
+        display: block;
+        margin-bottom: 4px;
+        color: #ff7a00;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+    .checkout-title {
+        margin: 0;
+        color: #171923;
+        font-size: clamp(28px, 3vw, 42px);
+        line-height: 1.1;
+    }
+
+    .checkout-copy {
+        margin: 8px 0 0;
+        max-width: 620px;
+        color: #667085;
+        line-height: 1.55;
+    }
+
+    .checkout-steps {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .checkout-step {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 13px;
+        border-radius: 999px;
+        background: #fff7ed;
+        color: #9a4b00;
+        border: 1px solid #ffe1bf;
+    }
+
+    .checkout-step--active {
+        background: #ff7a00;
+        border-color: #ff7a00;
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(255, 122, 0, .18);
+    }
+
+    .checkout-timer-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: center;
+        padding: 18px;
+        background: #111827;
+        border-color: #111827;
+        color: #fff;
+    }
+
+    .payment-timer__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ff8a1f;
+        font-size: 22px;
+    }
+
+    .payment-timer__label {
+        display: block;
+        margin-bottom: 5px;
+        color: rgba(255, 255, 255, .68);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+    }
+
+    .payment-timer__time {
+        display: block;
+        color: #fff;
+        font-size: 34px;
+        line-height: 1;
+        font-weight: 900;
+    }
+
+    .payment-timer__text {
+        display: block;
+        margin-top: 6px;
+        color: rgba(255, 255, 255, .72);
+        line-height: 1.45;
+    }
+
+    .checkout-timer-card.is-expired {
+        background: #7f1d1d;
+        border-color: #7f1d1d;
+    }
+
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: minmax(0, .95fr) minmax(390px, 1.05fr);
+        gap: 18px;
+        align-items: start;
+    }
+
+    .checkout-panel {
+        overflow: hidden;
+    }
+
+    .checkout-panel__head {
+        padding: 20px 22px 16px;
+        border-bottom: 1px solid #f0e8df;
+    }
+
+    .checkout-panel__body {
+        padding: 18px 22px 22px;
+    }
+
+    .checkout-kicker {
+        display: block;
+        margin-bottom: 6px;
+        color: #ff7a00;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    .checkout-heading {
+        margin: 0;
+        color: #171923;
+        font-size: 24px;
+        line-height: 1.15;
+    }
+
+    .checkout-muted {
+        margin: 8px 0 0;
+        color: #667085;
+        line-height: 1.5;
+    }
+
+    .payment-summary {
+        display: grid;
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid #f0e8df;
+        border-radius: 16px;
+        background: #f0e8df;
+    }
+
+    .payment-summary__item {
+        display: grid;
+        grid-template-columns: 132px minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        min-height: 58px;
+        padding: 12px 14px;
+        background: #fff;
+    }
+
+    .payment-summary__label {
+        color: #8a6a4a;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    .payment-summary__value {
+        color: #171923;
+        font-weight: 800;
+        line-height: 1.35;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    .checkout-total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 14px;
+        padding: 16px;
+        border-radius: 16px;
+        background: #111827;
+        color: #fff;
+    }
+
+    .checkout-total span {
+        color: rgba(255,255,255,.68);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+    }
+
+    .checkout-total strong {
+        font-size: 22px;
+    }
+
+    .payment-methods {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .payment-method {
+        position: relative;
+        min-height: 134px;
+        border: 1px solid #eadbcc;
+        border-radius: 16px;
+        background: #fff;
+        transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+
+    .payment-method:hover {
+        transform: translateY(-2px);
+        border-color: #ff7a00;
+        box-shadow: 0 14px 26px rgba(255, 122, 0, .12);
+    }
+
+    .payment-method input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .payment-method__body {
+        display: grid;
+        gap: 9px;
+        height: 100%;
+        padding: 14px;
+    }
+
+    .payment-method__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 38px;
+        border-radius: 12px;
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: .02em;
+    }
+
+    .payment-method__icon--cash {
+        color: #177245;
+        background: #e8f7ee;
+    }
+
+    .payment-method__icon--bank {
+        color: #155eef;
+        background: #eef4ff;
+    }
+
+    .payment-method__icon--momo {
+        color: #a50064;
+        background: #fff0f7;
+    }
+
+    .payment-method__name {
+        display: block;
+        color: #171923;
+        font-weight: 900;
+    }
+
+    .payment-method__text {
+        display: block;
+        color: #667085;
+        font-size: 13px;
+        line-height: 1.42;
+    }
+
+    .payment-method.is-selected {
+        border-color: #ff7a00;
+        background: #fff7ed;
+        box-shadow: inset 0 0 0 1px rgba(255, 122, 0, .18);
+    }
+
+    .payment-form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .payment-checkout-form.is-cash .payment-field--transfer {
+        display: none;
+    }
+
+    .payment-field--full {
+        grid-column: 1 / -1;
+    }
+
+    .payment-field label {
+        display: block;
+        margin-bottom: 7px;
+        color: #475467;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+
+    .payment-field input,
+    .payment-field textarea {
+        width: 100%;
+        border: 1px solid #e4d8cb;
+        border-radius: 14px;
+        background: #fff;
+        color: #171923;
+        font-size: 15px;
+        padding: 13px 14px;
+        outline: none;
+        transition: border-color .16s ease, box-shadow .16s ease;
+    }
+
+    .payment-field textarea {
+        min-height: 78px;
+        resize: vertical;
+    }
+
+    .payment-field input:focus,
+    .payment-field textarea:focus {
+        border-color: #ff7a00;
+        box-shadow: 0 0 0 4px rgba(255, 122, 0, .14);
+    }
+
+    .payment-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(180px, auto);
+        gap: 12px;
+        align-items: center;
+        margin-top: 16px;
+    }
+
+    .payment-primary,
+    .payment-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        border-radius: 14px;
+        padding: 0 20px;
+        font-weight: 900;
+        border: none;
+    }
+
+    .payment-primary {
+        background: #ff7a00;
+        color: #fff;
+        box-shadow: 0 14px 28px rgba(255, 122, 0, .22);
+    }
+
+    .payment-primary:disabled {
+        cursor: not-allowed;
+        opacity: .64;
+        box-shadow: none;
+    }
+
+    .payment-secondary {
+        border: 1px solid #e4d8cb;
+        background: #fff;
+        color: #7c5a35;
+    }
+
+    .payment-danger {
+        border-color: #f3c7c2;
+        background: #fff5f4;
+        color: #b42318;
+    }
+
+    .payment-state {
+        min-height: 24px;
+        margin-top: 10px;
+        color: #667085;
+        line-height: 1.5;
+    }
+
+    .payment-state.is-error {
+        color: #b42318;
+    }
+
+    .payment-result {
+        display: grid;
+        gap: 12px;
+    }
+
+    .payment-result__badge {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #e8f7ee;
+        color: #177245;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .payment-result__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .payment-result__item {
+        padding: 13px 14px;
+        border-radius: 14px;
+        background: #f8fbff;
+        border: 1px solid #dfe9f7;
+    }
+
+    .payment-result__item strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #171923;
+    }
+
+    .payment-result__item span {
+        color: #475467;
+        line-height: 1.55;
+        word-break: break-word;
+    }
+
+    .payment-timeout-modal[hidden] {
+        display: none !important;
+    }
+
+    .payment-timeout-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(17, 24, 39, 0.55);
+        backdrop-filter: blur(3px);
+    }
+
+    .payment-timeout-modal__dialog {
+        width: min(100%, 460px);
+        padding: 28px;
+        border-radius: 22px;
+        background: #fff;
+        border: 1px solid #ecdccf;
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+        text-align: center;
+    }
+
+    .payment-timeout-modal__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 70px;
+        margin-bottom: 16px;
+        border-radius: 20px;
+        background: #fff3e8;
+        color: #ff7a00;
+        font-size: 30px;
+    }
+
+    .payment-timeout-modal__title {
+        margin: 0;
+        color: #171923;
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    .payment-timeout-modal__copy {
+        margin: 12px 0 0;
+        color: #667085;
+        line-height: 1.65;
+    }
+
+    .payment-timeout-modal__action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        margin-top: 22px;
+        padding: 0 22px;
+        border-radius: 14px;
+        background: #ff7a00;
+        color: #fff;
+        font-weight: 900;
+        box-shadow: 0 14px 28px rgba(255, 122, 0, .22);
+    }
+
+    .payment-timeout-modal__actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 22px;
+    }
+
+    .payment-timeout-modal__action--secondary {
+        margin-top: 0;
+        background: #fff;
+        color: #7c5a35;
+        border: 1px solid #e4d8cb;
+        box-shadow: none;
+    }
+
+    .payment-timeout-modal__action--danger {
+        margin-top: 0;
+        background: #b42318;
+        box-shadow: 0 14px 28px rgba(180, 35, 24, .22);
+    }
+
+    @@media (max-width: 1199.98px) {
+        .checkout-top,
+        .checkout-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .payment-methods {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .checkout-page {
+            padding: 128px 0 34px;
+        }
+
+        .checkout-hero {
+            grid-template-columns: auto 1fr;
+        }
+
+        .checkout-steps {
+            grid-column: 1 / -1;
+            width: fit-content;
+        }
+
+        .payment-methods,
+        .payment-form-grid,
+        .payment-result__grid,
+        .payment-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .payment-summary__item {
+            grid-template-columns: 1fr;
+            gap: 5px;
+        }
+
+        .payment-summary__value {
+            text-align: left;
+        }
+    }
+</style>
+
+<section class="checkout-page">
+    <div class="container">
+        <div class="checkout-frame">
+            <div class="checkout-top">
+                <div class="checkout-hero">
+                    <span class="checkout-brand">T</span>
+                    <div>
+                        <span class="checkout-eyebrow">Telly secure checkout</span>
+                        <h1 class="checkout-title">Thanh toán đặt phòng</h1>
+                        <p class="checkout-copy">Xác nhận thông tin lưu trú, chọn phương thức thanh toán và hoàn tất giao dịch trước khi hết thời gian giữ chỗ.</p>
+                    </div>
+                    <span class="checkout-steps">
+                        <span class="checkout-step">1. Booking</span>
+                        <span class="checkout-step checkout-step--active">2. Thanh toán</span>
+                    </span>
+                </div>
+
+                <div class="checkout-timer-card" id="paymentCountdownPanel">
+                    <span class="payment-timer__icon">10m</span>
+                    <span>
+                        <span class="payment-timer__label">Thời gian giữ chỗ</span>
+                        <strong class="payment-timer__time" id="paymentCountdown">10:00</strong>
+                        <small class="payment-timer__text">Quá 10 phút chưa thanh toán, hệ thống sẽ tự hủy booking này.</small>
+                    </span>
+                </div>
+            </div>
+
+            <div class="checkout-grid">
+                <aside class="checkout-panel">
+                    <div class="checkout-panel__head">
+                        <span class="checkout-kicker">Receipt</span>
+                        <h2 class="checkout-heading">Thông tin đặt phòng</h2>
+                        <p class="checkout-muted">Dữ liệu được dùng để tạo giao dịch và hóa đơn.</p>
+                    </div>
+                    <div class="checkout-panel__body">
+                        <div class="payment-summary" id="paymentBookingSummary">
+                            <div class="payment-summary__item">
+                                <span class="payment-summary__label">Mã booking</span>
+                                <span class="payment-summary__value" id="paymentBookingId">--</span>
+                            </div>
+                            <div class="payment-summary__item">
+                                <span class="payment-summary__label">Khách hàng</span>
+                                <span class="payment-summary__value" id="paymentCustomerName">--</span>
+                            </div>
+                            <div class="payment-summary__item">
+                                <span class="payment-summary__label">Phòng</span>
+                                <span class="payment-summary__value" id="paymentRoomName">--</span>
+                            </div>
+                            <div class="payment-summary__item">
+                                <span class="payment-summary__label">Giá phòng</span>
+                                <span class="payment-summary__value" id="paymentRoomPrice">--</span>
+                            </div>
+                            <div class="payment-summary__item">
+                                <span class="payment-summary__label">Ngày lưu trú</span>
+                                <span class="payment-summary__value" id="paymentStayDates">--</span>
+                            </div>
+                            <div class="payment-summary__item">
+                                <span class="payment-summary__label">Tiền cọc</span>
+                                <span class="payment-summary__value" id="paymentDeposit">--</span>
+                            </div>
+                        </div>
+                        <div class="checkout-total">
+                            <span>Cần thanh toán</span>
+                            <strong id="paymentDepositTotal">--</strong>
+                        </div>
+                    </div>
+                </aside>
+
+                <main class="checkout-panel">
+                    <div class="checkout-panel__head">
+                        <span class="checkout-kicker">Payment method</span>
+                        <h2 class="checkout-heading">Chọn phương thức</h2>
+                        <p class="checkout-muted">Chọn cách thanh toán phù hợp rồi xác nhận giao dịch.</p>
+                    </div>
+                    <div class="checkout-panel__body">
+                        <div class="payment-methods" id="paymentMethodsContainer">
+                            <div class="checkout-muted">Đang tải phương thức thanh toán...</div>
+                        </div>
+
+                        <form class="payment-checkout-form" id="paymentCheckoutForm">
+                            <div class="payment-form-grid">
+                                <div class="payment-field payment-field--transfer">
+                                    <label for="paymentAccountName">Tên tài khoản</label>
+                                    <input id="paymentAccountName" type="text" placeholder="Tên người chuyển khoản / chủ ví" />
+                                </div>
+                                <div class="payment-field payment-field--transfer">
+                                    <label for="paymentAccountNumber">Số tài khoản / số ví</label>
+                                    <input id="paymentAccountNumber" type="text" placeholder="0988xxxxxx / 123456789" />
+                                </div>
+                                <div class="payment-field payment-field--transfer">
+                                    <label for="paymentBankName">Ngân hàng / Ví</label>
+                                    <input id="paymentBankName" type="text" placeholder="VCB / Momo" />
+                                </div>
+                                <div class="payment-field payment-field--transfer">
+                                    <label for="paymentQrContent">Nội dung QR</label>
+                                    <input id="paymentQrContent" type="text" placeholder="BOOKING-001 / mã nội dung chuyển khoản" />
+                                </div>
+                                <div class="payment-field payment-field--full">
+                                    <label for="paymentNote">Ghi chú</label>
+                                    <textarea id="paymentNote" placeholder="Thêm ghi chú cho giao dịch nếu cần."></textarea>
+                                </div>
+                            </div>
+                            <div class="payment-actions">
+                                <a class="payment-secondary" href="/BookingHistory/History">Lịch sử đặt phòng</a>
+                                <div style="display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;">
+                                    <button class="payment-secondary payment-danger" id="paymentCancelButton" type="button">Hủy thanh toán</button>
+                                    <button class="payment-primary" id="paymentSubmitButton" type="submit">Xác nhận thanh toán</button>
+                                </div>
+                            </div>
+                            <div class="payment-state" id="paymentState"></div>
+                        </form>
+
+                        <div class="payment-result" id="paymentResultSection" hidden>
+                            <span class="payment-result__badge">Đã tạo giao dịch</span>
+                            <div class="payment-result__grid">
+                                <div class="payment-result__item">
+                                    <strong>Hóa đơn</strong>
+                                    <span id="paymentResultInvoiceId">--</span>
+                                </div>
+                                <div class="payment-result__item">
+                                    <strong>Phương thức</strong>
+                                    <span id="paymentResultMethod">--</span>
+                                </div>
+                                <div class="payment-result__item">
+                                    <strong>Tổng tiền</strong>
+                                    <span id="paymentResultTotalAmount">--</span>
+                                </div>
+                                <div class="payment-result__item">
+                                    <strong>Nội dung / QR</strong>
+                                    <span id="paymentResultQr">--</span>
+                                </div>
+                                <div class="payment-result__item">
+                                    <strong>Ghi chú</strong>
+                                    <span id="paymentResultNote">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="payment-timeout-modal" id="paymentTimeoutModal" hidden>
+    <div class="payment-timeout-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="paymentTimeoutModalTitle">
+        <div class="payment-timeout-modal__icon">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+        </div>
+        <h2 class="payment-timeout-modal__title" id="paymentTimeoutModalTitle">Phòng đã bị hủy</h2>
+        <p class="payment-timeout-modal__copy">
+            Phòng đã bị hủy do quá hạn thanh toán. Vui lòng quay lại danh sách phòng để chọn phòng khác.
+        </p>
+        <a class="payment-timeout-modal__action" href="/Room/Rooms">Quay lại tất cả phòng</a>
+    </div>
+</div>
+
+<div class="payment-timeout-modal" id="paymentCancelModal" hidden>
+    <div class="payment-timeout-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="paymentCancelModalTitle">
+        <div class="payment-timeout-modal__icon">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        </div>
+        <h2 class="payment-timeout-modal__title" id="paymentCancelModalTitle">Xác nhận hủy booking</h2>
+        <p class="payment-timeout-modal__copy">
+            Hành động này sẽ hủy ngay phiên thanh toán và booking hiện tại. Bạn sẽ phải đặt lại nếu muốn tiếp tục.
+        </p>
+        <div class="payment-timeout-modal__actions">
+            <button class="payment-timeout-modal__action payment-timeout-modal__action--secondary" id="paymentCancelDismissButton" type="button">Quay lại</button>
+            <button class="payment-timeout-modal__action payment-timeout-modal__action--danger" id="paymentCancelConfirmButton" type="button">Xác nhận hủy</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/payment/payment-checkout.js" asp-append-version="true"></script>
+}

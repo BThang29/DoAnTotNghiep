@@ -1,0 +1,94 @@
+.room-page .room-stat-card .card-body {
+    padding: 1.15rem 1.25rem;
+}
+
+.room-filter-card,
+.room-form-panel,
+.room-modal-shell {
+    border-radius: 1rem;
+}
+
+.room-modal-shell {
+    border: 0;
+    overflow: hidden;
+}
+
+.room-modal-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #4e73df;
+}
+
+.room-helper-box,
+.room-detail-panel {
+    border: 1px solid #e3e6f0;
+    border-radius: 0.9rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    padding: 1rem 1.1rem;
+}
+
+.room-detail-panel-title {
+    display: block;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #858796;
+    margin-bottom: 0.45rem;
+}
+
+.room-detail-panel-value {
+    color: #2e3a59;
+    word-break: break-word;
+}
+
+.room-form-panel {
+    padding: 1.4rem;
+    background: #fff;
+    border: 1px solid #e8edf7;
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.05);
+}
+
+.room-form-panel-title {
+    color: #334155;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.room-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid currentColor;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    background: transparent;
+}
+
+.room-status-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: currentColor;
+    flex: 0 0 auto;
+}
+
+.room-status-text {
+    display: inline-block;
+}
+
+.room-status-indicator.available {
+    color: #169b6b;
+}
+
+.room-status-indicator.occupied {
+    color: #b88700;
+}
+
+.room-status-indicator.maintenance {
+    color: #c0392b;
+}

@@ -1,0 +1,235 @@
+@{
+    ViewData["Title"] = "Rooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/room.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid room-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Quản lý phòng</h1>
+            <p class="mb-0 text-muted">Theo dõi tình trạng phòng, cập nhật thông tin và điều phối nhanh ngay trên một màn hình.</p>
+        </div>
+        <a class="btn btn-primary shadow-sm" asp-controller="Room" asp-action="CreateRoom">
+            <i class="fas fa-plus fa-sm mr-1"></i> Tạo phòng
+        </a>
+    </div>
+
+
+    <div class="card shadow mb-4 room-filter-card">
+        <div class="card-header py-3 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách phòng</h6>
+            <div class="mt-2 mt-lg-0 text-muted small" id="roomSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="roomKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="roomKeyword" placeholder="Tìm theo tên phòng">
+                </div>
+                <div class="col-lg-3 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="roomTypeFilter">Loại phòng</label>
+                    <select class="form-control" id="roomTypeFilter">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="roomStatusFilter">Trạng thái</label>
+                    <select class="form-control" id="roomStatusFilter">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="roomSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="roomSortBy">
+                        <option value="id">ID</option>
+                        <option value="roomName">Tên phòng</option>
+                        <option value="price">Giá</option>
+                        <option value="roomTypeName">Loại phòng</option>
+                        <option value="roomStatusName">Trạng thái</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="roomSortDesc">Thứ tự</label>
+                    <select class="form-control" id="roomSortDesc">
+                        <option value="false">Tăng</option>
+                        <option value="true">Giảm</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1">
+                    <label class="small text-muted mb-1" for="roomItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="roomItemsPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <div class="mb-2 mb-md-0">
+                    <button type="button" class="btn btn-primary btn-sm" id="roomSearchButton">
+                        <i class="fas fa-search fa-sm mr-1"></i> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="roomResetButton">
+                        Làm mới
+                    </button>
+                </div>
+                <div class="text-muted small" id="roomPaginationInfo">Chưa có dữ liệu.</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="roomTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên phòng</th>
+                            <th>Giá</th>
+                            <th>Loại phòng</th>
+                            <th>Trạng thái</th>
+                            <th class="text-center" style="width: 176px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Room pagination">
+                <ul class="pagination pagination-sm mb-0 justify-content-end" id="roomPagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roomDetailModal" tabindex="-1" role="dialog" aria-labelledby="roomDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content room-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="room-modal-kicker">Room Detail</div>
+                    <h5 class="modal-title" id="roomDetailModalLabel">Chi tiết phòng</h5>
+                    <div class="text-muted small">Bạn có thể chỉnh sửa trực tiếp thông tin phòng trong cửa sổ này.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="roomDetailId" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomDetailName">Tên phòng</label>
+                            <input type="text" class="form-control" id="roomDetailName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomDetailPrice">Giá phòng</label>
+                            <input type="number" min="0" step="1000" class="form-control" id="roomDetailPrice">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomDetailType">Loại phòng</label>
+                            <select class="form-control" id="roomDetailType"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomDetailStatus">Trạng thái phòng</label>
+                            <select class="form-control" id="roomDetailStatus"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="room-helper-box">
+                    <div class="font-weight-bold text-gray-800 mb-1">Lưu ý</div>
+                    <div class="small text-muted mb-0">Nếu chỉ cần chuyển nhanh trạng thái, dùng nút cập nhật trạng thái ở danh sách để thao tác gọn hơn.</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="roomDetailUpdateButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Cập nhật phòng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roomStatusModal" tabindex="-1" role="dialog" aria-labelledby="roomStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content room-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="room-modal-kicker text-info">Update Status</div>
+                    <h5 class="modal-title" id="roomStatusModalLabel">Cập nhật trạng thái phòng</h5>
+                    <div class="text-muted small">Thay đổi nhanh trạng thái vận hành của phòng.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="roomStatusRoomId" />
+                <div class="room-detail-panel mb-3">
+                    <div class="room-detail-panel-title">Phòng đang chọn</div>
+                    <div class="room-detail-panel-value" id="roomStatusTargetName">-</div>
+                </div>
+                <div class="form-group mb-0">
+                    <label for="roomStatusSelect">Trạng thái mới</label>
+                    <select class="form-control" id="roomStatusSelect"></select>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-info" id="roomStatusUpdateButton">
+                    <i class="fas fa-random fa-sm mr-1"></i> Cập nhật trạng thái
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roomDeleteModal" tabindex="-1" role="dialog" aria-labelledby="roomDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content room-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="room-modal-kicker text-danger">Delete Room</div>
+                    <h5 class="modal-title" id="roomDeleteModalLabel">Xác nhận xóa phòng</h5>
+                    <div class="text-muted small">Dữ liệu phòng sau khi xóa sẽ không thể khôi phục.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="room-detail-panel mb-0">
+                    <div class="room-detail-panel-title">Đối tượng xóa</div>
+                    <div class="room-detail-panel-value" id="roomDeleteTargetName">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="roomDeleteConfirmButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa phòng
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/room/rooms.js" asp-append-version="true"></script>
+    <script src="~/custom/room/room-detail.js" asp-append-version="true"></script>
+    <script src="~/custom/room/room-status-update.js" asp-append-version="true"></script>
+    <script src="~/custom/room/room-delete.js" asp-append-version="true"></script>
+}

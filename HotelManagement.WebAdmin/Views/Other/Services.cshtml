@@ -1,0 +1,208 @@
+@{
+    ViewData["Title"] = "Services";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/other.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid other-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Dịch vụ khách sạn</h1>
+            <p class="mb-0 text-muted">Quản lý dịch vụ bán kèm, đơn giá, tồn kho và nhóm dịch vụ dùng chung trong hệ thống.</p>
+        </div>
+        <a class="btn btn-primary shadow-sm" asp-controller="Other" asp-action="CreateService">
+            <i class="fas fa-plus fa-sm mr-1"></i> Tạo dịch vụ
+        </a>
+    </div>
+
+
+    <div class="card shadow mb-4 other-filter-card">
+        <div class="card-header py-3 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách dịch vụ</h6>
+            <div class="mt-2 mt-lg-0 text-muted small" id="serviceSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="serviceKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="serviceKeyword" placeholder="Tìm theo tên dịch vụ, mã dịch vụ hoặc đơn vị tính">
+                </div>
+                <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="serviceTypeFilter">Loại dịch vụ</label>
+                    <select class="form-control" id="serviceTypeFilter">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="serviceSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="serviceSortBy">
+                        <option value="id">ID</option>
+                        <option value="nameService">Tên dịch vụ</option>
+                        <option value="serviceCode">Mã dịch vụ</option>
+                        <option value="price">Giá</option>
+                        <option value="remainingInventory">Tồn kho</option>
+                        <option value="unitName">Đơn vị tính</option>
+                        <option value="serviceTypeName">Loại dịch vụ</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="serviceSortDesc">Thứ tự</label>
+                    <select class="form-control" id="serviceSortDesc">
+                        <option value="true">Giảm</option>
+                        <option value="false">Tăng</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1">
+                    <label class="small text-muted mb-1" for="serviceItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="serviceItemsPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <div class="mb-2 mb-md-0">
+                    <button type="button" class="btn btn-primary btn-sm" id="serviceSearchButton">
+                        <i class="fas fa-search fa-sm mr-1"></i> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="serviceResetButton">
+                        Làm mới
+                    </button>
+                </div>
+                <div class="text-muted small" id="servicePaginationInfo">Chưa có dữ liệu.</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên dịch vụ</th>
+                            <th>Mã dịch vụ</th>
+                            <th>Giá</th>
+                            <th>Tồn kho</th>
+                            <th>Đơn vị tính</th>
+                            <th>Loại dịch vụ</th>
+                            <th class="text-center" style="width: 144px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="serviceTableBody">
+                        <tr>
+                            <td colspan="8" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Service pagination">
+                <ul class="pagination pagination-sm mb-0 justify-content-end" id="servicePagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="serviceDetailModal" tabindex="-1" role="dialog" aria-labelledby="serviceDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content other-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="other-modal-kicker">Service Detail</div>
+                    <h5 class="modal-title" id="serviceDetailModalLabel">Chi tiết dịch vụ</h5>
+                    <div class="text-muted small">Có thể chỉnh sửa trực tiếp thông tin dịch vụ trong cửa sổ này.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="serviceDetailId" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="serviceDetailName">Tên dịch vụ</label>
+                            <input type="text" class="form-control" id="serviceDetailName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="serviceDetailCode">Mã dịch vụ</label>
+                            <input type="text" class="form-control" id="serviceDetailCode">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="serviceDetailPrice">Giá dịch vụ</label>
+                            <input type="number" min="0" step="1000" class="form-control" id="serviceDetailPrice">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="serviceDetailInventory">Tồn kho</label>
+                            <input type="number" min="0" step="1" class="form-control" id="serviceDetailInventory">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="serviceDetailUnit">Đơn vị tính</label>
+                            <input type="text" class="form-control" id="serviceDetailUnit">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-0">
+                    <label for="serviceDetailType">Loại dịch vụ</label>
+                    <select class="form-control" id="serviceDetailType"></select>
+                </div>
+                <div class="other-helper-box mt-3">
+                    <div class="font-weight-bold text-gray-800 mb-1">Lưu ý</div>
+                    <div class="small text-muted mb-0">Nếu dịch vụ đã phát sinh nhập kho, xuất kho hoặc hóa đơn thì hệ thống sẽ chặn xóa để bảo toàn dữ liệu.</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="serviceDetailUpdateButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Cập nhật dịch vụ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="serviceDeleteModal" tabindex="-1" role="dialog" aria-labelledby="serviceDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content other-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="other-modal-kicker text-danger">Delete Service</div>
+                    <h5 class="modal-title" id="serviceDeleteModalLabel">Xác nhận xóa dịch vụ</h5>
+                    <div class="text-muted small">Không thể xóa nếu dịch vụ đã phát sinh tồn kho hoặc hóa đơn.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="other-detail-panel mb-0">
+                    <div class="other-detail-panel-title">Đối tượng xóa</div>
+                    <div class="other-detail-panel-value" id="serviceDeleteTargetName">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="serviceDeleteConfirmButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa dịch vụ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/other/services.js" asp-append-version="true"></script>
+    <script src="~/custom/other/service-detail.js" asp-append-version="true"></script>
+    <script src="~/custom/other/service-delete.js" asp-append-version="true"></script>
+}

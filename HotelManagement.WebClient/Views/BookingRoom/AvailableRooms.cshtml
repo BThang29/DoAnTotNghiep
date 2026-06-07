@@ -1,0 +1,64 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["BodyClass"] = "available-rooms-page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/available-rooms.css" asp-append-version="true" type="text/css">
+}
+
+<main class="available-rooms-shell">
+    <section class="available-rooms-hero">
+        <div class="available-rooms-hero__overlay"></div>
+        <div class="available-rooms-hero__content">
+            <a class="available-rooms-back" href="/Home/Index">
+                <i class="fa fa-angle-left"></i>
+                <span>Quay lại trang chủ</span>
+            </a>
+            <div class="available-rooms-kicker">Tìm kiếm phòng</div>
+            <h1 class="heading-result">Kết quả kiểm tra phòng trống</h1>
+            <p>Danh sách phòng được lọc theo khoảng thời gian bạn đã chọn.</p>
+        </div>
+    </section>
+
+    <section class="available-rooms-content">
+        <div class="available-rooms-summary">
+            <div class="summary-card">
+                <span class="summary-card__label">Khoảng thời gian</span>
+                <strong id="availableRoomsDateRange">Đang tải...</strong>
+            </div>
+            <div class="summary-card">
+                <span class="summary-card__label">Loại phòng</span>
+                <strong id="availableRoomsType">Đang tải...</strong>
+            </div>
+            <div class="summary-card">
+                <span class="summary-card__label">Số kết quả</span>
+                <strong id="availableRoomsCount">0</strong>
+            </div>
+        </div>
+
+        <div id="availableRoomsState" class="available-rooms-state is-empty">
+            <i class="fa fa-circle-o-notch fa-spin"></i>
+            <span>Đang tải danh sách phòng trống...</span>
+        </div>
+
+        <div id="availableRoomsContent" hidden>
+            <div class="available-rooms-heading">
+                <div>
+                    <h2 id="availableRoomsMessage">Kết quả tìm phòng</h2>
+                    <p>Chọn phòng phù hợp để tiếp tục quy trình đặt phòng.</p>
+                </div>
+                <div class="available-rooms-sort">
+                    <label for="availableRoomsSort">Sắp xếp theo giá</label>
+                    <select id="availableRoomsSort" class="available-rooms-sort__select">
+                        <option value="price-asc">Giá tăng dần</option>
+                        <option value="price-desc">Giá giảm dần</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="availableRoomsGrid" class="available-rooms-grid"></div>
+            <div id="availableRoomsPagination" class="available-rooms-pagination" hidden></div>
+        </div>
+    </section>
+</main>

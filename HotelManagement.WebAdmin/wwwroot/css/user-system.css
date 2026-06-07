@@ -1,0 +1,64 @@
+﻿.user-system-shell {
+    max-width: 1200px;
+}
+
+.user-system-hero {
+    border: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1d4ed8 0%, #0f766e 100%);
+    color: #fff;
+}
+
+    .user-system-hero .card-body {
+        padding: 2rem;
+    }
+
+.user-system-panel {
+    border: 0;
+    border-radius: 1rem;
+}
+
+.user-system-stat {
+    border-radius: .9rem;
+    background: #f8fafc;
+    padding: 1rem 1.25rem;
+    height: 100%;
+}
+
+.user-system-stat-label {
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #64748b;
+    margin-bottom: .35rem;
+}
+
+.user-system-stat-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    word-break: break-word;
+}
+
+.user-system-password-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: #64748b;
+}
+
+    .user-system-password-list li + li {
+        margin-top: .35rem;
+    }
+
+.user-system-strength {
+    min-height: 1.5rem;
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+@@media (max-width: 767.98px) {
+    .user-system-hero .card-body {
+        padding: 1.5rem;
+    }
+}

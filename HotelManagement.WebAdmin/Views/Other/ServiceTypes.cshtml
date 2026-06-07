@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Service Types";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/other.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid other-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Loại dịch vụ</h1>
+            <p class="mb-0 text-muted">Danh mục nhóm dịch vụ mặc định do API cung cấp cho toàn hệ thống.</p>
+        </div>
+        <a class="btn btn-outline-secondary shadow-sm" asp-controller="Other" asp-action="Services">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại dịch vụ
+        </a>
+    </div>
+
+    <div class="card shadow mb-4 other-filter-card">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách loại dịch vụ</h6>
+            <div class="text-muted small" id="serviceTypePageSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên loại dịch vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="serviceTypePageTableBody">
+                        <tr>
+                            <td colspan="2" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/other/service-types.js" asp-append-version="true"></script>
+}

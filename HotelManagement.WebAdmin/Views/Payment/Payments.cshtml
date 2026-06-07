@@ -1,0 +1,244 @@
+@{
+    ViewData["Title"] = "Payments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/payment.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid payment-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Quản lý thanh toán</h1>
+            <p class="mb-0 text-muted">Theo dõi phương thức thanh toán, cập nhật thông tin tài khoản và QR dùng trong hệ thống.</p>
+        </div>
+        <button type="button" class="btn btn-primary shadow-sm" id="paymentOpenCreateButton">
+            <i class="fas fa-plus fa-sm mr-1"></i> Thêm thanh toán
+        </button>
+    </div>
+
+
+    <div class="card shadow mb-4 payment-filter-card">
+        <div class="card-header py-3 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách thanh toán</h6>
+            <div class="mt-2 mt-lg-0 text-muted small" id="paymentSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="paymentKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="paymentKeyword" placeholder="Tìm theo tài khoản, ngân hàng, ghi chú">
+                </div>
+                <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="paymentMethodFilter">Phương thức</label>
+                    <select class="form-control" id="paymentMethodFilter">
+                        <option value="">Tất cả</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="paymentSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="paymentSortBy">
+                        <option value="id">ID</option>
+                        <option value="method">Phương thức</option>
+                        <option value="accountName">Tên tài khoản</option>
+                        <option value="accountNumber">Số tài khoản</option>
+                        <option value="bankName">Ngân hàng</option>
+                        <option value="invoiceId">Hóa đơn</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="paymentSortDesc">Thứ tự</label>
+                    <select class="form-control" id="paymentSortDesc">
+                        <option value="true">Giảm</option>
+                        <option value="false">Tăng</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1">
+                    <label class="small text-muted mb-1" for="paymentItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="paymentItemsPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <div class="mb-2 mb-md-0">
+                    <button type="button" class="btn btn-primary btn-sm" id="paymentSearchButton">
+                        <i class="fas fa-search fa-sm mr-1"></i> Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="paymentResetButton">
+                        Làm mới
+                    </button>
+                </div>
+                <div class="text-muted small" id="paymentPaginationInfo">Chưa có dữ liệu.</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="paymentTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Phương thức</th>
+                            <th>Tên tài khoản</th>
+                            <th>Số tài khoản</th>
+                            <th>Ngân hàng</th>
+                            <th>Ghi chú</th>
+                            <th>Hóa đơn</th>
+                            <th class="text-center" style="width: 176px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                        <tr>
+                            <td colspan="8" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Payment pagination">
+                <ul class="pagination pagination-sm mb-0 justify-content-end" id="paymentPagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paymentFormModal" tabindex="-1" role="dialog" aria-labelledby="paymentFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content payment-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="payment-modal-kicker" id="paymentFormKicker">Payment Form</div>
+                    <h5 class="modal-title" id="paymentFormModalLabel">Thông tin thanh toán</h5>
+                    <div class="text-muted small">Tạo mới hoặc cập nhật phương thức thanh toán cho hệ thống.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="paymentFormId" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="paymentFormMethod">Phương thức</label>
+                            <select class="form-control" id="paymentFormMethod"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="paymentFormAccountName">Tên tài khoản</label>
+                            <input type="text" class="form-control" id="paymentFormAccountName" placeholder="Ví dụ: NGUYEN VAN A">
+                        </div>
+                    </div>
+                </div>
+                <div class="row payment-bank-fields">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="paymentFormAccountNumber">Số tài khoản / số ví</label>
+                            <input type="text" class="form-control" id="paymentFormAccountNumber" placeholder="Nhập số tài khoản hoặc số điện thoại">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="paymentFormBankName">Ngân hàng / nhà cung cấp</label>
+                            <input type="text" class="form-control" id="paymentFormBankName" placeholder="Ví dụ: Vietcombank, Momo">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group payment-qr-fields">
+                    <label for="paymentFormQrContent">Nội dung QR</label>
+                    <textarea class="form-control" id="paymentFormQrContent" rows="3" placeholder="Có thể để trống để hệ thống tự tạo từ thông tin tài khoản."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="paymentFormNote">Ghi chú</label>
+                    <textarea class="form-control" id="paymentFormNote" rows="3" placeholder="Ghi chú nội bộ hoặc mô tả cách thanh toán"></textarea>
+                </div>
+                <div class="payment-helper-box">
+                    <div class="font-weight-bold text-gray-800 mb-1">Quy tắc nhanh</div>
+                    <div class="small text-muted mb-0" id="paymentFormRuleText">Tiền mặt có thể để trống thông tin tài khoản. Chuyển khoản và Momo cần số tài khoản hoặc số ví và tên ngân hàng hoặc nhà cung cấp.</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="paymentSubmitButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Lưu thanh toán
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paymentDetailModal" tabindex="-1" role="dialog" aria-labelledby="paymentDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content payment-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="payment-modal-kicker">Payment Detail</div>
+                    <h5 class="modal-title" id="paymentDetailModalLabel">Chi tiết thanh toán</h5>
+                    <div class="text-muted small">Thông tin cấu hình đầy đủ cho phương thức thanh toán đã chọn.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="payment-detail-grid">
+                    <div class="payment-detail-item"><span>ID</span><strong id="paymentDetailId">-</strong></div>
+                    <div class="payment-detail-item"><span>Phương thức</span><strong id="paymentDetailMethod">-</strong></div>
+                    <div class="payment-detail-item"><span>Tên tài khoản</span><strong id="paymentDetailAccountName">-</strong></div>
+                    <div class="payment-detail-item"><span>Số tài khoản</span><strong id="paymentDetailAccountNumber">-</strong></div>
+                    <div class="payment-detail-item"><span>Ngân hàng</span><strong id="paymentDetailBankName">-</strong></div>
+                    <div class="payment-detail-item"><span>Hóa đơn</span><strong id="paymentDetailInvoiceId">-</strong></div>
+                </div>
+                <div class="payment-detail-panel mt-3">
+                    <div class="payment-detail-panel-title">Ghi chú</div>
+                    <div class="payment-detail-panel-value" id="paymentDetailNote">-</div>
+                </div>
+                <div class="payment-detail-panel mt-3">
+                    <div class="payment-detail-panel-title">Nội dung QR</div>
+                    <pre class="payment-detail-qr-content" id="paymentDetailQrContent">-</pre>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <a class="btn btn-outline-info" id="paymentDetailQrLink" asp-controller="Payment" asp-action="PaymentQr">
+                    <i class="fas fa-qrcode fa-sm mr-1"></i> Mở trang QR
+                </a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="paymentDeleteModal" tabindex="-1" role="dialog" aria-labelledby="paymentDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content payment-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="payment-modal-kicker text-danger">Delete Payment</div>
+                    <h5 class="modal-title" id="paymentDeleteModalLabel">Xác nhận xóa thanh toán</h5>
+                    <div class="text-muted small">Không thể xóa nếu thanh toán đã được gắn vào hóa đơn.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="payment-detail-panel mb-0">
+                    <div class="payment-detail-panel-title">Đối tượng xóa</div>
+                    <div class="payment-detail-panel-value" id="paymentDeleteTargetText">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="paymentConfirmDeleteButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa thanh toán
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/payment/payments.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,167 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Đăng ký quản trị</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+    <link href="~/css/notification.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/auth.css" rel="stylesheet" asp-append-version="true" />
+
+</head>
+
+<body class="admin-auth-page">
+
+    <main class="auth-shell">
+        <section class="auth-card auth-card-register">
+            <div class="auth-visual">
+                <div class="auth-brand">
+                    <div class="auth-brand-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <div>
+                        <span class="auth-brand-name">Telly Admin</span>
+                        <span class="auth-brand-caption">Hotel Management System</span>
+                    </div>
+                </div>
+
+                <div class="auth-visual-content">
+                    <span class="auth-eyebrow">Team Access</span>
+                    <h1>Tạo tài khoản quản trị cho đội ngũ vận hành.</h1>
+                    <p>Thiết lập hồ sơ nhân sự, thông tin liên hệ và quyền truy cập trước khi vào dashboard.</p>
+                </div>
+
+                <div class="auth-visual-stats">
+                    <div>
+                        <strong>Secure</strong>
+                        <span>Phân quyền</span>
+                    </div>
+                    <div>
+                        <strong>Fast</strong>
+                        <span>Khởi tạo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-panel">
+                <div class="auth-form-wrap">
+                    <div class="auth-heading">
+                        <span class="auth-kicker">Đăng ký</span>
+                        <h2>Tạo tài khoản mới</h2>
+                        <p>Hoàn tất thông tin bên dưới để đăng ký tài khoản quản trị. Tài khoản mới cần được quản trị viên duyệt trước khi đăng nhập.</p>
+                    </div>
+
+                    <form class="auth-form user" id="registerForm">
+                        <div class="auth-grid">
+                            <div class="auth-field">
+                                <label for="userName">Tên đăng nhập</label>
+                                <div class="auth-input-group">
+                                    <i class="fas fa-user-shield"></i>
+                                    <input type="text" class="form-control form-control-user" id="userName"
+                                           placeholder="duynam" autocomplete="username">
+                                </div>
+                            </div>
+
+                            <div class="auth-field">
+                                <label for="fullName">Họ và tên</label>
+                                <div class="auth-input-group">
+                                    <i class="fas fa-id-card"></i>
+                                    <input type="text" class="form-control form-control-user" id="fullName"
+                                           placeholder="Nguyễn Văn A" autocomplete="name">
+                                </div>
+                            </div>
+
+                            <div class="auth-field">
+                                <label for="email">Email</label>
+                                <div class="auth-input-group">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" class="form-control form-control-user" id="email"
+                                           placeholder="admin@luxstay.vn" autocomplete="email">
+                                </div>
+                            </div>
+
+                            <div class="auth-field">
+                                <label for="phoneNumber">Số điện thoại</label>
+                                <div class="auth-input-group">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <input type="text" class="form-control form-control-user" id="phoneNumber"
+                                           placeholder="090 000 0000" autocomplete="tel">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="auth-field">
+                            <label for="address">Địa chỉ</label>
+                            <div class="auth-input-group">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" class="form-control form-control-user" id="address"
+                                       placeholder="Địa chỉ liên hệ" autocomplete="street-address">
+                            </div>
+                        </div>
+
+                        <div class="auth-grid">
+                            <div class="auth-field">
+                                <label for="password">Mật khẩu</label>
+                                <div class="auth-input-group">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" class="form-control form-control-user"
+                                           id="password" placeholder="Tối thiểu 6 ký tự" autocomplete="new-password">
+                                </div>
+                            </div>
+
+                            <div class="auth-field">
+                                <label for="repeatPassword">Nhập lại mật khẩu</label>
+                                <div class="auth-input-group">
+                                    <i class="fas fa-check-circle"></i>
+                                    <input type="password" class="form-control form-control-user"
+                                           id="repeatPassword" placeholder="Nhập lại mật khẩu" autocomplete="new-password">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="registerButton" class="btn auth-submit btn-block">
+                            Tạo tài khoản
+                        </button>
+                    </form>
+
+                    <p class="auth-switch">
+                        Đã có tài khoản?
+                        <a asp-controller="Auth" asp-action="Login">Đăng nhập ngay</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js" asp-append-version="true"></script>
+    <script src="~/custom/api-admin.js" asp-append-version="true"></script>
+    <script src="~/custom/notification.js" asp-append-version="true"></script>
+    <script src="~/custom/auth/register.js" asp-append-version="true"></script>
+
+</body>
+
+</html>

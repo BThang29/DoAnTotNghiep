@@ -1,0 +1,235 @@
+/* =========================================================================
+   telly-overrides.css
+   - Cau noi giua theme moi (Telly / Bootstrap 5) va cac class cu cua Telly
+     dang con dung trong view + noi dung do JS render (rooms, booking...).
+   - Mau chu dao lay theo Telly: --primary-color #ff8103
+   ========================================================================= */
+
+:root {
+    --tl-primary: #ff8103;
+    --tl-dark: #16181d;
+    --tl-muted: #6c757d;
+}
+
+body {
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #2b2f36;
+}
+
+h1, h2, h3, h4, h5, .banner-title, .display-1, .display-5 {
+    font-family: "Old Standard TT", "IBM Plex Sans", serif;
+}
+
+/* ---- Helper class thieu trong Telly ---- */
+.text-primary-500 { color: var(--tl-primary) !important; }
+.bg-primary-500 { background-color: var(--tl-primary) !important; }
+.widget-title { color: var(--tl-dark); }
+
+/* ---- Header / nav ---- */
+#header .navbar-brand { font-size: 1.5rem; letter-spacing: .5px; color: var(--tl-dark); }
+#header .nav-link { color: #2b2f36; font-weight: 500; font-size: .9rem; }
+#header .nav-link:hover,
+#header .nav-link.active { color: var(--tl-primary); }
+#header .dropdown-menu { border: 0; box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.12); border-radius: .6rem; }
+
+/* ---- Nut chinh (dung khap noi + trong JS render) ---- */
+.primary-btn,
+a.primary-btn,
+button.primary-btn {
+    display: inline-block;
+    background: var(--tl-primary);
+    color: #fff !important;
+    padding: 12px 28px;
+    border: 0;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: .9rem;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    transition: filter .15s ease, transform .15s ease;
+    text-decoration: none;
+}
+.primary-btn:hover { filter: brightness(.93); transform: translateY(-1px); color: #fff; }
+
+.btn-dark.btn-pill { border-radius: 40px; }
+
+/* ---- Tieu de section (Telly) ---- */
+.section-title { margin-bottom: 40px; }
+.section-title span {
+    color: var(--tl-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: .85rem;
+    display: block;
+    margin-bottom: 10px;
+}
+.section-title h2 {
+    color: var(--tl-dark);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* ---- Padding section (Telly .spad) ---- */
+.spad { padding-top: 80px; padding-bottom: 80px; }
+.set-bg { background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+/* ---- Hero / banner ---- */
+.telly-hero {
+    position: relative;
+    min-height: 78vh;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    background-size: cover;
+    background-position: center;
+}
+.telly-hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.25) 60%, rgba(0,0,0,.1) 100%);
+}
+.telly-hero .container { position: relative; z-index: 2; }
+.telly-hero .hero-kicker { text-transform: uppercase; letter-spacing: 3px; color: var(--tl-primary); font-weight: 600; }
+.telly-hero h1 { color: #fff; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.1; margin: 12px 0 18px; }
+.telly-hero p { color: #e9ecef; max-width: 560px; font-size: 1.05rem; }
+
+/* ---- Booking form tren hero ---- */
+.booking-form {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 26px;
+    box-shadow: 0 1rem 2.5rem rgba(0,0,0,.18);
+    color: #2b2f36;
+}
+.booking-form h3 { color: var(--tl-dark); font-weight: 700; margin-bottom: 18px; font-size: 1.4rem; }
+.booking-form .check-date,
+.booking-form .select-option { position: relative; margin-bottom: 16px; }
+.booking-form label { display: block; font-size: .8rem; font-weight: 600; color: var(--tl-muted); margin-bottom: 6px; text-transform: uppercase; }
+.booking-form input.date-input,
+.booking-form select {
+    width: 100%;
+    height: 46px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: .95rem;
+    background: #fff;
+}
+.booking-form .check-date i { position: absolute; right: 14px; bottom: 13px; color: var(--tl-primary); }
+.booking-form button[type="submit"] {
+    width: 100%;
+    height: 48px;
+    background: var(--tl-primary);
+    color: #fff;
+    border: 0;
+    border-radius: 40px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    margin-top: 6px;
+}
+.booking-form button[type="submit"]:hover { filter: brightness(.93); }
+
+/* ---- Service item (home) ---- */
+.service-item {
+    text-align: center;
+    padding: 34px 22px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    height: 100%;
+    transition: box-shadow .2s ease, transform .2s ease;
+    background: #fff;
+}
+.service-item:hover { box-shadow: 0 .75rem 2rem rgba(0,0,0,.08); transform: translateY(-3px); }
+.service-item i { font-size: 42px; color: var(--tl-primary); display: block; margin-bottom: 16px; }
+.service-item h4 { font-weight: 700; font-size: 1.1rem; color: var(--tl-dark); margin-bottom: 10px; }
+.service-item p { color: var(--tl-muted); font-size: .92rem; margin: 0; }
+
+/* ---- Featured rooms (JS render: hp-room-item / hr-text / r-o) ---- */
+.hp-room-items .row { margin: 0 -12px; }
+.hp-room-item {
+    position: relative;
+    height: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    background-size: cover;
+    background-position: center;
+}
+.hp-room-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,.82)); }
+.hp-room-item .hr-text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 22px; color: #fff; }
+.hp-room-item .hr-text h3 { color: #fff; font-weight: 700; font-size: 1.25rem; margin-bottom: 6px; }
+.hp-room-item .hr-text h2 { color: var(--tl-primary); font-weight: 700; font-size: 1.3rem; margin-bottom: 12px; }
+.hp-room-item .hr-text h2 span { font-size: .8rem; color: #e9ecef; font-weight: 400; }
+.hp-room-item .hr-text .r-o { color: #e9ecef; font-size: .85rem; margin-bottom: 4px; display: flex; gap: 6px; }
+.hp-room-item .hr-text .r-o span { color: #fff; font-weight: 600; }
+.hp-room-item .hr-text .primary-btn { margin-top: 12px; padding: 9px 20px; font-size: .8rem; }
+
+/* ---- Page banner cho cac trang con (breadcrumb Telly) ---- */
+.breadcrumb-section { background-size: cover; background-position: center; position: relative; padding: 90px 0; color: #fff; }
+.breadcrumb-section::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.5); }
+.breadcrumb-section .container { position: relative; z-index: 2; }
+.breadcrumb-text h2 { color: #fff; font-weight: 700; }
+
+/* ---- Footer ---- */
+#footer a { color: #495057; text-decoration: none; }
+#footer a:hover { color: var(--tl-primary); }
+#footer .widget-title { font-weight: 700; }
+
+/* ---- Khoang cach noi dung khong bi header sticky de len ---- */
+main, .page-content { min-height: 40vh; }
+
+/* ============================================================
+   TRANG PHONG (Room/Rooms) - chuyen sang Telly
+   ============================================================ */
+.breadcrumb-section { padding: 96px 0; background-image: url('/images/hero/hero-2.jpg'); }
+.breadcrumb-text h2 { font-size: 2.4rem; letter-spacing: .5px; }
+.breadcrumb-text .bt-option { margin-top: 10px; font-size: .9rem; }
+.breadcrumb-text .bt-option a { color: #fff; opacity: .8; text-decoration: none; }
+.breadcrumb-text .bt-option a:hover { color: var(--tl-primary); opacity: 1; }
+.breadcrumb-text .bt-option span { color: var(--tl-primary); margin-left: 6px; }
+.breadcrumb-text .bt-option span::before { content: "/"; color: #fff; opacity: .6; margin-right: 8px; }
+
+.rooms-section .room-card-col { margin-bottom: 28px; }
+.rooms-section .room-item {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 .4rem 1.2rem rgba(0,0,0,.07);
+    transition: transform .2s ease, box-shadow .2s ease;
+    height: 100%;
+}
+.rooms-section .room-item:hover { transform: translateY(-4px); box-shadow: 0 1rem 2rem rgba(0,0,0,.12); }
+.rooms-section .room-item > img { width: 100%; height: 230px; object-fit: cover; display: block; }
+.rooms-section .room-item .ri-text { padding: 22px 24px 26px; }
+.rooms-section .room-item .ri-text h4 { font-weight: 700; color: var(--tl-dark); margin-bottom: 4px; }
+.rooms-section .room-item .ri-text h3 { color: var(--tl-primary); font-weight: 700; font-size: 1.35rem; margin-bottom: 14px; }
+.rooms-section .room-item .ri-text h3 span { color: var(--tl-muted); font-size: .85rem; font-weight: 400; }
+.rooms-section .room-item table { width: 100%; margin-bottom: 16px; }
+.rooms-section .room-item table td { padding: 5px 0; font-size: .9rem; color: #2b2f36; }
+.rooms-section .room-item table td.r-o { color: var(--tl-muted); width: 45%; }
+.rooms-section .room-item .primary-btn { width: 100%; text-align: center; }
+
+/* Phan trang */
+.room-pagination { display: flex; gap: 8px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+.room-pagination a, .room-pagination span, .room-pagination button {
+    min-width: 42px; height: 42px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid #e3e6ea; border-radius: 10px;
+    color: #2b2f36; text-decoration: none; background: #fff; cursor: pointer; padding: 0 12px;
+}
+.room-pagination a:hover { border-color: var(--tl-primary); color: var(--tl-primary); }
+.room-pagination .active, .room-pagination a.active { background: var(--tl-primary); border-color: var(--tl-primary); color: #fff; }
+
+/* ============================================================
+   BLOG / TIN TUC (blog-item)
+   ============================================================ */
+.blog-item { position: relative; border-radius: 14px; overflow: hidden; min-height: 300px; margin-bottom: 26px; }
+.blog-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.8)); }
+.blog-item .bi-text { position: absolute; left: 0; bottom: 0; z-index: 2; padding: 24px; color: #fff; }
+.blog-item .bi-text .b-tag { background: var(--tl-primary); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: .72rem; text-transform: uppercase; letter-spacing: .5px; }
+.blog-item .bi-text h4 { margin: 12px 0 8px; }
+.blog-item .bi-text h4 a { color: #fff; text-decoration: none; }
+.blog-item .bi-text h4 a:hover { color: var(--tl-primary); }
+.blog-item .bi-text .b-time { color: #e9ecef; font-size: .82rem; }

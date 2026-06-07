@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Room Statuses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/room.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid room-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Trạng thái phòng</h1>
+            <p class="mb-0 text-muted">Danh sách trạng thái vận hành hiện có trong hệ thống.</p>
+        </div>
+        <a class="btn btn-outline-secondary shadow-sm" asp-controller="Room" asp-action="Rooms">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại phòng
+        </a>
+    </div>
+
+    <div class="card shadow mb-4 room-filter-card">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách trạng thái phòng</h6>
+            <div class="text-muted small" id="roomStatusPageSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Mã trạng thái</th>
+                            <th>Tên trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomStatusPageTableBody">
+                        <tr>
+                            <td colspan="2" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/room/room-statuses.js" asp-append-version="true"></script>
+}

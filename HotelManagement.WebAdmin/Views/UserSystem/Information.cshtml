@@ -1,0 +1,115 @@
+@{
+    ViewData["Title"] = "Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/information.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid information-shell">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Thông tin người dùng</h1>
+            <p class="mb-0 text-muted">Xem hồ sơ chi tiết của tài khoản quản trị đang đăng nhập.</p>
+        </div>
+        <a class="btn btn-outline-secondary shadow-sm" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại trang chính
+        </a>
+    </div>
+
+    <div class="card shadow mb-4 information-hero">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <div class="information-kicker">User Profile</div>
+                    <h2 class="h3 mb-3 text-white" id="informationHeroTitle">Đang tải thông tin người dùng...</h2>
+                    <p class="mb-0" id="informationHeroSubtitle" style="opacity:.88;">
+                        Hệ thống đang kết nối API để lấy hồ sơ chi tiết của tài khoản hiện tại.
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center justify-content-lg-end">
+                        <img id="informationAvatar" class="information-avatar" src="~/images/undraw_profile.svg" alt="Ảnh đại diện người dùng">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card shadow information-panel h-100">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <div class="small text-muted" id="informationStatusText">Đang chuẩn bị dữ liệu...</div>
+                </div>
+                <div class="card-body">
+                    <div id="informationLoading" class="information-loading">
+                        <div>
+                            <div class="spinner-border text-primary mb-3" role="status" aria-hidden="true"></div>
+                            <div>Đang tải thông tin chi tiết...</div>
+                        </div>
+                    </div>
+
+                    <div id="informationContent" class="d-none">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Họ và tên</span>
+                                    <strong class="information-meta-value" id="informationFullName">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Tên đăng nhập</span>
+                                    <strong class="information-meta-value" id="informationUserName">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Email</span>
+                                    <strong class="information-meta-value" id="informationEmail">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Số điện thoại</span>
+                                    <strong class="information-meta-value" id="informationPhoneNumber">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Ngày tạo</span>
+                                    <strong class="information-meta-value" id="informationCreateDate">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Trạng thái</span>
+                                    <div id="informationActive"></div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Địa chỉ</span>
+                                    <strong class="information-meta-value" id="informationAddress">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="information-meta-item">
+                                    <span class="information-meta-label">Vai trò</span>
+                                    <div id="informationRoles" class="information-role-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="informationErrorState" class="information-empty d-none">
+                        Không thể tải thông tin người dùng. Vui lòng thử lại sau.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/user-system/information.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,6 @@
+@DoAnWebQuanLyKhachSan.API_HostAddress = http://localhost:5010
+
+GET {{DoAnWebQuanLyKhachSan.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,222 @@
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/role.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid role-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Vai trò</h1>
+            <p class="mb-0 text-muted">Quản lý nhóm quyền, cập nhật thông tin role và phân quyền trực tiếp bằng modal.</p>
+        </div>
+        <button type="button" class="btn btn-primary shadow-sm" id="roleOpenCreateButton">
+            <i class="fas fa-plus fa-sm mr-1"></i> Tạo vai trò
+        </button>
+    </div>
+
+
+    <div class="card shadow mb-4 role-filter-card">
+        <div class="card-header py-3 d-flex flex-column flex-lg-row align-items-lg-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách vai trò</h6>
+            <div class="mt-2 mt-lg-0 text-muted small" id="roleSummary">Đang tải dữ liệu...</div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-lg-5 mb-3 mb-lg-0">
+                    <label class="small text-muted mb-1" for="roleKeyword">Từ khóa</label>
+                    <input type="text" class="form-control" id="roleKeyword" placeholder="Tên vai trò hoặc mô tả">
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="roleSortBy">Sắp xếp theo</label>
+                    <select class="form-control" id="roleSortBy">
+                        <option value="id">ID</option>
+                        <option value="name">Tên vai trò</option>
+                        <option value="description">Mô tả</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="roleSortDesc">Thứ tự</label>
+                    <select class="form-control" id="roleSortDesc">
+                        <option value="false">Tăng</option>
+                        <option value="true">Giảm</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2 mb-3 mb-sm-0">
+                    <label class="small text-muted mb-1" for="roleItemsPerPage">Số dòng</label>
+                    <select class="form-control" id="roleItemsPerPage">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-1 d-flex align-items-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm btn-block" id="roleResetButton">Làm mới</button>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <button type="button" class="btn btn-primary btn-sm mb-2 mb-md-0" id="roleSearchButton">
+                    <i class="fas fa-search fa-sm mr-1"></i> Tìm kiếm
+                </button>
+                <div class="text-muted small" id="rolePaginationInfo">Chưa có dữ liệu.</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên vai trò</th>
+                            <th>Mô tả</th>
+                            <th>Quyền</th>
+                            <th class="text-center" style="width: 220px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roleTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <nav aria-label="Role pagination">
+                <ul class="pagination pagination-sm mb-0 justify-content-end" id="rolePagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roleCreateModal" tabindex="-1" role="dialog" aria-labelledby="roleCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content role-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="role-modal-kicker">Create Role</div>
+                    <h5 class="modal-title" id="roleCreateModalLabel">Tạo vai trò</h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="form-group">
+                    <label for="roleCreateName">Tên vai trò</label>
+                    <input type="text" class="form-control" id="roleCreateName">
+                </div>
+                <div class="form-group mb-0">
+                    <label for="roleCreateDescription">Mô tả</label>
+                    <textarea class="form-control" id="roleCreateDescription" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="roleCreateSubmitButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Tạo vai trò
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roleDetailModal" tabindex="-1" role="dialog" aria-labelledby="roleDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content role-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="role-modal-kicker">Role Detail</div>
+                    <h5 class="modal-title" id="roleDetailModalLabel">Chi tiết vai trò</h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="roleDetailId" />
+                <div class="form-group">
+                    <label for="roleDetailName">Tên vai trò</label>
+                    <input type="text" class="form-control" id="roleDetailName">
+                </div>
+                <div class="form-group mb-0">
+                    <label for="roleDetailDescription">Mô tả</label>
+                    <textarea class="form-control" id="roleDetailDescription" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="roleDetailSaveButton">
+                    <i class="fas fa-save fa-sm mr-1"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rolePrivilegeModal" tabindex="-1" role="dialog" aria-labelledby="rolePrivilegeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content role-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="role-modal-kicker text-warning">Role Privileges</div>
+                    <h5 class="modal-title" id="rolePrivilegeModalLabel">Phân quyền vai trò</h5>
+                    <div class="text-muted small">Chọn các quyền hệ thống áp dụng cho vai trò đang chọn.</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <input type="hidden" id="rolePrivilegeRoleId" />
+                <div class="role-helper-box mb-3">
+                    <div class="role-detail-panel-title">Vai trò đang chọn</div>
+                    <div class="role-detail-panel-value" id="rolePrivilegeTargetName">-</div>
+                </div>
+                <div class="row" id="rolePrivilegeGroups"></div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-warning" id="rolePrivilegeSaveButton">
+                    <i class="fas fa-user-shield fa-sm mr-1"></i> Lưu phân quyền
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roleDeleteModal" tabindex="-1" role="dialog" aria-labelledby="roleDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content role-modal-shell">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <div class="role-modal-kicker text-danger">Delete Role</div>
+                    <h5 class="modal-title" id="roleDeleteModalLabel">Xác nhận xóa vai trò</h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="role-helper-box mb-0">
+                    <div class="role-detail-panel-title">Đối tượng xóa</div>
+                    <div class="role-detail-panel-value" id="roleDeleteTargetName">-</div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="roleDeleteConfirmButton">
+                    <i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa vai trò
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/role/roles.js" asp-append-version="true"></script>
+    <script src="~/custom/role/role-create.js" asp-append-version="true"></script>
+    <script src="~/custom/role/role-detail.js" asp-append-version="true"></script>
+    <script src="~/custom/role/role-privileges.js" asp-append-version="true"></script>
+    <script src="~/custom/role/role-delete.js" asp-append-version="true"></script>
+}

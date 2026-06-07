@@ -1,0 +1,79 @@
+@{
+    ViewData["Title"] = "Create Customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/customer.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid customer-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Tạo khách hàng</h1>
+            <p class="mb-0 text-muted">Khai báo hồ sơ khách hàng mới để phục vụ đặt phòng, lưu trú và chăm sóc khách hàng về sau.</p>
+        </div>
+        <a class="btn btn-outline-secondary shadow-sm" asp-controller="Customer" asp-action="Customers">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+            <div class="customer-form-panel">
+                <div class="customer-form-panel-title">Thông tin khách hàng mới</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerCreateFullName">Họ tên</label>
+                            <input type="text" class="form-control" id="customerCreateFullName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerCreateIdentify">CCCD</label>
+                            <input type="text" class="form-control" id="customerCreateIdentify">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerCreatePhone">Điện thoại</label>
+                            <input type="text" class="form-control" id="customerCreatePhone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="customerCreateMail">Email</label>
+                            <input type="email" class="form-control" id="customerCreateMail">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-md-0">
+                            <label for="customerCreateDob">Ngày sinh</label>
+                            <input type="date" class="form-control" id="customerCreateDob">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-0">
+                            <label for="customerCreateType">Loại khách hàng</label>
+                            <select class="form-control" id="customerCreateType">
+                                <option value="">Chọn loại khách hàng</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right customer-form-actions">
+                    <button type="button" class="btn btn-primary" id="customerCreateSubmitButton">
+                        <i class="fas fa-save fa-sm mr-1"></i> Lưu khách hàng mới
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/customer/customer-create.js" asp-append-version="true"></script>
+}

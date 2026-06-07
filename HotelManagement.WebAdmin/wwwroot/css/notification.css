@@ -1,0 +1,52 @@
+#app-notification-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 360px;
+    width: calc(100% - 32px);
+}
+
+.app-notification {
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    animation: appNotificationIn 0.2s ease-out;
+    position: relative;
+    cursor: pointer;
+}
+
+.app-notification-success {
+    background: #1cc88a;
+}
+
+.app-notification-error {
+    background: #e74a3b;
+}
+
+.app-notification-info {
+    background: #36b9cc;
+}
+
+.app-notification-warning {
+    background: #f6c23e;
+    color: #1f2937;
+}
+
+@keyframes appNotificationIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,100 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập | Telly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@@300;400;500;600;700&family=Old+Standard+TT:wght@@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/telly/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/telly/style.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/notification.css" type="text/css">
+    <style>
+        body { font-family: "IBM Plex Sans", sans-serif; }
+        .auth-wrap { min-height: 100vh; }
+        .auth-visual {
+            background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.55)), url('/telly/images/single-image.jpg');
+            background-size: cover; background-position: center; color: #fff;
+            display: flex; align-items: flex-end; padding: 60px 50px;
+        }
+        .auth-visual h2 { font-family: "Old Standard TT", serif; font-size: 2.2rem; line-height: 1.2; }
+        .auth-visual .kicker { text-transform: uppercase; letter-spacing: 3px; color: #ff8103; font-weight: 600; }
+        .auth-visual ul { list-style: none; padding: 0; margin-top: 18px; }
+        .auth-visual ul li { padding: 6px 0 6px 26px; position: relative; opacity: .92; }
+        .auth-visual ul li::before { content: "\f00c"; font-family: FontAwesome; position: absolute; left: 0; color: #ff8103; }
+        .auth-formwrap { display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+        .auth-card { width: 100%; max-width: 420px; }
+        .auth-brand { font-weight: 700; font-size: 1.6rem; text-decoration: none; color: #16181d; text-transform: uppercase; }
+        .auth-brand span { color: #ff8103; }
+        .auth-card h1 { font-family: "Old Standard TT", serif; font-size: 2rem; margin: 22px 0 6px; }
+        .auth-card .sub { color: #6c757d; margin-bottom: 26px; }
+        .auth-card label { font-weight: 600; font-size: .85rem; text-transform: uppercase; color: #6c757d; margin-bottom: 6px; }
+        .auth-card .form-control { height: 50px; border-radius: 10px; }
+        .pwd-wrap { position: relative; }
+        .pwd-wrap .toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); border: 0; background: transparent; color: #6c757d; cursor: pointer; }
+        .btn-auth { width: 100%; height: 52px; background: #ff8103; color: #fff; border: 0; border-radius: 40px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+        .btn-auth:hover { filter: brightness(.93); color: #fff; }
+        .auth-links a { color: #ff8103; text-decoration: none; font-weight: 600; }
+        @@media (max-width: 991px) { .auth-visual { min-height: 240px; } }
+    </style>
+</head>
+<body class="auth-page">
+    <div class="container-fluid">
+        <div class="row auth-wrap">
+            @* ===== Anh Telly ben trai ===== *@
+            <div class="col-lg-6 d-none d-lg-flex auth-visual">
+                <div>
+                    <span class="kicker">Trải nghiệm lưu trú</span>
+                    <h2>Không gian nghỉ dưỡng tinh tế giữa trung tâm thành phố.</h2>
+                    <ul>
+                        <li>Đặt phòng nhanh với thông tin luôn cập nhật.</li>
+                        <li>Theo dõi lịch sử đặt phòng sau khi đăng nhập.</li>
+                        <li>Hỗ trợ 24/7 từ đội ngũ lễ tân.</li>
+                    </ul>
+                </div>
+            </div>
+
+            @* ===== Form ben phai ===== *@
+            <div class="col-lg-6 auth-formwrap">
+                <div class="auth-card">
+                    <a class="auth-brand" href="/Home/Index">Telly</a>
+                    <h1>Đăng nhập tài khoản</h1>
+                    <p class="sub">Sử dụng tài khoản của bạn để tiếp tục đặt phòng và theo dõi đơn.</p>
+
+                    <form id="loginForm" novalidate>
+                        <div class="mb-3">
+                            <label for="loginUsername">Tên đăng nhập</label>
+                            <input id="loginUsername" name="username" type="text" class="form-control" placeholder="Nhập tên đăng nhập" required />
+                        </div>
+                        <div class="mb-2">
+                            <label for="loginPassword">Mật khẩu</label>
+                            <div class="pwd-wrap">
+                                <input id="loginPassword" name="password" type="password" class="form-control" placeholder="Nhập mật khẩu" required />
+                                <button id="loginPasswordToggle" class="toggle" type="button" aria-label="Hiện mật khẩu" aria-pressed="false">
+                                    <i id="loginPasswordToggleIcon" class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-end mb-3 auth-links">
+                            <a href="/Auth/ForgotPassword">Quên mật khẩu?</a>
+                        </div>
+                        <button id="loginSubmitButton" type="submit" class="btn-auth">Đăng nhập</button>
+                    </form>
+
+                    <p class="text-center mt-4 auth-links">
+                        Chưa có tài khoản? <a href="/Auth/Register">Đăng ký ngay</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/custom/notification.js" asp-append-version="true"></script>
+    <script src="~/custom/auth/auth-session.js" asp-append-version="true"></script>
+    <script src="~/custom/auth/login.js" asp-append-version="true"></script>
+</body>
+</html>

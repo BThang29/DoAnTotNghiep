@@ -1,0 +1,136 @@
+@{
+    ViewData["Title"] = "Chi tiết phòng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="tl-page-banner">
+    <div class="tl-page-banner__bg" style="background-image:url('/telly/images/banner-item3.jpg')"></div>
+    <div class="tl-page-banner__overlay"></div>
+    <div class="container tl-page-banner__inner">
+        <h1 id="roomDetailBreadcrumbTitle">Chi tiết phòng</h1>
+        <div class="tl-breadcrumb">
+            <a href="/Home/Index">Trang chủ</a> <span>/</span>
+            <a href="/Room/Rooms">Phòng</a> <span>/</span>
+            <span id="roomDetailBreadcrumbCurrent">Chi tiết</span>
+        </div>
+    </div>
+</section>
+
+<section class="rd-section padding-large">
+    <div class="container">
+        <div id="roomDetailState" class="text-center py-5 text-muted">Đang tải chi tiết phòng...</div>
+
+        <div class="row g-5" id="roomDetailContent" hidden>
+            <div class="col-lg-8">
+                @* ===== Gallery: anh lon + thumbnail ===== *@
+                <div class="rd-gallery">
+                    <div class="rd-gallery__main">
+                        <img id="roomDetailImage" src="/telly/images/item-large1.jpg" alt="Ảnh phòng" decoding="async">
+                    </div>
+                    <div class="rd-gallery__thumbs">
+                        <button type="button" class="rd-thumb is-active" data-src="/telly/images/item-large1.jpg"><img src="/telly/images/item-large1.jpg" alt=""></button>
+                        <button type="button" class="rd-thumb" data-src="/telly/images/item-large2.jpg"><img src="/telly/images/item-large2.jpg" alt=""></button>
+                        <button type="button" class="rd-thumb" data-src="/telly/images/item-large3.jpg"><img src="/telly/images/item-large3.jpg" alt=""></button>
+                        <button type="button" class="rd-thumb" data-src="/telly/images/item-large4.jpg"><img src="/telly/images/item-large4.jpg" alt=""></button>
+                        <button type="button" class="rd-thumb" data-src="/telly/images/item-large5.jpg"><img src="/telly/images/item-large5.jpg" alt=""></button>
+                    </div>
+                </div>
+
+                @* ===== Tieu de + gia ===== *@
+                <div class="rd-head">
+                    <div>
+                        <h2 id="roomDetailName">Tên phòng</h2>
+                        <div class="rd-rating"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star-half_alt"></i></div>
+                    </div>
+                    <div class="rd-head__price">Giá: <strong id="roomDetailPrice">Liên hệ</strong> <small>/ đêm</small></div>
+                </div>
+
+                @* ===== Room Overview ===== *@
+                <h4 class="rd-subtitle">Tổng quan phòng</h4>
+                <div class="rd-overview">
+                    <div class="rd-ov"><i class="fa fa-bed"></i><div><strong id="roomDetailType">Standard</strong><span>Loại phòng</span></div></div>
+                    <div class="rd-ov"><i class="fa fa-bath"></i><div><strong>2</strong><span>Phòng tắm</span></div></div>
+                    <div class="rd-ov"><i class="fa fa-user-friends"></i><div><strong>4</strong><span>Số khách</span></div></div>
+                    <div class="rd-ov"><i class="fa fa-wifi"></i><div><strong>Miễn phí</strong><span>WiFi</span></div></div>
+                    <div class="rd-ov"><i class="fa fa-snowflake"></i><div><strong>Có</strong><span>Điều hòa</span></div></div>
+                    <div class="rd-ov"><i class="fa fa-tv"></i><div><strong>Có</strong><span>TV Cable</span></div></div>
+                </div>
+
+                @* ===== Chi tiet gia ===== *@
+                <h4 class="rd-subtitle">Chi tiết giá</h4>
+                <ul class="rd-pricelist">
+                    <li><span>Mã phòng</span><strong id="roomDetailId">#--</strong></li>
+                    <li><span>Trạng thái</span><strong id="roomDetailStatus">Đang cập nhật</strong></li>
+                    <li><span>Tình trạng</span><strong id="roomDetailAvailability">Đang cập nhật</strong></li>
+                    <li><span>Phí dịch vụ</span><strong>80.000 đ</strong></li>
+                    <li><span>Phí dọn phòng</span><strong>50.000 đ</strong></li>
+                </ul>
+
+                @* ===== Mo ta ===== *@
+                <h4 class="rd-subtitle">Mô tả phòng</h4>
+                <p class="rd-desc" id="roomDetailSummary">Không gian phòng được chuẩn bị để mang lại trải nghiệm nghỉ dưỡng gọn gàng, thoải mái.</p>
+                <p class="rd-desc" id="roomDetailDescription">Thông tin chi tiết về tiện ích mở rộng của phòng. Bạn có thể xem nhanh loại phòng, giá, trạng thái và tình khả dụng ngay tại đây.</p>
+
+                @* ===== Tien ich ===== *@
+                <h4 class="rd-subtitle">Tiện nghi &amp; Tiện ích</h4>
+                <div class="rd-amenities">
+                    <ul>
+                        <li>Điều hòa nhiệt độ</li>
+                        <li>Tủ lạnh mini</li>
+                        <li>Máy sấy tóc</li>
+                        <li>Két an toàn</li>
+                        <li>Bàn làm việc</li>
+                    </ul>
+                    <ul>
+                        <li>WiFi miễn phí</li>
+                        <li>TV truyền hình cáp</li>
+                        <li>Vòi sen / bồn tắm</li>
+                        <li>Dịch vụ phòng 24/7</li>
+                        <li>Ấm đun nước</li>
+                    </ul>
+                </div>
+
+                @* ===== Danh gia ===== *@
+                <div class="rd-reviews" id="roomDetailReviewSection">
+                    <h4 class="rd-subtitle">Đánh giá</h4>
+                    <div id="roomDetailReviewsState" class="text-muted">Đang tải đánh giá...</div>
+                    <div id="roomDetailReviewsList" class="rd-review-list"></div>
+                </div>
+
+                <div class="rd-addreview" id="roomDetailReviewForm">
+                    <h4 class="rd-subtitle">Viết đánh giá</h4>
+                    <form action="#" class="rd-form" id="roomDetailSubmitReviewForm">
+                        <textarea id="roomDetailReviewFeedback" placeholder="Nội dung đánh giá *"></textarea>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6"><input type="text" id="roomDetailReviewerName" placeholder="Họ tên *"></div>
+                            <div class="col-md-6"><input type="text" id="roomDetailReviewerEmail" placeholder="Email *"></div>
+                        </div>
+                        <div class="rd-rating-row">
+                            <span>Chấm điểm:</span>
+                            <div class="rd-rating" id="roomDetailReviewRatingStars"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star-half_alt"></i></div>
+                            <input type="number" id="roomDetailReviewRatingInput" min="1" max="5" step="0.5" value="4.5" placeholder="4.5">
+                        </div>
+                        <button type="submit" id="roomDetailSubmitReviewButton" class="rd-book-btn mt-3">Gửi đánh giá</button>
+                    </form>
+                </div>
+            </div>
+
+            @* ===== Sidebar dat phong ===== *@
+            <div class="col-lg-4" id="roomDetailSidebar">
+                <div class="rd-aside">
+                    <span class="rd-aside__eyebrow">Tổng quan</span>
+                    <h3 class="rd-aside__title">Đặt phòng</h3>
+                    <ul class="rd-aside__list">
+                        <li><span>Loại phòng</span><strong id="roomDetailSidebarType">—</strong></li>
+                        <li><span>Trạng thái</span><strong id="roomDetailSidebarStatus">—</strong></li>
+                        <li><span>Khả dụng</span><strong id="roomDetailSidebarAvailability">—</strong></li>
+                        <li><span>Giá phòng</span><strong id="roomDetailSidebarPrice">—</strong></li>
+                    </ul>
+                    <a id="roomDetailSidebarAction" class="rd-aside__cta" href="/Room/Rooms">Đặt phòng ngay</a>
+                    <a id="roomDetailBookingAction" href="/Room/Rooms" class="d-none"></a>
+                    <p class="rd-aside__note"><i class="fa fa-headset"></i> Cần hỗ trợ? Gọi 079 559 6255</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,125 @@
+.payment-page .payment-stat-card .card-body {
+    padding: 1.15rem 1.25rem;
+}
+
+.payment-filter-card,
+.payment-card,
+.payment-qr-detail-card {
+    border-radius: 1rem;
+}
+
+.payment-modal-shell {
+    border: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.payment-modal-kicker,
+.payment-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #4e73df;
+}
+
+.payment-helper-box,
+.payment-detail-panel,
+.payment-selected-box,
+.payment-qr-preview-box {
+    border: 1px solid #e3e6f0;
+    border-radius: 0.9rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    padding: 1rem 1.1rem;
+}
+
+.payment-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.9rem;
+}
+
+.payment-detail-item {
+    border: 1px solid #e3e6f0;
+    border-radius: 0.85rem;
+    padding: 0.9rem 1rem;
+    background: #fff;
+}
+
+.payment-detail-item span,
+.payment-detail-panel-title {
+    display: block;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #858796;
+    margin-bottom: 0.45rem;
+}
+
+.payment-detail-item strong,
+.payment-detail-panel-value {
+    color: #2e3a59;
+    word-break: break-word;
+}
+
+.payment-detail-qr-content {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #2e3a59;
+    background: transparent;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9rem;
+}
+
+.payment-filter-box {
+    border: 1px solid #e3e6f0;
+    border-radius: 1rem;
+    padding: 1rem;
+    background: #f8fafd;
+}
+
+.payment-table thead th {
+    border-top: 0;
+    color: #4e5d78;
+    font-size: 0.83rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.payment-table tbody tr.table-primary td {
+    background-color: rgba(78, 115, 223, 0.08);
+}
+
+.payment-qr-preview-box {
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, rgba(78, 115, 223, 0.1), transparent 42%), #fff;
+}
+
+.payment-qr-image {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 1rem;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14);
+    background: #fff;
+}
+
+.payment-qr-empty-state {
+    color: #858796;
+    text-align: center;
+    max-width: 280px;
+}
+
+.payment-qr-textarea {
+    font-family: Consolas, "Courier New", monospace;
+    min-height: 140px;
+}
+
+@media (max-width: 767.98px) {
+    .payment-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}

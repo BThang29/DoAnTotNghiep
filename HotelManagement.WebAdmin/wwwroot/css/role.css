@@ -1,0 +1,93 @@
+.role-page .role-stat-card .card-body {
+    padding: 1.15rem 1.25rem;
+}
+
+.role-filter-card,
+.role-modal-shell {
+    border-radius: 1rem;
+}
+
+.role-modal-shell {
+    border: 0;
+    overflow: hidden;
+}
+
+.role-modal-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #4e73df;
+}
+
+.role-helper-box,
+.role-privilege-group {
+    border: 1px solid #e3e6f0;
+    border-radius: 0.9rem;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+    padding: 1rem 1.1rem;
+}
+
+.role-detail-panel-title {
+    display: block;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #858796;
+    margin-bottom: 0.45rem;
+}
+
+.role-detail-panel-value {
+    color: #2e3a59;
+    word-break: break-word;
+}
+
+.role-name {
+    color: #2e3a59;
+    font-weight: 700;
+}
+
+.role-description {
+    color: #7c8aa5;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.role-privilege-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: rgba(78, 115, 223, 0.12);
+    color: #3557d8;
+}
+
+.role-privilege-group-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2e3a59;
+    margin-bottom: 0.85rem;
+}
+
+.role-privilege-option {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    padding: 0.45rem 0;
+}
+
+.role-privilege-option + .role-privilege-option {
+    border-top: 1px dashed #e3e6f0;
+}
+
+.role-privilege-label {
+    font-weight: 700;
+    color: #334155;
+}
+
+.role-privilege-description {
+    color: #7c8aa5;
+    font-size: 0.85rem;
+}

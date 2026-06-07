@@ -1,0 +1,135 @@
+@{
+    ViewData["Title"] = "Payment QR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/payment.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid payment-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">QR thanh toán</h1>
+            <p class="mb-0 text-muted">Chọn một cấu hình thanh toán để xem dữ liệu QR và chia sẻ nhanh cho khách hàng.</p>
+        </div>
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Payment" asp-action="Payments">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại thanh toán
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6 col-lg-7 mb-4">
+            <div class="card shadow border-0 payment-card h-100">
+                <div class="card-body p-4">
+                    <div class="payment-kicker">Danh sách</div>
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3">
+                        <div>
+                            <h5 class="font-weight-bold text-gray-800 mb-1">Nguồn thanh toán có QR</h5>
+                            <div class="small text-muted" id="paymentQrSummary">Đang chuẩn bị dữ liệu...</div>
+                        </div>
+                        <div class="small text-muted mt-2 mt-md-0" id="paymentQrPaginationInfo"></div>
+                    </div>
+
+                    <div class="payment-filter-box mb-4">
+                        <div class="form-row">
+                            <div class="form-group col-md-5 mb-md-0">
+                                <label for="paymentQrKeyword">Từ khóa</label>
+                                <input type="text" class="form-control" id="paymentQrKeyword" placeholder="Tên tài khoản, số tài khoản...">
+                            </div>
+                            <div class="form-group col-md-3 mb-md-0">
+                                <label for="paymentQrMethodFilter">Phương thức</label>
+                                <select class="form-control" id="paymentQrMethodFilter">
+                                    <option value="">Tất cả</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 mb-md-0">
+                                <label for="paymentQrItemsPerPage">Hiển thị</label>
+                                <select class="form-control" id="paymentQrItemsPerPage">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 mb-0 d-flex align-items-end">
+                                <button type="button" class="btn btn-primary btn-block" id="paymentQrSearchButton">
+                                    <i class="fas fa-search fa-sm"></i> Tìm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table payment-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Thanh toán</th>
+                                    <th>Số tài khoản</th>
+                                    <th>Ngân hàng</th>
+                                    <th class="text-center">Chọn</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentQrTableBody">
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Đang tải dữ liệu...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-end mb-0" id="paymentQrPagination"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-lg-5 mb-4">
+            <div class="card shadow border-0 payment-qr-detail-card h-100">
+                <div class="card-body p-4">
+                    <div class="payment-kicker">Chi tiết</div>
+                    <h5 class="font-weight-bold text-gray-800 mb-3">Xem QR thanh toán</h5>
+
+                    <div class="payment-selected-box mb-4">
+                        <div class="small text-muted mb-1">Thanh toán đang chọn</div>
+                        <div class="font-weight-bold text-gray-800" id="paymentQrSelectedTitle">Chưa chọn thanh toán</div>
+                        <div class="small text-muted mt-1" id="paymentQrSelectedMeta">Chọn một dòng từ danh sách bên trái để tải dữ liệu QR.</div>
+                    </div>
+
+                    <div class="payment-detail-grid mb-4">
+                        <div class="payment-detail-item"><span>ID</span><strong id="paymentQrDetailId">-</strong></div>
+                        <div class="payment-detail-item"><span>Phương thức</span><strong id="paymentQrDetailMethod">-</strong></div>
+                        <div class="payment-detail-item"><span>Số tài khoản</span><strong id="paymentQrDetailAccountNumber">-</strong></div>
+                        <div class="payment-detail-item"><span>Khả dụng</span><strong id="paymentQrDetailStatus">-</strong></div>
+                    </div>
+
+                    <div class="payment-qr-preview-box mb-4">
+                        <img id="paymentQrImage" alt="QR thanh toán" class="payment-qr-image d-none" />
+                        <div id="paymentQrEmptyState" class="payment-qr-empty-state">
+                            Chưa có dữ liệu QR để hiển thị.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentQrContent">Nội dung QR</label>
+                        <textarea class="form-control payment-qr-textarea" id="paymentQrContent" rows="6" readonly placeholder="Nội dung QR sẽ xuất hiện ở đây"></textarea>
+                    </div>
+
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+                        <div class="small text-muted mb-3 mb-md-0" id="paymentQrStatusText">Chọn thanh toán để xem QR.</div>
+                        <div>
+                            <button type="button" class="btn btn-outline-primary mr-2" id="paymentQrCopyButton">
+                                <i class="fas fa-copy fa-sm mr-1"></i> Copy nội dung
+                            </button>
+                            <a class="btn btn-success" id="paymentQrOpenImageButton" href="#" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-external-link-alt fa-sm mr-1"></i> Mở ảnh QR
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/payment/payment-qr.js" asp-append-version="true"></script>
+}

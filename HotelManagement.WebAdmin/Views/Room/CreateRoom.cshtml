@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Create Room";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/room.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid room-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Tạo phòng</h1>
+            <p class="mb-0 text-muted">Khai báo phòng mới, gán loại phòng và trạng thái ban đầu trước khi đưa vào khai thác.</p>
+        </div>
+        <a class="btn btn-outline-secondary shadow-sm" asp-controller="Room" asp-action="Rooms">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+            <div class="room-form-panel">
+                <div class="room-form-panel-title">Thông tin phòng mới</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomCreateName">Tên phòng</label>
+                            <input type="text" class="form-control" id="roomCreateName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomCreatePrice">Giá phòng</label>
+                            <input type="number" min="0" step="1000" class="form-control" id="roomCreatePrice">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomCreateType">Loại phòng</label>
+                            <select class="form-control" id="roomCreateType">
+                                <option value="">Chọn loại phòng</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="roomCreateStatus">Trạng thái phòng</label>
+                            <select class="form-control" id="roomCreateStatus">
+                                <option value="">Chọn trạng thái</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" id="roomCreateSubmitButton">
+                        <i class="fas fa-save fa-sm mr-1"></i> Lưu phòng mới
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/room/room-create.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Create Service";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/other.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid other-page">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h1 class="h3 mb-1 text-gray-800">Tạo dịch vụ</h1>
+            <p class="mb-0 text-muted">Khai báo dịch vụ mới, đơn giá, đơn vị tính, tồn kho ban đầu và loại dịch vụ.</p>
+        </div>
+        <a class="btn btn-outline-secondary shadow-sm" asp-controller="Other" asp-action="Services">
+            <i class="fas fa-arrow-left fa-sm mr-1"></i> Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+            <div class="other-form-panel">
+                <div class="other-form-panel-title">Thông tin dịch vụ mới</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="serviceCreateName">Tên dịch vụ</label>
+                            <input type="text" class="form-control" id="serviceCreateName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="serviceCreateCode">Mã dịch vụ</label>
+                            <input type="text" class="form-control" id="serviceCreateCode">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="serviceCreatePrice">Giá dịch vụ</label>
+                            <input type="number" min="0" step="1000" class="form-control" id="serviceCreatePrice">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="serviceCreateInventory">Tồn kho</label>
+                            <input type="number" min="0" step="1" class="form-control" id="serviceCreateInventory">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="serviceCreateUnit">Đơn vị tính</label>
+                            <input type="text" class="form-control" id="serviceCreateUnit">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="serviceCreateType">Loại dịch vụ</label>
+                    <select class="form-control" id="serviceCreateType">
+                        <option value="">Chọn loại dịch vụ</option>
+                    </select>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" id="serviceCreateSubmitButton">
+                        <i class="fas fa-save fa-sm mr-1"></i> Lưu dịch vụ mới
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/custom/other/service-create.js" asp-append-version="true"></script>
+}
