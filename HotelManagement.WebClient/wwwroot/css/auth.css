@@ -57,6 +57,7 @@
 
 .auth-shell--forgot .auth-panel--visual {
     order: 1;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.72)), url("/telly/images/single-image2.jpg") center/cover no-repeat;
 }
 
 .auth-shell--forgot .auth-panel--form {
