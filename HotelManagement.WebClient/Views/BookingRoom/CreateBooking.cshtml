@@ -5,6 +5,10 @@
     var today = DateTime.Today.ToString("yyyy-MM-dd");
 }
 
+@section Styles {
+    <link rel="stylesheet" href="/css/booking-create.css" asp-append-version="true" type="text/css">
+}
+
 <main class="booking-room-shell">
     <div class="container">
         <section class="booking-room-hero">
@@ -16,91 +20,150 @@
         </section>
 
         <div class="booking-room-grid">
+            <!-- FORM SECTION -->
             <section class="booking-room-card booking-room-form-card">
-                <h2 class="booking-room-section-title">Thông tin khách đặt</h2>
-                <p class="booking-room-section-copy">
-                    Nếu bạn đã đăng nhập, có thể dùng nhanh dữ liệu tài khoản. Nếu chưa, vẫn có thể nhập thủ công và gửi yêu cầu đặt phòng.
-                </p>
-
-                <div class="booking-room-auth-actions">
-                    <button type="button" class="booking-room-secondary" id="bookingRoomUseSessionButton" style="display:none;">Sử dụng dữ liệu đăng nhập</button>
-                    <a href="/Auth/Login" class="booking-room-secondary" id="bookingRoomLoginLink">Đăng nhập</a>
+                <!-- Header with Auth Options -->
+                <div class="booking-room-form-header">
+                    <div>
+                        <h2 class="booking-room-section-title">Thông tin khách đặt</h2>
+                        <p class="booking-room-section-copy">
+                            Nếu bạn đã đăng nhập, có thể dùng nhanh dữ liệu tài khoản. Nếu chưa, vẫn có thể nhập thủ công.
+                        </p>
+                    </div>
+                    <div class="booking-room-auth-actions">
+                        <button type="button" class="booking-room-secondary" id="bookingRoomUseSessionButton" style="display:none;">
+                            <i class="fa fa-user-check mr-2"></i> Sử dụng dữ liệu tài khoản
+                        </button>
+                        <a href="/Auth/Login" class="booking-room-secondary" id="bookingRoomLoginLink">
+                            <i class="fa fa-sign-in mr-2"></i> Đăng nhập
+                        </a>
+                    </div>
                 </div>
                 <div class="booking-room-auth-note" id="bookingRoomAuthNote">Đang kiểm tra phiên đăng nhập...</div>
 
                 <form id="bookingRoomForm">
-                    <div class="booking-room-fields">
-                        <div class="booking-room-field">
-                            <label for="bookingRoomFullName">Họ và tên</label>
-                            <input type="text" id="bookingRoomFullName" placeholder="Nguyen Van A">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomIdentify">CCCD / Hộ chiếu</label>
-                            <input type="text" id="bookingRoomIdentify" placeholder="0123456789">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomPhone">Số điện thoại</label>
-                            <input type="text" id="bookingRoomPhone" placeholder="0901234567">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomMail">Email</label>
-                            <input type="email" id="bookingRoomMail" placeholder="email@example.com">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomDob">Ngày sinh</label>
-                            <input type="date" id="bookingRoomDob">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomDeposit">Tiền cọc</label>
-                            <input type="number" id="bookingRoomDeposit" min="0" step="1000" placeholder="0">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomDateStart">Ngày nhận phòng</label>
-                            <input type="date" id="bookingRoomDateStart" min="@today">
-                        </div>
-                        <div class="booking-room-field">
-                            <label for="bookingRoomDateEnd">Ngày trả phòng</label>
-                            <input type="date" id="bookingRoomDateEnd" min="@today">
-                        </div>
-                        <div class="booking-room-field booking-room-field--full">
-                            <label for="bookingRoomVoucherId">Voucher ID</label>
-                            <input type="number" id="bookingRoomVoucherId" min="1" step="1" placeholder="Tùy chọn">
+                    <!-- Section 1: Customer Info -->
+                    <div class="booking-room-form-section">
+                        <h3 class="booking-room-form-section-title">
+                            <span class="section-number">1</span> Thông tin cá nhân
+                        </h3>
+                        <div class="booking-room-fields">
+                            <div class="booking-room-field">
+                                <label for="bookingRoomFullName">Họ và tên <span class="text-danger">*</span></label>
+                                <input type="text" id="bookingRoomFullName" placeholder="Nguyễn Văn A" required>
+                            </div>
+                            <div class="booking-room-field">
+                                <label for="bookingRoomIdentify">CCCD / Hộ chiếu <span class="text-danger">*</span></label>
+                                <input type="text" id="bookingRoomIdentify" placeholder="0123456789" required>
+                            </div>
+                            <div class="booking-room-field">
+                                <label for="bookingRoomDob">Ngày sinh</label>
+                                <input type="date" id="bookingRoomDob">
+                            </div>
+                            <div class="booking-room-field">
+                                <label for="bookingRoomPhone">Số điện thoại <span class="text-danger">*</span></label>
+                                <input type="text" id="bookingRoomPhone" placeholder="0901234567" required>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Section 2: Contact Info -->
+                    <div class="booking-room-form-section">
+                        <h3 class="booking-room-form-section-title">
+                            <span class="section-number">2</span> Thông tin liên hệ
+                        </h3>
+                        <div class="booking-room-fields">
+                            <div class="booking-room-field booking-room-field--full">
+                                <label for="bookingRoomMail">Địa chỉ Email <span class="text-danger">*</span></label>
+                                <input type="email" id="bookingRoomMail" placeholder="email@example.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Booking Details -->
+                    <div class="booking-room-form-section">
+                        <h3 class="booking-room-form-section-title">
+                            <span class="section-number">3</span> Chi tiết đặt phòng
+                        </h3>
+                        <div class="booking-room-fields">
+                            <div class="booking-room-field">
+                                <label for="bookingRoomDateStart">Ngày nhận phòng <span class="text-danger">*</span></label>
+                                <input type="date" id="bookingRoomDateStart" min="@today" required>
+                            </div>
+                            <div class="booking-room-field">
+                                <label for="bookingRoomDateEnd">Ngày trả phòng <span class="text-danger">*</span></label>
+                                <input type="date" id="bookingRoomDateEnd" min="@today" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Payment & Promo -->
+                    <div class="booking-room-form-section">
+                        <h3 class="booking-room-form-section-title">
+                            <span class="section-number">4</span> Thanh toán & Khuyến mại
+                        </h3>
+                        <div class="booking-room-fields">
+                            <div class="booking-room-field">
+                                <label for="bookingRoomDeposit">Tiền cọc (VND)</label>
+                                <input type="number" id="bookingRoomDeposit" min="0" step="1000" placeholder="0">
+                            </div>
+                            <div class="booking-room-field">
+                                <label for="bookingRoomVoucherId">Mã Voucher (Tùy chọn)</label>
+                                <input type="number" id="bookingRoomVoucherId" min="1" step="1" placeholder="Nhập mã voucher">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
                     <div class="booking-room-actions">
-                        <button type="submit" class="booking-room-primary" id="bookingRoomSubmitButton">Gửi yêu cầu đặt phòng</button>
-                        <a href="/BookingRoom/AvailableRooms" class="booking-room-secondary">Quay lại danh sách phòng</a>
+                        <button type="submit" class="booking-room-primary" id="bookingRoomSubmitButton">
+                            <i class="fa fa-check mr-2"></i> Gửi yêu cầu đặt phòng
+                        </button>
+                        <a href="/BookingRoom/AvailableRooms" class="booking-room-secondary">
+                            <i class="fa fa-arrow-left mr-2"></i> Quay lại
+                        </a>
                     </div>
                     <div class="booking-room-state" id="bookingRoomState"></div>
                 </form>
             </section>
 
+            <!-- SUMMARY CARD (STICKY) -->
             <aside class="booking-room-card booking-room-summary-card">
-                <img id="bookingRoomImage" src="/images/room/room-1.jpg" alt="Xem trước phòng">
-                <h3 class="booking-room-summary-name" id="bookingRoomSummaryName">Đang tải thông tin phòng...</h3>
-                <div class="booking-room-summary-price" id="bookingRoomSummaryPrice">Liên hệ<span>/đêm</span></div>
-                <div class="booking-room-summary-list">
-                    <div class="booking-room-summary-item">
-                        <span>Mã phòng</span>
-                        <strong id="bookingRoomSummaryId">#--</strong>
-                    </div>
-                    <div class="booking-room-summary-item">
-                        <span>Loại phòng</span>
-                        <strong id="bookingRoomSummaryType">--</strong>
-                    </div>
-                    <div class="booking-room-summary-item">
-                        <span>Ngày lưu trú</span>
-                        <strong id="bookingRoomSummaryDates">--</strong>
-                    </div>
-                    <div class="booking-room-summary-item">
-                        <span>Trạng thái</span>
-                        <strong id="bookingRoomSummaryStatus">--</strong>
-                    </div>
+                <div class="booking-room-summary-image-wrapper">
+                    <img id="bookingRoomImage" src="/images/room/room-1.jpg" alt="Xem trước phòng">
+                    <div class="booking-room-summary-badge" id="bookingRoomSummaryStatus">--</div>
                 </div>
-                <p id="bookingRoomSummaryDescription" class="booking-room-section-copy" style="margin-bottom:0;">
-                    Màn hình này sẽ dùng dữ liệu phòng từ API để bạn xác nhận trước khi gửi yêu cầu đặt phòng.
-                </p>
+
+                <div class="booking-room-summary-content">
+                    <div class="booking-room-summary-header">
+                        <h3 class="booking-room-summary-name" id="bookingRoomSummaryName">Đang tải thông tin phòng...</h3>
+                        <div class="booking-room-summary-type" id="bookingRoomSummaryType">--</div>
+                    </div>
+
+                    <div class="booking-room-summary-price-section">
+                        <div class="booking-room-summary-price-label">Giá một đêm</div>
+                        <div class="booking-room-summary-price" id="bookingRoomSummaryPrice">
+                            Liên hệ <span>/đêm</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-room-summary-list">
+                        <div class="booking-room-summary-item">
+                            <span class="label">Mã phòng</span>
+                            <strong id="bookingRoomSummaryId">#--</strong>
+                        </div>
+                        <div class="booking-room-summary-item">
+                            <span class="label">Ngày lưu trú</span>
+                            <strong id="bookingRoomSummaryDates">--</strong>
+                        </div>
+                    </div>
+
+                    <div class="booking-room-summary-divider"></div>
+
+                    <p id="bookingRoomSummaryDescription" class="booking-room-summary-description">
+                        Vui lòng xác nhận thông tin phòng trước khi gửi yêu cầu đặt phòng.
+                    </p>
+                </div>
             </aside>
         </div>
     </div>
