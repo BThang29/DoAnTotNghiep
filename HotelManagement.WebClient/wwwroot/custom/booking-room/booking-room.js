@@ -121,6 +121,29 @@
         return headers;
     }
 
+    function getCurrentCreateBookingUrl() {
+        const path = String(window.location.pathname || "").trim() || "/BookingRoom/CreateBooking";
+        const query = String(window.location.search || "").trim();
+        return `${path}${query}`;
+    }
+
+    function buildLoginUrl() {
+        const query = new URLSearchParams();
+        query.set("returnUrl", getCurrentCreateBookingUrl());
+        return `/Auth/Login?${query.toString()}`;
+    }
+
+    function redirectToLogin(message) {
+        const redirectUrl = buildLoginUrl();
+        if (message) {
+            notify("warning", message, "booking-room-login-required");
+        }
+
+        window.setTimeout(() => {
+            window.location.href = redirectUrl;
+        }, 150);
+    }
+
     function setState(message, isError) {
         stateElement.className = isError ? "booking-room-state text-danger" : "booking-room-state";
         stateElement.textContent = message;
@@ -249,7 +272,7 @@
     function populateFromSession() {
         const session = getAuthSession();
         if (!session?.accessToken) {
-            notify("warning", "Bạn chưa đăng nhập để sử dụng dữ liệu tài khoản.");
+            redirectToLogin("Vui lòng đăng nhập để tiếp tục tạo booking.");
             return;
         }
 
@@ -262,11 +285,12 @@
     function syncAuthState() {
         const session = getAuthSession();
         const isLoggedIn = Boolean(session?.accessToken);
+        const loginUrl = buildLoginUrl();
 
         if (authNoteElement) {
             authNoteElement.textContent = isLoggedIn
                 ? "Bạn đã đăng nhập. Có thể dùng nhanh dữ liệu tài khoản hoặc chỉnh sửa lại trước khi gửi."
-                : "Bạn chưa đăng nhập. Vẫn có thể nhập thủ công và gửi yêu cầu đặt phòng như khách vãng lai.";
+                : "Vui lòng đăng nhập để tạo booking cho phòng này.";
         }
 
         if (useSessionButtonElement) {
@@ -275,7 +299,16 @@
         }
 
         if (loginLinkElement) {
+            loginLinkElement.href = loginUrl;
             loginLinkElement.style.display = isLoggedIn ? "none" : "inline-flex";
+        }
+
+        submitButtonElement.innerHTML = isLoggedIn
+            ? "<i class=\"fa fa-check mr-2\"></i> Gửi yêu cầu đặt phòng"
+            : "<i class=\"fa fa-sign-in mr-2\"></i> Đăng nhập để đặt phòng";
+
+        if (!isLoggedIn) {
+            setState("Vui lòng đăng nhập trước khi tạo booking.", true);
         }
     }
 
@@ -465,6 +498,11 @@
     }
 
     async function submitBooking() {
+        if (!getAuthSession()?.accessToken) {
+            redirectToLogin("Vui lòng đăng nhập trước khi tạo booking.");
+            return;
+        }
+
         const payload = buildPayload();
         const validationMessage = validatePayload(payload);
         if (validationMessage) {
@@ -486,6 +524,11 @@
             const statusCode = Number(data?.statusCode ?? data?.StatusCode ?? response.status);
 
             if (!response.ok || statusCode >= 400) {
+                if (response.status === 401 || statusCode === 401) {
+                    redirectToLogin("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại để tiếp tục đặt phòng.");
+                    return;
+                }
+
                 throw new Error(data?.message || data?.Message || "Không thể tạo đặt phòng.");
             }
 

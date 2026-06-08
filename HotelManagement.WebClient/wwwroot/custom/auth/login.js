@@ -9,9 +9,21 @@
     const passwordInput = document.getElementById("loginPassword");
     const passwordToggle = document.getElementById("loginPasswordToggle");
     const passwordToggleIcon = document.getElementById("loginPasswordToggleIcon");
+    const fallbackRedirectUrl = "/Home/Index";
 
     if (!form || !submitButton) {
         return;
+    }
+
+    function getSafeReturnUrl() {
+        const query = new URLSearchParams(window.location.search);
+        const returnUrl = String(query.get("returnUrl") || "").trim();
+
+        if (!returnUrl || !returnUrl.startsWith("/") || returnUrl.startsWith("//") || returnUrl.startsWith("/\\")) {
+            return fallbackRedirectUrl;
+        }
+
+        return returnUrl;
     }
 
     if (passwordInput && passwordToggle && passwordToggleIcon) {
@@ -20,13 +32,13 @@
 
             passwordInput.type = isPasswordHidden ? "text" : "password";
             passwordToggle.setAttribute("aria-pressed", isPasswordHidden ? "true" : "false");
-            passwordToggle.setAttribute("aria-label", isPasswordHidden ? "Ẩn mật khẩu" : "Hiện mật khẩu");
+            passwordToggle.setAttribute("aria-label", isPasswordHidden ? "An mat khau" : "Hien mat khau");
             passwordToggleIcon.className = isPasswordHidden ? "fa fa-eye-slash" : "fa fa-eye";
         });
     }
 
     if (window.webAppClientAuth?.getSession()?.accessToken) {
-        window.location.replace("/Home/Index");
+        window.location.replace(getSafeReturnUrl());
         return;
     }
 
@@ -37,7 +49,7 @@
         const password = String(form.password?.value || "");
 
         if (!username || !password) {
-            window.appNotifier?.warning("Vui lòng nhập tên đăng nhập và mật khẩu.");
+            window.appNotifier?.warning("Vui long nhap ten dang nhap va mat khau.");
             return;
         }
 
@@ -64,10 +76,10 @@
             const data = await response.json();
             const statusCode = Number(data?.statusCode ?? data?.StatusCode ?? response.status);
             const result = data?.resultObj ?? data?.ResultObj ?? null;
-            const message = data?.message || data?.Message || "Đăng nhập thất bại.";
+            const message = data?.message || data?.Message || "Dang nhap that bai.";
 
             if (!response.ok || statusCode >= 400 || !result?.accessToken) {
-                throw new Error(message || "Đăng nhập thất bại.");
+                throw new Error(message || "Dang nhap that bai.");
             }
 
             const authSession = {
@@ -83,11 +95,13 @@
                 privileges: result.privileges ?? result.Privileges ?? []
             };
 
+            const returnUrl = getSafeReturnUrl();
+
             window.webAppClientAuth?.setSession(authSession);
             window.webAppClientAuth?.updateNavbar();
-            window.appNotifier?.redirectWithNotification("/Home/Index", "Đăng nhập thành công", "success");
+            window.appNotifier?.redirectWithNotification(returnUrl, "Dang nhap thanh cong", "success");
         } catch (error) {
-            window.appNotifier?.error(error?.message || "Đăng nhập thất bại.");
+            window.appNotifier?.error(error?.message || "Dang nhap that bai.");
         } finally {
             submitButton.disabled = false;
         }

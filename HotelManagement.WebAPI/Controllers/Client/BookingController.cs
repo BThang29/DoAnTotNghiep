@@ -106,7 +106,6 @@ namespace DoAnWebQuanLyKhachSan.API.Controllers.Client
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		public async Task<ApiResult<ClientBookingResultDto>> CreateBooking([FromBody] ClientBookingCreateDto model)
 		{
 			if (!ModelState.IsValid)
@@ -135,6 +134,11 @@ namespace DoAnWebQuanLyKhachSan.API.Controllers.Client
 			}
 
 			var currentUserId = UserIdentity?.UserId > 0 ? UserIdentity.UserId : (int?)null;
+			if (!currentUserId.HasValue)
+			{
+				return Failure<ClientBookingResultDto>(401, "Vui long dang nhap de tao dat phong.");
+			}
+
 			var bookingId = await _clientBookingService.CreateBooking(model, currentUserId);
 			if (!bookingId.HasValue)
 			{
