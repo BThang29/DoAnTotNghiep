@@ -169,5 +169,18 @@ namespace DoAnWebQuanLyKhachSan.API.Controllers.Admin
 
 			return Success(true, "Cap nhat dat coc thanh cong.");
 		}
+
+		[HttpDelete("{id:int}")]
+		[CustomAuthorize(PrivilegeList.ManageBooking)]
+		public async Task<ApiResult<bool>> DeleteBooking(int id)
+		{
+			var deleted = await _bookingRoomService.DeleteBooking(id);
+			if (!deleted.HasValue)
+			{
+				return Failure<bool>(404, "Khong tim thay booking.");
+			}
+
+			return Success(true, "Xoa booking va du lieu lien quan thanh cong.");
+		}
 	}
 }

@@ -19,6 +19,9 @@
     const paginationInfoElement = document.getElementById("bookingRoomPaginationInfo");
     const tableBodyElement = document.getElementById("bookingRoomTableBody");
     const detailModalElement = document.getElementById("bookingRoomDetailModal");
+    const deleteModalElement = document.getElementById("bookingRoomDeleteModal");
+    const deleteTargetElement = document.getElementById("bookingRoomDeleteTargetId");
+    const confirmDeleteButtonElement = document.getElementById("bookingRoomConfirmDeleteButton");
 
     const detailFields = {
         id: document.getElementById("bookingRoomDetailId"),
@@ -52,6 +55,9 @@
         || !paginationInfoElement
         || !tableBodyElement
         || !detailModalElement
+        || !deleteModalElement
+        || !deleteTargetElement
+        || !confirmDeleteButtonElement
         || Object.values(detailFields).some(element => !element)) {
         return;
     }
@@ -64,7 +70,9 @@
         customerId: "",
         sortBy: sortByElement.value || "id",
         sortDesc: sortDescElement.value === "true",
-        totalRows: 0
+        totalRows: 0,
+        pendingDeleteId: null,
+        isDeleting: false
     };
 
     function formatDate(value) {
@@ -205,6 +213,69 @@
         detailModalElement.setAttribute("aria-modal", "true");
     }
 
+    function showDeleteModal() {
+        if (window.jQuery && typeof window.jQuery.fn.modal === "function") {
+            window.jQuery(deleteModalElement).modal("show");
+        }
+    }
+
+    function hideDeleteModal() {
+        if (window.jQuery && typeof window.jQuery.fn.modal === "function") {
+            window.jQuery(deleteModalElement).modal("hide");
+        }
+    }
+
+    function updateDeleteButtonState() {
+        confirmDeleteButtonElement.disabled = state.isDeleting || !state.pendingDeleteId;
+        confirmDeleteButtonElement.innerHTML = state.isDeleting
+            ? '<span class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>Đang xóa'
+            : '<i class="fas fa-trash-alt fa-sm mr-1"></i> Xóa booking';
+    }
+
+    function resetDeleteModalState() {
+        state.pendingDeleteId = null;
+        state.isDeleting = false;
+        deleteTargetElement.textContent = "-";
+        updateDeleteButtonState();
+    }
+
+    function openDeleteModal(id) {
+        state.pendingDeleteId = Number(id) || null;
+        state.isDeleting = false;
+        deleteTargetElement.textContent = state.pendingDeleteId ? `#${state.pendingDeleteId}` : "-";
+        updateDeleteButtonState();
+        showDeleteModal();
+    }
+
+    async function deleteBooking() {
+        const bookingId = Number(state.pendingDeleteId);
+        if (!bookingId || state.isDeleting) {
+            return;
+        }
+
+        const token = apiClient.getToken();
+        if (!token) {
+            notifier?.redirectWithNotification("/Auth/Login", "Phiên đăng nhập đã hết hạn.", "error");
+            return;
+        }
+
+        state.isDeleting = true;
+        updateDeleteButtonState();
+
+        try {
+            await apiClient.Delete(`${bookingRoomApiUrl}/${bookingId}`);
+            notifier?.success?.("Xóa booking và dữ liệu liên quan thành công.");
+            hideDeleteModal();
+            await loadBookingRooms();
+        } catch (error) {
+            console.error("Delete booking failed:", error);
+            notifier?.error(error?.data?.message || error?.message || "Không thể xóa booking.");
+        } finally {
+            state.isDeleting = false;
+            updateDeleteButtonState();
+        }
+    }
+
     async function loadBookingRoomDetail(id) {
         const token = apiClient.getToken();
 
@@ -303,6 +374,9 @@
                     <td class="text-center">
                         <button type="button" class="btn btn-outline-info btn-sm" data-action="detail" data-id="${id}" title="Chi tiết">
                             <i class="fas fa-eye"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-action="delete" data-id="${id}" title="Xóa booking">
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>`;
@@ -507,8 +581,23 @@
 
         if (action === "detail") {
             loadBookingRoomDetail(bookingId);
+            return;
+        }
+
+        if (action === "delete") {
+            openDeleteModal(bookingId);
         }
     });
+
+    confirmDeleteButtonElement.addEventListener("click", () => {
+        deleteBooking();
+    });
+
+    if (window.jQuery) {
+        window.jQuery(deleteModalElement).on("hidden.bs.modal", () => {
+            resetDeleteModalState();
+        });
+    }
 
     document.addEventListener("DOMContentLoaded", async () => {
         await loadRoomOptions();

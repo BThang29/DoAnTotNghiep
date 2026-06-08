@@ -252,6 +252,92 @@ namespace DoAnWebQuanLyKhachSan.Service
 			return true;
 		}
 
+		public async Task<bool?> DeleteBooking(int id)
+		{
+			var db = GetDbContext();
+			var booking = await db.Bookings.FirstOrDefaultAsync(x => x.id == id);
+			if (booking == null)
+			{
+				return null;
+			}
+
+			using var transaction = _repository.BeginTransaction();
+			try
+			{
+				var roomId = booking.room_id;
+
+				var reviews = await db.Reviews
+					.Where(x => x.booking_id == id)
+					.ToListAsync();
+				if (reviews.Count > 0)
+				{
+					db.Reviews.RemoveRange(reviews);
+				}
+
+				var invoices = await db.Invoices
+					.Where(x => x.booking_id == id)
+					.ToListAsync();
+				var invoiceIds = invoices.Select(x => x.id).ToList();
+				var paymentIds = invoices
+					.Where(x => x.payment_id.HasValue)
+					.Select(x => x.payment_id!.Value)
+					.Distinct()
+					.ToList();
+
+				if (invoiceIds.Count > 0)
+				{
+					var invoiceDetails = await db.InvoiceDetails
+						.Where(x => x.invoice_id.HasValue && invoiceIds.Contains(x.invoice_id.Value))
+						.ToListAsync();
+
+					if (invoiceDetails.Count > 0)
+					{
+						db.InvoiceDetails.RemoveRange(invoiceDetails);
+					}
+
+					db.Invoices.RemoveRange(invoices);
+				}
+
+				if (paymentIds.Count > 0)
+				{
+					var payments = await db.Payments
+						.Where(x => paymentIds.Contains(x.id))
+						.ToListAsync();
+
+					if (payments.Count > 0)
+					{
+						db.Payments.RemoveRange(payments);
+					}
+				}
+
+				db.Bookings.Remove(booking);
+
+				if (roomId.HasValue)
+				{
+					var hasOtherBookings = await db.Bookings
+						.AsNoTracking()
+						.AnyAsync(x => x.id != id
+							&& x.room_id == roomId.Value
+							&& x.booking_status != ClientBookingStatus.Cancelled);
+
+					var room = await db.Rooms.FirstOrDefaultAsync(x => x.id == roomId.Value);
+					if (room != null)
+					{
+						room.room_status = hasOtherBookings ? "OCCUPIED" : "AVAILABLE";
+					}
+				}
+
+				await db.SaveChangesAsync();
+				await transaction.CommitAsync();
+				return true;
+			}
+			catch
+			{
+				await transaction.RollbackAsync();
+				throw;
+			}
+		}
+
 		private async Task<bool> HasBookingConflict(int roomId, DateTime dateStart, DateTime dateEnd)
 		{
 			return await GetDbContext().Bookings
