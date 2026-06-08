@@ -1,6 +1,10 @@
 /* Messenger-style widget: icon header -> dropdown list -> popup chat goc man hinh */
 
 /* ===== Dropdown danh sach hoi thoai ===== */
+.messenger-badge-hidden {
+    display: none;
+}
+
 #messengerDropdown {
     width: 22rem;
     max-width: 90vw;

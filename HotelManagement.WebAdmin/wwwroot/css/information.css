@@ -37,6 +37,10 @@
     margin-bottom: .9rem;
 }
 
+.information-hero-subtitle {
+    opacity: .88;
+}
+
 .information-avatar {
     width: 96px;
     height: 96px;

@@ -43,7 +43,7 @@
             <div class="dashboard-stat-inline">
                 <div class="dashboard-stat-value" id="occupiedRoomsRatio">0%</div>
                 <div class="dashboard-progress">
-                    <div class="dashboard-progress-bar" id="occupiedRoomsProgress" role="progressbar" style="width: 0%"
+                    <div class="dashboard-progress-bar dashboard-progress-bar-empty" id="occupiedRoomsProgress" role="progressbar"
                          aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
@@ -99,6 +99,10 @@
         </div>
     </section>
 </div>
+
+@section Styles {
+    <link href="~/custom/dashboard/home.css" rel="stylesheet" asp-append-version="true" />
+}
 
 @section Scripts {
     <script src="~/custom/dashboard/home.js" asp-append-version="true"></script>

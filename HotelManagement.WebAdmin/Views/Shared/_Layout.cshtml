@@ -13,6 +13,7 @@
     <link href="~/css/admin-redesign.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/custom/layout/sidebar-adminlte.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/custom/layout/messenger-widget.css" rel="stylesheet" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
    
 </head>
 
@@ -184,7 +185,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="messengerToggle" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fab fa-facebook-messenger fa-fw"></i>
-                                <span class="badge badge-danger badge-counter" id="messengerBadge" style="display:none;">0</span>
+                                <span class="badge badge-danger badge-counter messenger-badge-hidden" id="messengerBadge">0</span>
                             </a>
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="messengerToggle" id="messengerDropdown">

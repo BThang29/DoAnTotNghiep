@@ -1,0 +1,307 @@
+.invoice-index-workspace {
+    color: #182230;
+}
+
+.invoice-index-hero,
+.invoice-list-panel,
+.invoice-stat-card {
+    border: 1px solid #dfe7ec;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05);
+}
+
+.invoice-index-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+}
+
+.invoice-index-kicker {
+    margin-bottom: 0.35rem;
+    color: #0f8f83;
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.invoice-index-hero h1,
+.invoice-panel-head h2 {
+    margin: 0;
+    color: #182230;
+    font-weight: 850;
+    letter-spacing: 0;
+}
+
+.invoice-index-hero h1 {
+    font-size: 1.55rem;
+}
+
+.invoice-panel-head h2 {
+    font-size: 1.1rem;
+}
+
+.invoice-index-hero p,
+.invoice-panel-head p {
+    max-width: 720px;
+    margin: 0.45rem 0 0;
+    color: #667085;
+    line-height: 1.6;
+}
+
+.invoice-create-btn,
+.invoice-index-workspace .btn {
+    border-radius: 6px;
+    font-weight: 800;
+}
+
+.invoice-create-btn,
+.invoice-index-workspace .btn-primary {
+    min-height: 42px;
+    border-color: #0f8f83;
+    color: #fff;
+    background: #0f8f83;
+}
+
+.invoice-create-btn:hover,
+.invoice-index-workspace .btn-primary:hover {
+    border-color: #0b7068;
+    color: #fff;
+    background: #0b7068;
+}
+
+.invoice-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.invoice-stat-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    min-height: 124px;
+    padding: 1rem;
+    overflow: hidden;
+}
+
+.invoice-stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: var(--stat-color, #0f8f83);
+}
+
+.invoice-stat-card::after {
+    content: "";
+    position: absolute;
+    right: -36px;
+    bottom: -46px;
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    background: var(--stat-soft, rgba(15, 143, 131, 0.12));
+}
+
+.invoice-stat-card.is-count {
+    --stat-color: #315fcb;
+    --stat-soft: rgba(49, 95, 203, 0.12);
+}
+
+.invoice-stat-card.is-revenue {
+    --stat-color: #0f8f83;
+    --stat-soft: rgba(15, 143, 131, 0.13);
+}
+
+.invoice-stat-card.is-room {
+    --stat-color: #7c3aed;
+    --stat-soft: rgba(124, 58, 237, 0.12);
+}
+
+.invoice-stat-card.is-service {
+    --stat-color: #c58a14;
+    --stat-soft: rgba(197, 138, 20, 0.14);
+}
+
+.invoice-stat-icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    color: var(--stat-color, #0f8f83);
+    background: var(--stat-soft, rgba(15, 143, 131, 0.12));
+    font-size: 1rem;
+}
+
+.invoice-stat-card > div:last-child {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+}
+
+.invoice-stat-card span {
+    display: block;
+    color: #667085;
+    font-size: 0.76rem;
+    font-weight: 850;
+    line-height: 1.35;
+}
+
+.invoice-stat-card strong {
+    display: block;
+    margin-top: 0.55rem;
+    color: #182230;
+    font-size: 1.2rem;
+    font-weight: 900;
+    line-height: 1.25;
+    word-break: break-word;
+}
+
+.invoice-stat-card.is-count strong {
+    font-size: 1.65rem;
+}
+
+.invoice-list-panel {
+    padding: 1rem;
+}
+
+.invoice-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dfe7ec;
+}
+
+#invoicePaginationInfo {
+    flex: 0 0 auto;
+    color: #667085;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.invoice-filter-box {
+    margin: 1rem 0;
+    padding: 0.9rem;
+    border: 1px solid #dfe7ec;
+    border-radius: 8px;
+    background: #f7fbfa;
+}
+
+.invoice-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.4fr) 120px minmax(150px, 0.8fr) 110px 90px 120px 100px;
+    gap: 0.8rem;
+    align-items: end;
+}
+
+.invoice-filter-grid .form-group {
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+.invoice-index-workspace label {
+    margin-bottom: 0.4rem;
+    color: #344054;
+    font-size: 0.82rem;
+    font-weight: 850;
+}
+
+.invoice-index-workspace .form-control {
+    min-height: 42px;
+    border-color: #d7e0e7;
+    border-radius: 6px;
+    color: #1f2937;
+    box-shadow: none;
+}
+
+.invoice-index-workspace .form-control:focus {
+    border-color: #0f8f83;
+    box-shadow: 0 0 0 0.18rem rgba(15, 143, 131, 0.13);
+}
+
+.invoice-table-shell {
+    overflow-x: auto;
+    border: 1px solid #dfe7ec;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.invoice-table-shell .table {
+    margin-bottom: 0;
+}
+
+.invoice-table-shell thead th {
+    border-top: 0;
+    border-bottom: 1px solid #dfe7ec;
+    background: #f8fbfb;
+    color: #475467;
+    font-size: 0.76rem;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.invoice-table-shell tbody td {
+    vertical-align: middle;
+    border-color: #eef2f4;
+}
+
+.invoice-pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.invoice-pagination .page-link {
+    border-color: #dfe7ec;
+    color: #0b7068;
+}
+
+.invoice-pagination .active .page-link {
+    border-color: #0f8f83;
+    background: #0f8f83;
+}
+
+@media (max-width: 1399.98px) {
+    .invoice-filter-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .invoice-filter-grid .is-wide {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .invoice-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .invoice-index-hero,
+    .invoice-panel-head {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .invoice-stat-grid,
+    .invoice-filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-filter-grid .is-wide {
+        grid-column: auto;
+    }
+}

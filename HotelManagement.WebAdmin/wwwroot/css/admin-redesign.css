@@ -220,6 +220,34 @@
     background: #fff;
 }
 
+.admin-col-w-90 {
+    width: 90px;
+}
+
+.admin-col-w-132 {
+    width: 132px;
+}
+
+.admin-col-w-144 {
+    width: 144px;
+}
+
+.admin-col-w-150 {
+    width: 150px;
+}
+
+.admin-col-w-160 {
+    width: 160px;
+}
+
+.admin-col-w-176 {
+    width: 176px;
+}
+
+.admin-col-w-220 {
+    width: 220px;
+}
+
 .booking-create-page > .row,
 .invoice-create-page > .row {
     display: grid;
