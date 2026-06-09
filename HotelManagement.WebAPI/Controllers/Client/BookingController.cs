@@ -160,6 +160,11 @@ namespace DoAnWebQuanLyKhachSan.API.Controllers.Client
 				return Failure<ClientBookingResultDto>(400, "Phong da duoc dat trong khoang thoi gian nay.");
 			}
 
+			if (bookingId.Value == -5)
+			{
+				return Failure<ClientBookingResultDto>(400, "Phong hien tai khong o trang thai san sang de dat.");
+			}
+
 			var result = await _clientBookingService.GetBookingResult(bookingId.Value);
 			if (result == null)
 			{

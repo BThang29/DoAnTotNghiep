@@ -66,6 +66,11 @@ namespace DoAnWebQuanLyKhachSan.Service
                 return -2;
             }
 
+            if (!string.Equals(room.room_status, "AVAILABLE", StringComparison.OrdinalIgnoreCase))
+            {
+                return -5;
+            }
+
             string? voucherCode = null;
             if (model.VoucherId.HasValue)
             {
@@ -228,7 +233,8 @@ namespace DoAnWebQuanLyKhachSan.Service
                 if (!hasOtherBookings)
                 {
                     var room = await db.Rooms.FirstOrDefaultAsync(x => x.id == roomId.Value);
-                    if (room != null)
+                    if (room != null
+                        && string.Equals(room.room_status, "OCCUPIED", StringComparison.OrdinalIgnoreCase))
                     {
                         room.room_status = "AVAILABLE";
                     }
