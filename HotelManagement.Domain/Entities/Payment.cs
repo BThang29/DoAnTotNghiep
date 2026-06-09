@@ -7,5 +7,7 @@ namespace DoAnWebQuanLyKhachSan.Data.Entities
         public string? name_account { get; set; }
         public string? account_number { get; set; }
         public string? bank_name { get; set; }
+        public string? qr_content { get; set; }
+        public string? note { get; set; }
     }
 }

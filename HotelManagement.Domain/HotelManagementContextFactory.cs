@@ -8,7 +8,30 @@ namespace DoAnWebQuanLyKhachSan.Data
     {
         public HotelManagementContext CreateDbContext(string[] args)
         {
-            var basePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "DoAnWebQuanLyKhachSan.API"));
+            // Try to find appsettings.json in common locations
+            string basePath = null;
+            
+            // First try HotelManagement.WebAPI
+            var webApiPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "HotelManagement.WebAPI"));
+            if (Directory.Exists(webApiPath) && File.Exists(Path.Combine(webApiPath, "appsettings.json")))
+            {
+                basePath = webApiPath;
+            }
+            
+            // Fallback to DoAnWebQuanLyKhachSan.API
+            if (basePath == null)
+            {
+                var apiPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "DoAnWebQuanLyKhachSan.API"));
+                if (Directory.Exists(apiPath) && File.Exists(Path.Combine(apiPath, "appsettings.json")))
+                {
+                    basePath = apiPath;
+                }
+            }
+
+            if (basePath == null)
+            {
+                throw new InvalidOperationException("Could not find appsettings.json in HotelManagement.WebAPI or DoAnWebQuanLyKhachSan.API folder.");
+            }
 
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(basePath)
@@ -19,7 +42,7 @@ namespace DoAnWebQuanLyKhachSan.Data
             var connectionString = configuration.GetConnectionString("HM");
             if (string.IsNullOrWhiteSpace(connectionString))
             {
-                throw new InvalidOperationException("Connection string 'HM' was not found in DoAnWebQuanLyKhachSan.API/appsettings.json.");
+                throw new InvalidOperationException($"Connection string 'HM' was not found in {basePath}/appsettings.json.");
             }
 
             var optionsBuilder = new DbContextOptionsBuilder<HotelManagementContext>();

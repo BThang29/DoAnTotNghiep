@@ -847,7 +847,22 @@ namespace DoAnWebQuanLyKhachSan.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("payment_details")
+                    b.Property<string>("method")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("name_account")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("account_number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("bank_name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("qr_content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("note")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");

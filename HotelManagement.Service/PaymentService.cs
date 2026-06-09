@@ -100,7 +100,9 @@ namespace DoAnWebQuanLyKhachSan.Service
 				method = normalizedMethod,
 				name_account = Normalize(model.AccountName),
 				account_number = Normalize(model.AccountNumber),
-				bank_name = Normalize(model.BankName)
+				bank_name = Normalize(model.BankName),
+				qr_content = Normalize(model.QrContent),
+				note = Normalize(model.Note)
 			};
 
 			GetDbContext().Payments.Add(payment);
@@ -131,6 +133,8 @@ namespace DoAnWebQuanLyKhachSan.Service
 			payment.name_account = Normalize(model.AccountName);
 			payment.account_number = Normalize(model.AccountNumber);
 			payment.bank_name = Normalize(model.BankName);
+			payment.qr_content = Normalize(model.QrContent);
+			payment.note = Normalize(model.Note);
 
 			await GetDbContext().SaveChangesAsync();
 			return true;
@@ -194,7 +198,7 @@ namespace DoAnWebQuanLyKhachSan.Service
 				AccountName = payment.AccountName,
 				AccountNumber = payment.AccountNumber,
 				BankName = payment.BankName,
-				QrContent = payment.QrContent
+				QrContent = payment.QrContent ?? string.Empty
 			};
 		}
 
@@ -216,13 +220,8 @@ namespace DoAnWebQuanLyKhachSan.Service
 					   AccountName = payment.name_account ?? string.Empty,
 					   AccountNumber = payment.account_number ?? string.Empty,
 					   BankName = payment.bank_name ?? string.Empty,
-					   QrContent = BuildQrContent(
-						   payment.method ?? CashMethod,
-						   null,
-						   payment.account_number,
-						   payment.bank_name,
-						   payment.name_account),
-					   Note = string.Empty,
+					   QrContent = payment.qr_content ?? string.Empty,
+					   Note = payment.note ?? string.Empty,
 					   InvoiceId = invoice != null ? invoice.id : null
 				   };
 		}
